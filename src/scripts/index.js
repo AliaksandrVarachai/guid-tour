@@ -1,10 +1,9 @@
 import '../index.html';
-import '../styles/test.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import GtConfig from '../components/GtConfig/GtConfig';
+import GtConfig from './components/GtConfig/GtConfig';
 
 // TODO: move the component to a separate file
 function PopupForm(props) {

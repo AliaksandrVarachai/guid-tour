@@ -1,12 +1,11 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 const isProduction = process.env.NODE_ENV === 'production';
 const src = path.resolve(__dirname, 'src');
-const dist = path.resolve(__dirname, 'dist');
+const dist = path.resolve(__dirname, 'dist');  // TODO: add automatic clear plugin before build
 
 
 module.exports = {
@@ -25,10 +24,7 @@ module.exports = {
         isProduction
       }
     }),
-    new UglifyJSPlugin(), // Works when js is saved to dir
-    // new HtmlWebpackPlugin({
-    //   template: 'src/index.html'
-    // })
+    new UglifyJSPlugin()
   ],
   module: {
     rules: [
@@ -44,8 +40,7 @@ module.exports = {
             options: {
               modules: true,
               sourceMap: !isProduction,
-              // importLoaders: 0,
-              localIdentName: '[name]__[local]' //must be same as for
+              localIdentName: '[name]__[local]' //must be the same as for react-css-modules
             }
           }
         ]
