@@ -1,0 +1,22 @@
+{
+  "presets": [
+    "react",
+    [
+      "env", {
+      "modules": false,
+      "targets": {
+        "browsers": ["last 2 versions"]
+      }
+    }]
+  ],
+  "plugins": [
+    [
+      "react-css-modules",
+      {
+        "webpackHotModuleReloading": true,
+        "generateScopedName": "[name]__[local]"
+      }
+    ],
+    "transform-class-properties"
+  ]
+}
