@@ -1,10 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
 :global .gt-search-component {
+  position: relative;
 }
 
 .search-input {
-
+  padding-right: 20pt;
 }
 
 .search-link {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20pt;
+  text-align: center;
+  padding-top: 2pt;
+  font-size: 12pt;
+  background: transparent;
+}
 
+.search-link:hover {
+  cursor: pointer;
 }

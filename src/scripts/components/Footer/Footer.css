@@ -1,0 +1,14 @@
+:global .gt-footer-component {
+  position: relative;
+  text-align: right;
+}
+
+.action {
+  min-width: 100pt;
+  border-radius: 4pt;
+  padding-top: 3pt;
+  padding-bottom: 3pt;
+  font-size: 10.5pt;
+  margin-left: 10pt;
+  background: #f2f2f2;
+}

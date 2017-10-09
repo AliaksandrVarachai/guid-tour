@@ -1,0 +1,11 @@
+.header {
+  font-weight: bold;
+}
+
+.header .cell {
+  border-bottom: 0.5pt solid #d8d8d8;
+}
+
+.cell {
+  display: table-cell;
+}

@@ -3,9 +3,12 @@ import '../index.html';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+/* Data */
+import Data from './data';
+
 import Header from './components/Header/Header';
-import Search from './components/Search/Search';
-import GtConfig from './components/GtConfig/GtConfig';
+import ToursList from './components/ToursList/ToursList';
+import Footer from './components/Footer/Footer';
 
 // TODO: move the component to a separate file
 function PopupForm(props) {
@@ -45,23 +48,16 @@ class GuideTour extends React.Component {
     });
   };
 
-  onButtonClick = evt => {
-    alert(123)
-  };
-
   render() {
     let state = this.state;
     return (
       <div onClick={ this.onComponentClick } style={{height: "100%"}}>
         <Header/>
-        <Search/> {/* TODO: add props with saved search */}
-        <h2>Test Component</h2>
-        <p>Click any place of the yellow area to test a popup menu</p>
-        <GtConfig/>
-        <button onClick={ this.onButtonClick }>Click to load</button>
         <div id="popups-store">
           {this.state.isPopupShown ? <PopupForm left={state.left + 'px'} top={state.top + 'px'}/> : null}
         </div>
+        <ToursList toursList={Data.toursList}/>
+        <Footer/>
       </div>
     );
   }
