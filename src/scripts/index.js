@@ -3,6 +3,8 @@ import '../index.html';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Header from './components/Header/Header';
+import Search from './components/Search/Search';
 import GtConfig from './components/GtConfig/GtConfig';
 
 // TODO: move the component to a separate file
@@ -51,6 +53,8 @@ class GuideTour extends React.Component {
     let state = this.state;
     return (
       <div onClick={ this.onComponentClick } style={{height: "100%"}}>
+        <Header/>
+        <Search/> {/* TODO: add props with saved search */}
         <h2>Test Component</h2>
         <p>Click any place of the yellow area to test a popup menu</p>
         <GtConfig/>

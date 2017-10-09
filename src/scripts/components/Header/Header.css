@@ -1,0 +1,9 @@
+:global .gt-header-component {
+}
+
+.logo {
+  width: 179px;
+  height: 69px;
+  background: url('../../../images/gt-logo-179x69.png');
+}
+
