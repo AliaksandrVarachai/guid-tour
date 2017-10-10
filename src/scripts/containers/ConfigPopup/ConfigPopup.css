@@ -1,0 +1,6 @@
+:global .gt-config-popup-container {
+  position: absolute;
+  width: 600pt;
+  border: 2pt solid #a5a5a5;
+  background: white;
+}

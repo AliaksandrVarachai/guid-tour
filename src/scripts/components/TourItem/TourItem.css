@@ -8,4 +8,6 @@
 
 .cell {
   display: table-cell;
+  padding-top: 6pt;
+  padding-bottom: 6pt;
 }
