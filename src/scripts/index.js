@@ -33,21 +33,10 @@ class GuideTour extends React.Component {
   render() {
     let state = this.state;
     return (
-      <div className="container" style={{height: "100%"}}>
-        <h1>
-          HEADER (TODO: move to separate component)
-        </h1>
-        <div className="content">
-          <button name="show-gt-config" className="action" onClick={this.actionClick}>
-            Guided Tour Configuration
-          </button>
-        </div>
+      <div className="gt-container">
         <div id="popups-store">
           {this.state.isPopupShown ? <ConfigPopup/> : null}
         </div>
-        <h2>
-          FOOTER (TODO: move to separate component)
-        </h2>
       </div>
     );
   }
