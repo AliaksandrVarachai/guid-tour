@@ -1,0 +1,9 @@
+:global .gt-settings-popup-container {
+  /* TODO: Remove to one module (copied from ConfigPopup) */
+  position: absolute;
+  left: 300pt;
+  top: 100pt;
+  width: 300pt;
+  background: #a6a6a6;
+  padding: 4pt 4pt 6pt;
+}
