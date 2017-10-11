@@ -50,7 +50,9 @@ export default function TourItem({tourName, tourType, lastOpen, visitors, steps,
           {creator}
         </div>
         <div styleName="cell">
-          Icons are here
+          <i className="material-icons" styleName="action">content_copy</i>
+          <i className="material-icons" styleName="action">create</i>
+          <i className="material-icons" styleName="action">delete</i>
         </div>
       </div>
   )

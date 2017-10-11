@@ -4,10 +4,19 @@
 
 .header .cell {
   border-bottom: 0.5pt solid #d8d8d8;
+  color: #404040;
+
 }
 
 .cell {
   display: table-cell;
   padding-top: 6pt;
   padding-bottom: 6pt;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 9pt;
+  color: #606060;
+}
+
+.action {
+  font-size: 1em;
 }

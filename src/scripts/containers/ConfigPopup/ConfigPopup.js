@@ -15,26 +15,16 @@ export default class ConfigPopup extends React.Component {
     this.state = {};
   }
 
-  onMouseDownHandler = (evt) => {
-  };
-
-  onMouseMoveHandler = (evt) => {
-
-  };
-
-  onMouseUpHandler = (evt) => {
-  };
-
   render() {
     return (
       <div className="gt-config-popup-container">
-        <div onMouseDown={this.onMouseDownHandler}
-             onMouseMove={this.onMouseMoveHandler}
-             onMouseUp={this.onMouseUpHandler}>
+        <i className="material-icons" styleName="close">clear</i>
+        <div styleName="title">Guided Tour Configuration</div>
+        <div styleName="content">
           <Header/>
+          <ToursList toursList={Data.toursList}/>
+          <Footer/>
         </div>
-        <ToursList toursList={Data.toursList}/>
-        <Footer/>
       </div>
     );
   }
