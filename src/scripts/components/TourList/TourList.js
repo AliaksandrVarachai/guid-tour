@@ -11,9 +11,9 @@ TourList.propTypes = {
 };
 
 export default function TourList({tourList}) {
-  console.log('tourList=', tourList)
   return (
     <div className="gt-tours-list-component">
+      <div styleName="logo"></div>
       <div styleName="main-header">Available Guided Tours
         <Search/> {/* TODO: add props with saved search */}
       </div>

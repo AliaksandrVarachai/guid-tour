@@ -5,9 +5,9 @@ import Data from '../../data';
 
 import './ConfigPopup.css';
 
-import Header from '../../components/Header/Header';
-import ToursList from '../../components/TourList/TourList';
-import Footer from '../../components/Footer/Footer';
+// import Header from '../../components/Header/Header';
+// import ToursList from '../../components/TourList/TourList';
+// import Footer from '../../components/Footer/Footer';
 
 export default class ConfigPopup extends React.Component {
   constructor(props) {
@@ -18,13 +18,13 @@ export default class ConfigPopup extends React.Component {
   render() {
     return (
       <div className="gt-config-popup-container">
-        <i className="material-icons" styleName="close">clear</i>
-        <div styleName="title">Guided Tour Configuration</div>
-        <div styleName="content">
-          <Header/>
-          <TourList toursList={Data.tourList}/>
-          <Footer/>
-        </div>
+        {/*// <i className="material-icons" styleName="close">clear</i>*/}
+        {/*// <div styleName="title">Guided Tour Configuration</div>*/}
+        {/*// <div styleName="content">*/}
+        {/*//   <Header/>*/}
+          {/*<TourList toursList={Data.tourList}/>*/}
+          {/*<Footer/>*/}
+        {/*</div>*/}
       </div>
     );
   }

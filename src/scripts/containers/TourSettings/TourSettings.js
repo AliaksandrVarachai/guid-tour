@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './SettingsPopup.css';
+import './TourSettings.css';
 
 export default class SettingsPopup extends React.Component {
   constructor(props) {

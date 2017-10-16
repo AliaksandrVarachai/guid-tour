@@ -12,6 +12,12 @@
   float: right;
 }
 
+.logo {
+  width: 179px;
+  height: 69px;
+  background: url('../../../images/gt-logo-179x69.png');
+}
+
 .main-header {
   padding-bottom: 8pt;
   border-bottom: 0.5pt solid #d8d8d8;

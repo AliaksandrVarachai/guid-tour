@@ -4,11 +4,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactEventOutside from 'react-event-outside';
 
-import ConfigPopup from './containers/ConfigPopup/ConfigPopup';
-import SettingsPopup from './containers/SettingsPopup/SettingsPopup';
+// Content
+import TourList from './components/TourList/TourList';
+import TourSettings from './containers/TourSettings/TourSettings';
+
 import Popup from './containers/Popup/Popup';
 
-// TODO: Move data loading from container to index.js
+// Data
+import Data from './data';
 
 import './index.css';
 
@@ -25,26 +28,26 @@ class GuideTour extends React.Component {
 
   handleEvent = event => {
     let eventOutsideName = event.target.getAttribute('react-event-outside-name');
-    console.log(eventOutsideName)
     if (!eventOutsideName)
       return;
     switch(eventOutsideName) {
       case 'showConfigPopup':
         this.setState({
           isPopupShown: true,
-          popup: ConfigPopup,
+          //popup: Popup,
+          content: TourList,
+          dataProps: {
+            tourList: Data.tourList
+          }
         });
         break;
       case 'showSettingsPopup':
         this.setState({
           isPopupShown: true,
-          popup: SettingsPopup
-        });
-        break;
-      case 'showCenteredPopup':
-        this.setState({
-          isPopupShown: true,
-          popup: Popup
+          content: TourSettings,
+          dataProps: {
+            somePropName: 'qwerty'
+          }
         });
         break;
       default:
@@ -66,7 +69,7 @@ class GuideTour extends React.Component {
     return (
       <div className="gt-container">
         <div id="popups-store">
-          {this.state.isPopupShown ? <this.state.popup/> : null}
+          {state.isPopupShown ? <Popup content={state.content} {...state.dataProps}/> : null}
         </div>
       </div>
     );

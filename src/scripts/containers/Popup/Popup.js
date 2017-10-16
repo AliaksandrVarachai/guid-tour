@@ -3,22 +3,20 @@ import React from 'react';
 import './Popup.css';
 
 import ActionButton from './ActionButton';
-import ToursList from '../../components/TourList/TourList';
-
-/* Data */
-import Data from '../../data';
+// import TourList from '../../components/TourList/TourList';
 
 export default class Popup extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    console.log('props=', props)
     this.state = {
       header: {
         title: 'Guided Tour Configuration'
       },
-      content: {
-        component: ToursList,
-        props: Data
-      },
+      // content: {
+      //   component: props.content, //TourList,
+      //   dataProps: props.dataProps, //Data
+      // },
       footer: {
         buttons: [
           {
@@ -40,6 +38,9 @@ export default class Popup extends React.Component {
 
   render() {
     const state = this.state;
+    const props = this.props;
+    console.log('state=', state)
+    console.log('props=', props)
 
     return (
       <div className="gt-popup-container">
@@ -50,9 +51,8 @@ export default class Popup extends React.Component {
               <div styleName="title">{state.header.title}</div>
             </header>
             <div styleName="content">
-              <div styleName="logo"></div>
-              {console.log(state.content.props.tourList)}
-              {<state.content.component tourList={state.content.props.tourList}/>}
+              ********************************* PROPS????
+              {<props.content.component {...props.tourList}/>}
             </div>
             <footer styleName="footer">
               {this.state.footer.buttons.map(bt => <ActionButton {...bt}/>)}

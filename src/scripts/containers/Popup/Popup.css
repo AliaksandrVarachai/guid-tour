@@ -70,12 +70,6 @@
 
 /* Content */
 
-.logo {
-  width: 179px;
-  height: 69px;
-  background: url('../../../images/gt-logo-179x69.png');
-}
-
 .content {
   padding: 10pt 25pt;
   background: #fff;
