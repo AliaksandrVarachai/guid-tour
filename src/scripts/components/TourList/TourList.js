@@ -1,11 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Search from '../Search/Search';
 import TourItem from '../TourItem/TourItem';
 
-import './ToursList.css';
+import './TourList.css';
 
-export default function ToursList({toursList}) {
+TourList.propTypes = {
+  tourList: PropTypes.array.isRequired
+};
+
+export default function TourList({tourList}) {
+  console.log('tourList=', tourList)
   return (
     <div className="gt-tours-list-component">
       <div styleName="main-header">Available Guided Tours
@@ -15,7 +21,7 @@ export default function ToursList({toursList}) {
       <button name="settings" styleName="action">Settings</button>
       <div styleName="table">
         <TourItem isHeader={true}/>
-        {toursList.map(tour => <TourItem {...tour} key={tour.tourName}/>)}
+        {tourList.map(tour => <TourItem {...tour} key={tour.tourName}/>)}
       </div>
     </div>
   )

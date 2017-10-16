@@ -1,6 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './TourItem.css';
+
+TourItem.propTypes = {
+  tourName: PropTypes.string,
+  tourType: PropTypes.string,
+  lastOpen: PropTypes.string,
+  visitors: PropTypes.number,
+  steps: PropTypes.number,
+  creator: PropTypes.string,
+  isHeader: PropTypes.bool,
+};
 
 // TODO: add required for properties (exclude of isHeader == true)
 export default function TourItem({tourName, tourType, lastOpen, visitors, steps, creator, isHeader = false}) {

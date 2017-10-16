@@ -6,6 +6,7 @@ import ReactEventOutside from 'react-event-outside';
 
 import ConfigPopup from './containers/ConfigPopup/ConfigPopup';
 import SettingsPopup from './containers/SettingsPopup/SettingsPopup';
+import Popup from './containers/Popup/Popup';
 
 // TODO: Move data loading from container to index.js
 
@@ -38,6 +39,12 @@ class GuideTour extends React.Component {
         this.setState({
           isPopupShown: true,
           popup: SettingsPopup
+        });
+        break;
+      case 'showCenteredPopup':
+        this.setState({
+          isPopupShown: true,
+          popup: Popup
         });
         break;
       default:

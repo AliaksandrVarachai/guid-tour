@@ -7,7 +7,7 @@ function Tour({tourName, tourType, lastOpen, visitors, steps, creator}) {
   this.creator = creator;
 }
 
-let toursList = [
+let tourList = [
   new Tour({
     tourName: 'Example Tour',
     tourType: 'Tooltip',
@@ -35,5 +35,5 @@ let toursList = [
 ];
 
 export default {
-  toursList
+  tourList
 }

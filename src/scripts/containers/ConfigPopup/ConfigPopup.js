@@ -6,7 +6,7 @@ import Data from '../../data';
 import './ConfigPopup.css';
 
 import Header from '../../components/Header/Header';
-import ToursList from '../../components/ToursList/ToursList';
+import ToursList from '../../components/TourList/TourList';
 import Footer from '../../components/Footer/Footer';
 
 export default class ConfigPopup extends React.Component {
@@ -22,7 +22,7 @@ export default class ConfigPopup extends React.Component {
         <div styleName="title">Guided Tour Configuration</div>
         <div styleName="content">
           <Header/>
-          <ToursList toursList={Data.toursList}/>
+          <TourList toursList={Data.tourList}/>
           <Footer/>
         </div>
       </div>

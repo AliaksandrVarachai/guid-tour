@@ -1,0 +1,92 @@
+:global .gt-popup-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  text-align: center;
+  min-width: 505pt; /* width of .gt-popup + a few pt */
+}
+
+:global .gt-popup-container:after {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+:global .gt-popup {
+  position: relative;
+  width: 500pt;  /* TODO: set default values via JS */
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.wrapper {
+  background: #a6a6a6;
+  padding: 6pt 4pt;
+}
+
+
+/* Header */
+
+.header {
+  padding-bottom: 4pt;
+}
+
+.close {
+  position: absolute;
+  right: 5px;
+  color: #fff;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+.title {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #fff;
+  padding-bottom: 4pt;
+}
+
+.title:before {
+  content: '';
+  display: inline-block;
+  width: 12pt;
+  height: 12pt;
+  padding: 0;
+  margin-right: 4pt;
+  border: 1px solid gray;
+  border-radius: 50%;
+  vertical-align: bottom;
+  background: #e9e9e9;
+}
+
+
+/* Content */
+
+.logo {
+  width: 179px;
+  height: 69px;
+  background: url('../../../images/gt-logo-179x69.png');
+}
+
+.content {
+  padding: 10pt 25pt;
+  background: #fff;
+}
+
+
+/* Footer */
+
+.footer {
+  padding: 10pt;
+  text-align: right;
+  background: #fff;
+}
+
