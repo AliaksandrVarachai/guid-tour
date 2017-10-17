@@ -42,9 +42,6 @@ export default class SettingsPopup extends React.Component {
             </div>
           </div>
         </div>
-
-
-
       </div>
     )
   }
