@@ -67,16 +67,24 @@ class GuideTour extends React.Component {
   //   });
   // };
 
+  closeHandler = (event) => {
+    this.setState({
+      isPopupShown: false
+    });
+  };
+
   render() {
     let state = this.state;
     return (
       <div className="gt-container">
         <div id="popups-store">
-          {state.isPopupShown ? <Popup title={state.title}
+          {state.isPopupShown
+            ? <Popup title={state.title}
                                        content={state.content}
                                        dataProps={state.dataProps}
-                                       width={state.width} />
-            : null}
+                                       width={state.width}
+                                       closeHandler={this.closeHandler}
+            /> : null}
         </div>
       </div>
     );

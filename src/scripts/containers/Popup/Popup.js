@@ -36,22 +36,15 @@ export default class Popup extends React.Component {
     }
   }
 
-  closeHandler = (event) => {
-    //document.querySelector('.gt-popup-container')[0].style.display = 'none';
-  };
-
-  componentDidMount() {
-    //console.log(this.refs.popupContainer.style.display = 'none')
-  }
-
   render() {
     const state = this.state;
+    const props = this.props;
     return (
       <div className="gt-popup-container" style={{display: 'block'}} ref="popupContainer">
         <div className="gt-popup" style={{width: state.width}}>
           <div styleName="wrapper">
             <header styleName="header">
-              <i className="material-icons" styleName="close" onClick={this.closeHandler}>clear</i>
+              <i className="material-icons" styleName="close" onClick={props.closeHandler}>clear</i>
               <div styleName="title">{state.header.title}</div>
             </header>
             <div styleName="content">
