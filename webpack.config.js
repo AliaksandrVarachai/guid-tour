@@ -81,6 +81,6 @@ module.exports = {
 
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'), //path to static src, i.e. index.html
-    port: 8080
+    port: 9090
   }
 };

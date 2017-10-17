@@ -1,4 +1,5 @@
 :global .gt-popup-container {
+  display: none;  /* popup is inactive when loaded */
   position: fixed;
   left: 0;
   top: 0;

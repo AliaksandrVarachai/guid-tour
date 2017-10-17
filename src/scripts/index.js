@@ -34,7 +34,8 @@ class GuideTour extends React.Component {
       case 'showConfigPopup':
         this.setState({
           isPopupShown: true,
-          //popup: Popup,
+          width: '500pt',
+          title: 'Guided Tour Configuration',
           content: TourList,
           dataProps: {
             tourList: Data.tourList
@@ -44,6 +45,8 @@ class GuideTour extends React.Component {
       case 'showSettingsPopup':
         this.setState({
           isPopupShown: true,
+          width: '350pt',
+          title: 'Tour Settings',
           content: TourSettings,
           dataProps: {
             somePropName: 'qwerty'
@@ -69,7 +72,11 @@ class GuideTour extends React.Component {
     return (
       <div className="gt-container">
         <div id="popups-store">
-          {state.isPopupShown ? <Popup content={state.content} {...state.dataProps}/> : null}
+          {state.isPopupShown ? <Popup title={state.title}
+                                       content={state.content}
+                                       dataProps={state.dataProps}
+                                       width={state.width} />
+            : null}
         </div>
       </div>
     );

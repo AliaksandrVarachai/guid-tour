@@ -8,15 +8,15 @@ import ActionButton from './ActionButton';
 export default class Popup extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props=', props)
     this.state = {
+      width: props.width,
       header: {
-        title: 'Guided Tour Configuration'
+        title: props.title
       },
-      // content: {
-      //   component: props.content, //TourList,
-      //   dataProps: props.dataProps, //Data
-      // },
+      content: {
+        component: props.content,
+        dataProps: props.dataProps
+      },
       footer: {
         buttons: [
           {
@@ -30,29 +30,32 @@ export default class Popup extends React.Component {
             key: 'save',
             onClick: function(e) {alert('Save')},
             className: 'action'
-          },
+          }
         ]
       }
     }
   }
 
+  closeHandler = (event) => {
+    //document.querySelector('.gt-popup-container')[0].style.display = 'none';
+  };
+
+  componentDidMount() {
+    //console.log(this.refs.popupContainer.style.display = 'none')
+  }
+
   render() {
     const state = this.state;
-    const props = this.props;
-    console.log('state=', state)
-    console.log('props=', props)
-
     return (
-      <div className="gt-popup-container">
-        <div className="gt-popup">
+      <div className="gt-popup-container" style={{display: 'block'}} ref="popupContainer">
+        <div className="gt-popup" style={{width: state.width}}>
           <div styleName="wrapper">
             <header styleName="header">
-              <i className="material-icons" styleName="close" onClick={() => alert('close')}>clear</i>
+              <i className="material-icons" styleName="close" onClick={this.closeHandler}>clear</i>
               <div styleName="title">{state.header.title}</div>
             </header>
             <div styleName="content">
-              ********************************* PROPS????
-              {<props.content.component {...props.tourList}/>}
+              {<state.content.component {...state.content.dataProps}/>}
             </div>
             <footer styleName="footer">
               {this.state.footer.buttons.map(bt => <ActionButton {...bt}/>)}
