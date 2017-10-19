@@ -50,9 +50,10 @@
 }
 
 .title {
+  padding-bottom: 4pt;
+  font-size: 12pt;
   font-family: 'Source Sans Pro', sans-serif;
   color: #fff;
-  padding-bottom: 4pt;
 }
 
 .title:before {

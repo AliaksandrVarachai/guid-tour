@@ -15,7 +15,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: dist,
-    publicPath: '' //'MicroStrategy/asp/Gt3/CommonUI/'
+    publicPath: '/' //'MicroStrategy/asp/Gt3/CommonUI/' we need to read the source dynamically from a global var
   },
   devtool: isProduction ? false : 'eval-source-map', //'eval' does not work
   plugins: [
