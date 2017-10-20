@@ -13,7 +13,7 @@ module.exports = {
     'app': './src/scripts/',
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'guide-tour.js',
     path: dist,
     publicPath: '/'
   },

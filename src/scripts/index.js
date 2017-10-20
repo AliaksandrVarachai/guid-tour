@@ -24,7 +24,7 @@ class GuideTour extends React.Component {
   }
 
   handleEvent = event => {
-    let eventOutsideName = event.target.getAttribute('react-event-outside-name');
+    let eventOutsideName = event.target.getAttribute('gt-onclick');
     if (!eventOutsideName)
       return;
     switch(eventOutsideName) {
