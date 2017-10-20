@@ -1,19 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import getCWD from '../../../helpers/src-url';
 import Search from '../Search/Search';
 import TourItem from '../TourItem/TourItem';
 
 import './TourList.css';
+
+import '../../../images/gt-logo-179x69.png';
 
 TourList.propTypes = {
   tourList: PropTypes.array.isRequired
 };
 
 export default function TourList({tourList}) {
+  const imgPath = getCWD() + 'images/gt-logo-179x69.png'; // TODO: unhardcode and move settings to webpack config
+  console.log('imgPath=', imgPath)
+
   return (
     <div className="gt-tours-list-component">
-      <div styleName="logo"></div>
+      <div styleName="logo">
+        <img src={imgPath} alt="logo"/>
+      </div>
       <div styleName="main-header">Available Guided Tours
         <Search/> {/* TODO: add props with saved search */}
       </div>
