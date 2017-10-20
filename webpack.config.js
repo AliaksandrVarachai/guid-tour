@@ -1,11 +1,11 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const src = path.resolve(__dirname, 'src');
-const dist = path.resolve(__dirname, 'dist');  // TODO: add automatic clear plugin before build
+const dist = path.resolve(__dirname, 'dist');
 
 
 module.exports = {
@@ -19,6 +19,7 @@ module.exports = {
   },
   devtool: isProduction ? false : 'eval-source-map', //'eval' does not work
   plugins: [
+    new CleanWebpackPlugin([dist]),
     new webpack.DefinePlugin({
       'process.env': {
         isProduction
