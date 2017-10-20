@@ -6,6 +6,7 @@
 
 .search-input {
   padding-right: 20pt;
+  font-size: 12px; /* pt does not have effect */
 }
 
 .search-link {
