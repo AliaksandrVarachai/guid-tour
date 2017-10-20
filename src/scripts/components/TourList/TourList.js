@@ -14,8 +14,9 @@ TourList.propTypes = {
 };
 
 export default function TourList({tourList}) {
-  const imgPath = getCWD() + 'images/gt-logo-179x69.png'; // TODO: unhardcode and move settings to webpack config
-  console.log('imgPath=', imgPath)
+  // const imgPath = getCWD() + 'images/gt-logo-179x69.png'; // TODO: unhardcode and move settings to webpack config
+  // console.log('imgPath=', imgPath);
+  const imgPath = 'http://ecsb00100c96.epam.com/MicroStrategy/asp/Gt3/CommonUI/images/gt-logo-179x69.png';
 
   return (
     <div className="gt-tours-list-component">
