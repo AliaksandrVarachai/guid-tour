@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
+const envVariables = require('./resources/webpack/env-variables');
 
 
 module.exports = {
@@ -48,13 +49,13 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        include: src,
+        include: path.resolve(__dirname, envVariables.img.src), //imgSrc,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'images/'
+              outputPath: envVariables.img.output //imgOutput
             }
           }
         ]
