@@ -26,7 +26,13 @@ module.exports = {
         isProduction
       }
     }),
-    new UglifyJSPlugin()
+    // new webpack.ContextReplacementPlugin({
+    //   resourceRegExp: new RegExp(envVariables.outerResources.entry)
+    // }, (data) => {
+    //   console.log('data', data)
+    //   return void 0;
+    // }),
+    // new UglifyJSPlugin()
   ],
   module: {
     rules: [
@@ -49,13 +55,14 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        include: path.resolve(__dirname, envVariables.img.src), //imgSrc,
+        include: path.resolve(__dirname, envVariables.outerResources.img.entry), //imgSrc,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: envVariables.img.output //imgOutput
+              outputPath: envVariables.outerResources.img.output, //imgOutput
+              // publicPath: envVariables.outerResources.img.output
             }
           }
         ]
