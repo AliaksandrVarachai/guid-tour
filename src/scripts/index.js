@@ -7,8 +7,8 @@ import ReactEventOutside from 'react-event-outside';
 // Content
 import TourList from './components/TourList/TourList';
 import TourSettings from './containers/TourSettings/TourSettings';
-
 import Popup from './containers/Popup/Popup';
+import { GT_ROOT_ID } from '../constants/constants';
 
 // Data
 import Data from './data';
@@ -99,7 +99,10 @@ class GuideTour extends React.Component {
   }
 }
 
-// ReactDOM.render(ReactEventOutside(['click'])(GuideTour), document.getElementById('gt-root'));
 const SharedComponent = ReactEventOutside(['click'])(GuideTour);
 
-ReactDOM.render(<SharedComponent/>, document.getElementById('gt-root'));
+let gtRoot = document.createElement('div');
+gtRoot.id = GT_ROOT_ID;
+document.body.appendChild(gtRoot);
+
+ReactDOM.render(<SharedComponent/>, gtRoot);
