@@ -48,13 +48,13 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        include: src,
+        include: path.resolve(src, 'images'), // TODO: use source-map.js
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'images/'
+              outputPath: 'outer-src/images/'
             }
           }
         ]
