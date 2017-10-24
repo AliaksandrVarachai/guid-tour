@@ -13,7 +13,7 @@ module.exports = {
     'app': './src/scripts/',
   },
   output: {
-    filename: 'guide-tour.js',
+    filename: 'guided-tour.js',
     path: dist,
     publicPath: '/'
   },

@@ -15,7 +15,7 @@ function getCWD() {
     console.log(`Error: Your script must have id="${GT_SCRIPT_ID}"`);
     return '';
   }
-  let src = document.getElementById('guide-tour-script').src;
+  let src = script.src;
   if (!src) {
     console.log(`Error: script with id="${GT_SCRIPT_ID}" does not have src`);
     return '';
