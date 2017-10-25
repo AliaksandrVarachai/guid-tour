@@ -3,6 +3,8 @@ const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
+const sourceConfig = require('./src/source-config');
+
 const isProduction = process.env.NODE_ENV === 'production';
 const src = path.resolve(__dirname, 'src');
 const dist = path.resolve(__dirname, 'dist');
@@ -48,13 +50,15 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        include: path.resolve(src, 'images'), // TODO: use source-map.js
+        include: sourceConfig.getIncludeAbsolutePath('images'),
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[ext]',
-              outputPath: 'outer-src/images/'
+              name (file) {
+                return path.relative(sourceConfig.getIncludeAbsolutePath('images'), file);
+              },
+              outputPath: sourceConfig.sourceMap.images.outputPath
             }
           }
         ]

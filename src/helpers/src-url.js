@@ -1,12 +1,12 @@
 import path from 'path';
-import sourceMap from '../source-map.js';
+import sourceConfig from '../source-config.js';
 import { GT_SCRIPT_ID } from '../constants/constants';
 
 /**
  * Returns a current working directory of the current script with trailing '/'.
  * @returns {string} - current working directory or empty string if there is no src attribute.
  * @example
- * // returns http://localhost:9090/
+ * // returns 'http://localhost:9090/commonUI/'
  * getCWD()
  */
 function getCWD() {
@@ -26,17 +26,16 @@ function getCWD() {
 
 /**
  * Returns a URL for external loaded resource (image, font etc.).
- * @param relativePath {string} - relative path to file (must be the same as for import).
+ * @param outputPath {string} - path to output file after build.
  * @returns {string} - url on base of getCWD.
  * @example
- * // returns http://localhost:9090/outer-src/logo.png
- * getURL('../images/logo.png')
+ * // import of image file
+ * import image from '../images/logo.png';
+ * // returns 'http://localhost:9090/commonUI/outer-src/images/logo.png'
+ * <img src={getURL(image)} />
  */
-function getURL(relativePath) {
-  const imgPath = path.relative('../source-map.js', relativePath);
-  const imgDirname = path.dirname(imgPath);
-  const imgBasename = path.basename(imgPath);
-  return getCWD() + path.join(sourceMap[imgDirname], imgBasename);
+function getURL(outputPath) {
+  return getCWD() + outputPath;
 }
 
 export default getURL;

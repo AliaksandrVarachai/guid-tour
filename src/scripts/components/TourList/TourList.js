@@ -6,18 +6,17 @@ import TourItem from '../TourItem/TourItem';
 
 import './TourList.css';
 
-import '../../../images/gt-logo-179x69.png';
+import logo from '../../../images/gt-logo-179x69.png';
 
 TourList.propTypes = {
   tourList: PropTypes.array.isRequired
 };
 
 export default function TourList({tourList}) {
-  const logoURL = getURL('../../../images/gt-logo-179x69.png');
   return (
     <div className="gt-tours-list-component">
-      <div styleName="logo">
-        <img src={logoURL} alt="logo"/>
+      <div styleName="logo-bar">
+        <img styleName="logo" src={getURL(logo)} alt="logo"/>
       </div>
       <div styleName="main-header">Available Guided Tours
         <Search/> {/* TODO: add props with saved search */}
