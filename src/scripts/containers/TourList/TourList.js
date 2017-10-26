@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import getResourceURL from '../../../helpers/get-resource-url';
+import getResourceURL from '../../helpers/get-resource-url';
 import Search from '../../components/Search/Search';
 import TourItem from '../../components/TourItem/TourItem';
 

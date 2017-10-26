@@ -6,7 +6,7 @@ import ReactEventOutside from 'react-event-outside';
 import TourList from './containers/TourList/TourList';
 import TourSettings from './containers/TourSettings/TourSettings';
 import Popup from './containers/Popup/Popup';
-import { GT_ROOT_ID } from '../constants/constants';
+import { GT_ROOT_ID, GT_EVENTS } from './constants/constants';
 
 // Data
 import Data from '../mocked-data/data';
@@ -22,37 +22,41 @@ class GuideTour extends React.Component {
   }
 
   handleEvent = event => {
-    let eventOutsideName = event.target.getAttribute('gt-onclick');
-    if (!eventOutsideName)
-      return;
-    switch(eventOutsideName) {
-      case 'showConfigPopup':
-        this.setState({
-          isPopupShown: true,
-          width: 500,
-          units: 'pt',
-          title: 'Guided Tour Configuration',
-          content: TourList,
-          dataProps: {
-            tourList: Data.tourList
-          }
-        });
-        break;
-      case 'showSettingsPopup':
-        this.setState({
-          isPopupShown: true,
-          width: 350,
-          units: 'pt',
-          title: 'Tour Settings',
-          content: TourSettings,
-          dataProps: {
-            somePropName: 'qwerty'
-          }
-        });
-        break;
-      default:
-        console.log(`There is no event handler for "${eventOutsideName}"`);
-    }
+    Object.keys(GT_EVENTS).forEach(gtEvent => {
+      if (event.type !== gtEvent)
+        return;
+      let eventOutsideName = event.target.getAttribute(GT_EVENTS[gtEvent]);
+      if (!eventOutsideName)
+        return;
+      switch(eventOutsideName) {
+        case 'showConfigPopup':
+          this.setState({
+            isPopupShown: true,
+            width: 500,
+            units: 'pt',
+            title: 'Guided Tour Configuration',
+            content: TourList,
+            dataProps: {
+              tourList: Data.tourList
+            }
+          });
+          break;
+        case 'showSettingsPopup':
+          this.setState({
+            isPopupShown: true,
+            width: 350,
+            units: 'pt',
+            title: 'Tour Settings',
+            content: TourSettings,
+            dataProps: {
+              somePropName: 'qwerty'
+            }
+          });
+          break;
+        default:
+          console.log(`There is no event handler for "${eventOutsideName}"`);
+      }
+    });
   };
 
   /**
@@ -97,7 +101,7 @@ class GuideTour extends React.Component {
   }
 }
 
-const SharedComponent = ReactEventOutside(['click'])(GuideTour);
+const SharedComponent = ReactEventOutside(Object.keys(GT_EVENTS))(GuideTour);
 
 let gtRoot = document.createElement('div');
 gtRoot.id = GT_ROOT_ID;
