@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getURL from '../../../helpers/src-url';
-import Search from '../Search/Search';
-import TourItem from '../TourItem/TourItem';
+import Search from '../../components/Search/Search';
+import TourItem from '../../components/TourItem/TourItem';
 
 import './TourList.css';
 

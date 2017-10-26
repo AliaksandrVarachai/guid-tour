@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import ReactEventOutside from 'react-event-outside';
 
 // Content
-import TourList from './components/TourList/TourList';
+import TourList from './containers/TourList/TourList';
 import TourSettings from './containers/TourSettings/TourSettings';
 import Popup from './containers/Popup/Popup';
 import { GT_ROOT_ID } from '../constants/constants';
