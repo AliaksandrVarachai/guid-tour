@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import getURL from '../../../helpers/src-url';
+import getResourceURL from '../../../helpers/get-resource-url';
 import Search from '../../components/Search/Search';
 import TourItem from '../../components/TourItem/TourItem';
 
@@ -16,7 +16,7 @@ export default function TourList({tourList}) {
   return (
     <div className="gt-tours-list-component">
       <div styleName="logo-bar">
-        <img styleName="logo" src={getURL(logo)} alt="logo"/>
+        <img styleName="logo" src={getResourceURL(logo)} alt="logo"/>
       </div>
       <div styleName="main-header">Available Guided Tours
         <Search/> {/* TODO: add props with saved search */}

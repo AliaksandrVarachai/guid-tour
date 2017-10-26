@@ -30,10 +30,10 @@ function getCWD() {
  * // import of image file
  * import image from '../images/logo.png';
  * // returns 'http://localhost:9090/commonUI/outer-src/images/logo.png'
- * <img src={getURL(image)} />
+ * <img src={getResourceURL(image)} />
  */
-function getURL(outputPath) {
+function getResourceURL(outputPath) {
   return getCWD() + outputPath;
 }
 
-export default getURL;
+export default getResourceURL;
