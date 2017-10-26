@@ -1,5 +1,3 @@
-import path from 'path';
-import sourceConfig from '../source-config.js';
 import { GT_SCRIPT_ID } from '../constants/constants';
 
 /**
