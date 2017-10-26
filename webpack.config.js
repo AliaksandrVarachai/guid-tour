@@ -4,6 +4,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
+const resources = path.resolve(__dirname, 'resources');
 const src = path.resolve(__dirname, 'src');
 const images = path.resolve(src, 'images');
 const dist = path.resolve(__dirname, 'dist');
@@ -15,7 +16,7 @@ module.exports = {
       'guided-tour': './src/scripts/index'
     }
     : {
-      'local-test-preparation': './src/dev-server-local-test-tools/copy-html',
+      'local-test-preparation': './resources/webpack/dev-server-local-test-tools/copy-html',
       'guided-tour': './src/scripts/index',
     },
   output: {
@@ -69,7 +70,7 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        include: path.resolve(src, 'dev-server-local-test-tools'),
+        include: path.resolve(resources, 'webpack/dev-server-local-test-tools'),
         use: [
           {
             loader: 'file-loader',
@@ -81,14 +82,14 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: src,
+        include: [resources, src],
         use: 'babel-loader'
       }
     ]
   },
 
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: dist,
     port: 9090
   }
 };
