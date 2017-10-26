@@ -1,5 +1,3 @@
-import '../index.html';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactEventOutside from 'react-event-outside';
@@ -11,7 +9,7 @@ import Popup from './containers/Popup/Popup';
 import { GT_ROOT_ID } from '../constants/constants';
 
 // Data
-import Data from './data';
+import Data from '../mocked-data/data';
 
 import './index.css';
 

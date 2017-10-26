@@ -10,11 +10,16 @@ const dist = path.resolve(__dirname, 'dist');
 
 
 module.exports = {
-  entry: {
-    'app': './src/scripts/',
-  },
+  entry: isProduction
+    ? {
+      'guided-tour': './src/scripts/index'
+    }
+    : {
+      'local-test-preparation': './src/dev-server-local-test-tools/copy-html',
+      'guided-tour': './src/scripts/index',
+    },
   output: {
-    filename: 'guided-tour.js',
+    filename: '[name].js',
     path: dist,
     publicPath: '/'
   },
@@ -63,9 +68,8 @@ module.exports = {
         ]
       },
       {
-        // TODO: combine file-loader into one
         test: /\.html$/,
-        include: path.resolve(__dirname, 'src'),
+        include: path.resolve(src, 'dev-server-local-test-tools'),
         use: [
           {
             loader: 'file-loader',
@@ -78,13 +82,13 @@ module.exports = {
       {
         test: /\.js$/,
         include: src,
-        use: 'babel-loader' //presets are in .babelrc
+        use: 'babel-loader'
       }
     ]
   },
 
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'), //path to static src, i.e. index.html
+    contentBase: path.resolve(__dirname, 'dist'),
     port: 9090
   }
 };
