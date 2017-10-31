@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
-:global .gt-tours-list-component {
+:global .gt-tours-list-container {
   position: relative;
 }
 

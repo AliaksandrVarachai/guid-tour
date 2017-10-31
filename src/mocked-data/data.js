@@ -13,24 +13,57 @@ let tourList = [
     tourType: 'Tooltip',
     lastOpen: '01/01/2017', //TODO: transform to formatted date
     visitors: 0,
-    steps: 2,
-    creator: 'Botond Kopacz'
+    creator: 'Botond Kopacz',
+    steps: [
+      {
+        title: 'Tour Steps',
+        details: 'Step #1 details'
+      }, {
+        title: 'Step Detail',
+        details: 'Step #2 details'
+      }, {
+        title: 'Step Target',
+        details: 'Step #3 details'
+      }, {
+        title: 'Summary',
+        details: 'Step #4 details'
+      }
+    ]
   }),
   new Tour({
     tourName: 'Self Service Certification',
     tourType: 'Training',
     lastOpen: '01/01/2017',
     visitors: 10,
-    steps: 2,
-    creator: 'Botond Kopacz'
+    creator: 'Botond Kopacz',
+    steps: [
+      {
+        title: 'Tour Steps',
+        details: 'Step #1 details'
+      }, {
+        title: 'Step Detail',
+        details: 'Step #2 details'
+      }, {
+        title: 'Step Target',
+        details: 'Step #3 details'
+      }
+    ]
   }),
   new Tour({
     tourName: 'Quick shortcut',
     tourType: 'Sortcut',
     lastOpen: '01/01/2017',
     visitors: 0,
-    steps: 2,
-    creator: 'Botond Kopacz'
+    creator: 'Botond Kopacz',
+    steps: [
+      {
+        title: 'Tour Steps',
+        details: 'Step #1 details'
+      }, {
+        title: 'Step Detail',
+        details: 'Step #2 details'
+      }
+    ]
   }),
 ];
 

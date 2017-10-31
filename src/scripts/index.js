@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import ReactEventOutside from 'react-event-outside';
 
 // Content
 import TourList from './containers/TourList/TourList';
 import TourSettings from './containers/TourSettings/TourSettings';
+import StepEditor from './containers/StepEditor/StepEditor';
 import Popup from './containers/Popup/Popup';
 import { GT_ROOT_ID, GT_EVENTS } from './constants/constants';
 
@@ -12,6 +14,8 @@ import { GT_ROOT_ID, GT_EVENTS } from './constants/constants';
 import Data from '../mocked-data/data';
 
 import './index.css';
+
+const GUIDED_TOUR_INDEX = 0;  // TODO: add choice of guided tour by click;
 
 class GuideTour extends React.Component {
   constructor() {
@@ -29,6 +33,7 @@ class GuideTour extends React.Component {
       if (!eventOutsideName)
         return;
       switch(eventOutsideName) {
+        // TODO: replace pt with px
         case 'showConfigPopup':
           this.setState({
             isPopupShown: true,
@@ -38,7 +43,20 @@ class GuideTour extends React.Component {
             content: TourList,
             dataProps: {
               tourList: Data.tourList
-            }
+            },
+            buttons: [
+              {
+                title: 'Cancel',
+                key: 'cancel',
+                onClick: function(e) {alert('Cancel')},
+                className: 'action'
+              }, {
+                title: 'Save',
+                key: 'save',
+                onClick: function(e) {alert('Save')},
+                className: 'action'
+              }
+            ]
           });
           break;
         case 'showSettingsPopup':
@@ -50,7 +68,68 @@ class GuideTour extends React.Component {
             content: TourSettings,
             dataProps: {
               somePropName: 'qwerty'
-            }
+            },
+            buttons: [
+              {
+                title: 'Cancel',
+                key: 'cancel',
+                onClick: function(e) {alert('Cancel')},
+                className: 'action'
+              }, {
+                title: 'Save',
+                key: 'save',
+                onClick: function(e) {alert('Save')},
+                className: 'action'
+              }
+            ]
+          });
+          break;
+        case 'showStepEditor':
+          this.setState({
+            isPopupShown: true,
+            width: 800,
+            units: 'px',
+            title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].tourName})`,
+            content: StepEditor,
+            dataProps: {
+              steps: Data.tourList[GUIDED_TOUR_INDEX].steps, // TODO: change tour index by click
+              selectedNumber: 2
+            },
+            buttons: [
+              {
+                title: 'Save',
+                key: 'save',
+                onClick: function(e) {alert('Save')},
+                className: 'action'
+              }, {
+                title: 'Previous',
+                key: 'previous',
+                onClick: (evt) => {
+                  if (this.state.dataProps.selectedNumber <= 1)
+                    return; // TODO: add disabled attribute
+                  let dataProps = Object.assign({}, this.state.dataProps);  // TODO: make a deep copy of nested array
+                  dataProps.selectedNumber--;
+                  this.setState({
+                    dataProps: dataProps,
+
+                  });
+                },
+                className: 'action'
+              }, {
+                title: 'Next',
+                key: 'next',
+                onClick: (evt) => {
+                  if (this.state.dataProps.selectedNumber >= Data.tourList[GUIDED_TOUR_INDEX].steps.length)
+                    return; // TODO: add disabled attribute
+                  let dataProps = Object.assign({}, this.state.dataProps);  // TODO: make a copy of nested array
+                  dataProps.selectedNumber++;
+                  this.setState({
+                    dataProps
+                  });
+                },
+                className: 'action'
+              }
+            ]
           });
           break;
         default:
@@ -78,6 +157,14 @@ class GuideTour extends React.Component {
     });
   };
 
+  // TODO: remove on prod (only to facilitate test of components)
+  componentDidMount() {
+    let bt = document.querySelector('[gt-onclick=showStepEditor]');
+    setTimeout(() => {
+      bt.click();
+    }, 0);
+  }
+
   render() {
     let state = this.state;
     if (state.isPopupShown) {
@@ -90,10 +177,11 @@ class GuideTour extends React.Component {
         <div id="popups-store">
           {state.isPopupShown
             ? <Popup title={state.title}
-                                       content={state.content}
-                                       dataProps={state.dataProps}
-                                       width={state.width + state.units}
-                                       closeHandler={this.closeHandler}
+                     content={state.content}
+                     dataProps={state.dataProps}
+                     width={state.width + state.units}
+                     buttons={state.buttons}
+                     closeHandler={this.closeHandler}
             /> : null}
         </div>
       </div>

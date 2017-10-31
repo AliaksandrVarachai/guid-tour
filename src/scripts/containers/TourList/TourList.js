@@ -14,7 +14,7 @@ TourList.propTypes = {
 
 export default function TourList({tourList}) {
   return (
-    <div className="gt-tours-list-component">
+    <div className="gt-tours-list-container">
       <div styleName="logo-bar">
         <img styleName="logo" src={getResourceURL(logo)} alt="logo"/>
       </div>
@@ -25,7 +25,14 @@ export default function TourList({tourList}) {
       <button name="settings" styleName="action">Settings</button>
       <div styleName="table">
         <TourItem isHeader={true}/>
-        {tourList.map(tour => <TourItem {...tour} key={tour.tourName}/>)}
+        {tourList.map(tour => <TourItem tourName={tour.tourName}
+                                        tourType={tour.tourType}
+                                        lastOpen={tour.lastOpen}
+                                        visitors={tour.visitors}
+                                        steps={tour.steps.length}
+                                        creator={tour.creator}
+                                        key={tour.tourName}
+        />)}
       </div>
     </div>
   )
