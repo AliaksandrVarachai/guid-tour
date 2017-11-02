@@ -14,7 +14,7 @@
       "react-css-modules",
       {
         "webpackHotModuleReloading": true,
-        "generateScopedName": "[name]__[local]"
+        "generateScopedName": "[name]__[local]__[hash:base64:5]"
       }
     ],
     "transform-class-properties"

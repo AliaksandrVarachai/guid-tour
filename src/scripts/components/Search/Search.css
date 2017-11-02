@@ -1,22 +1,23 @@
-@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-:global .gt-search-component {
+.container {
+  display: inline-block;
   position: relative;
 }
 
 .search-input {
-  padding-right: 20pt;
-  font-size: 12px; /* pt does not have effect */
+  padding-right: 26px;
+  font-size: 12px;
 }
 
-.search-link {
+:global(.material-icons).search-link {
   position: absolute;
   top: 0;
   right: 0;
-  width: 20pt;
+  width: 26px;
   text-align: center;
-  padding-top: 2pt;
-  font-size: 12pt;
+  padding-top: 3px;
+  font-size: 16px;
   background: transparent;
 }
 

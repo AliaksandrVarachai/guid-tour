@@ -48,7 +48,7 @@ module.exports = {
             options: {
               modules: true,
               sourceMap: !isProduction,
-              localIdentName: '[name]__[local]' //must be the same as for react-css-modules
+              localIdentName: '[name]__[local]__[hash:base64:5]' //must be the same as for react-css-modules
             }
           }
         ]

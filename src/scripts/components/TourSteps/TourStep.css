@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+:global(.material-icons).action {
+  font-size: 1em;
+}
+
+.action:hover {
+  cursor: pointer;
+}
+
+.col-1 {
+  width: 4%;
+}
+
+.col-2 {
+  width: 12%;
+}
+
+.col-3 {
+  width: 12%;
+}
+
+.col-4 {
+  width: 15%;
+}
+
+.col-5 {
+  /* width: is calculated */
+}
+
+.col-6 {
+  width: 6%;
+}
+
+.col-7 {
+  width: 8%;
+}
+

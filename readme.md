@@ -14,12 +14,8 @@ Support BI Applications:
 
 ### Loading of script
 1. Go to any Reports page and choose a report where Guided Tour is to added
-2. Add fonts's links to the page header:
-    * `<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">`
-    * `<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">`
-    * `<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`
-3. Add the script with `id="guided-tour-script"` to the page header, e.g. `<script id="guided-tour-script" src="url-of-builded-script"></script>`
-4. Add proper attributes described guided popup forms need to be opened on user actions, e.g. `<button gt-onclick="showConfigPopup">Config</button>`.
+2. Add the script with `id="guided-tour-script"` to the page header, e.g. `<script id="guided-tour-script" src="url-of-builded-script"></script>`
+3. Add proper attributes described guided popup forms need to be opened on user actions, e.g. `<button gt-onclick="showConfigPopup">Config</button>`.
    <br>List of allowed attributes:
     * onclick: `gt-onclick`
 

@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import ReactEventOutside from 'react-event-outside';
-
-// Content
-import TourList from './containers/TourList/TourList';
-import TourSettings from './containers/TourSettings/TourSettings';
-import StepEditor from './containers/StepEditor/StepEditor';
 import Popup from './containers/Popup/Popup';
 import { GT_ROOT_ID, GT_EVENTS } from './constants/constants';
 
-// Data
+// Loaded containers
+import Config from './containers/Config/Config';
+import TourSettings from './containers/TourSettings/TourSettings';
+import StepEditor from './containers/StepEditor/StepEditor';
+
+// Mocked data
 import Data from '../mocked-data/data';
 
 import './index.css';
@@ -40,7 +40,7 @@ class GuideTour extends React.Component {
             width: 500,
             units: 'pt',
             title: 'Guided Tour Configuration',
-            content: TourList,
+            Component: Config,
             dataProps: {
               tourList: Data.tourList
             },
@@ -65,7 +65,7 @@ class GuideTour extends React.Component {
             width: 350,
             units: 'pt',
             title: 'Tour Settings',
-            content: TourSettings,
+            Component: TourSettings,
             dataProps: {
               somePropName: 'qwerty'
             },
@@ -90,10 +90,11 @@ class GuideTour extends React.Component {
             width: 800,
             units: 'px',
             title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].tourName})`,
-            content: StepEditor,
+            Component: StepEditor,
             dataProps: {
-              steps: Data.tourList[GUIDED_TOUR_INDEX].steps, // TODO: change tour index by click
-              selectedNumber: 2
+              tourEditorSteps: Data.tourEditorSteps,
+              tourSteps: Data.tourList[GUIDED_TOUR_INDEX].steps,
+              currentTourEditorStepIndex: 0
             },
             buttons: [
               {
@@ -105,10 +106,10 @@ class GuideTour extends React.Component {
                 title: 'Previous',
                 key: 'previous',
                 onClick: (evt) => {
-                  if (this.state.dataProps.selectedNumber <= 1)
+                  if (this.state.dataProps.currentTourEditorStepIndex <= 0)
                     return; // TODO: add disabled attribute
                   let dataProps = Object.assign({}, this.state.dataProps);  // TODO: make a deep copy of nested array
-                  dataProps.selectedNumber--;
+                  dataProps.currentTourEditorStepIndex--;
                   this.setState({
                     dataProps: dataProps,
 
@@ -119,10 +120,10 @@ class GuideTour extends React.Component {
                 title: 'Next',
                 key: 'next',
                 onClick: (evt) => {
-                  if (this.state.dataProps.selectedNumber >= Data.tourList[GUIDED_TOUR_INDEX].steps.length)
+                  if (this.state.dataProps.currentTourEditorStepIndex >= Data.tourEditorSteps.length - 1)
                     return; // TODO: add disabled attribute
                   let dataProps = Object.assign({}, this.state.dataProps);  // TODO: make a copy of nested array
-                  dataProps.selectedNumber++;
+                  dataProps.currentTourEditorStepIndex++;
                   this.setState({
                     dataProps
                   });
@@ -177,7 +178,7 @@ class GuideTour extends React.Component {
         <div id="popups-store">
           {state.isPopupShown
             ? <Popup title={state.title}
-                     content={state.content}
+                     Component={state.Component}
                      dataProps={state.dataProps}
                      width={state.width + state.units}
                      buttons={state.buttons}
