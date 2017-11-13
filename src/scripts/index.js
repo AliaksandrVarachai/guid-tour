@@ -25,6 +25,107 @@ class GuideTour extends React.Component {
     }
   }
 
+  showConfigPopupState = {
+    isPopupShown: true,
+    width: 500,
+    units: 'pt',
+    title: 'Guided Tour Configuration',
+    Component: Config,
+    componentProps: {
+      tourList: Data.tourList
+    },
+    buttons: [
+      {
+        title: 'Cancel',
+        key: 'cancel',
+        onClick: (e) => {
+          this.setState(this.showStepEditorState); // TODO: remove the workaround
+        },
+        className: 'action'
+      }, {
+        title: 'Save',
+        key: 'save',
+        onClick: (e) => {
+          this.setState(this.showStepEditorState); // TODO: remove the workaround
+        },
+        className: 'action'
+      }
+    ]
+  };
+
+  showSettingsPopupState = {
+    isPopupShown: true,
+    width: 350,
+    units: 'pt',
+    title: 'Tour Settings',
+    Component: TourSettings,
+    componentProps: {
+      somePropName: 'qwerty'
+    },
+    buttons: [
+      {
+        title: 'Cancel',
+        key: 'cancel',
+        onClick: function(e) {alert('Cancel')},
+        className: 'action'
+      }, {
+        title: 'Save',
+        key: 'save',
+        onClick: function(e) {alert('Save')},
+        className: 'action'
+      }
+    ]
+  };
+
+  showStepEditorState = {
+    isPopupShown: true,
+    width: 800,
+    units: 'px',
+    title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].tourName})`,
+    Component: StepEditor,
+    componentProps: {
+      tourEditorSteps: Data.tourEditorSteps,
+      tourSteps: Data.tourList[GUIDED_TOUR_INDEX].steps,
+      currentTourEditorStepIndex: 0,
+      settings: Data.tourList[GUIDED_TOUR_INDEX].settings,
+    },
+    buttons: [
+      {
+        title: 'Save',
+        key: 'save',
+        onClick: function(e) {alert('Save')},
+        className: 'action'
+      }, {
+        title: 'Previous',
+        key: 'previous',
+        onClick: (evt) => {
+          if (this.state.componentProps.currentTourEditorStepIndex <= 0)
+            return; // TODO: add disabled attribute
+          let componentProps = Object.assign({}, this.state.componentProps);  // TODO: make a deep copy of nested array
+          componentProps.currentTourEditorStepIndex--;
+          this.setState({
+            componentProps: componentProps,
+
+          });
+        },
+        className: 'action'
+      }, {
+        title: 'Next',
+        key: 'next',
+        onClick: (evt) => {
+          if (this.state.componentProps.currentTourEditorStepIndex >= Data.tourEditorSteps.length - 1)
+            return; // TODO: add disabled attribute
+          let componentProps = Object.assign({}, this.state.componentProps);  // TODO: make a copy of nested array
+          componentProps.currentTourEditorStepIndex++;
+          this.setState({
+            componentProps
+          });
+        },
+        className: 'action'
+      }
+    ]
+  };
+
   handleEvent = event => {
     Object.keys(GT_EVENTS).forEach(gtEvent => {
       if (event.type !== gtEvent)
@@ -35,103 +136,13 @@ class GuideTour extends React.Component {
       switch(eventOutsideName) {
         // TODO: replace pt with px
         case 'showConfigPopup':
-          this.setState({
-            isPopupShown: true,
-            width: 500,
-            units: 'pt',
-            title: 'Guided Tour Configuration',
-            Component: Config,
-            dataProps: {
-              tourList: Data.tourList
-            },
-            buttons: [
-              {
-                title: 'Cancel',
-                key: 'cancel',
-                onClick: function(e) {alert('Cancel')},
-                className: 'action'
-              }, {
-                title: 'Save',
-                key: 'save',
-                onClick: function(e) {alert('Save')},
-                className: 'action'
-              }
-            ]
-          });
+          this.setState(this.showConfigPopupState);
           break;
         case 'showSettingsPopup':
-          this.setState({
-            isPopupShown: true,
-            width: 350,
-            units: 'pt',
-            title: 'Tour Settings',
-            Component: TourSettings,
-            dataProps: {
-              somePropName: 'qwerty'
-            },
-            buttons: [
-              {
-                title: 'Cancel',
-                key: 'cancel',
-                onClick: function(e) {alert('Cancel')},
-                className: 'action'
-              }, {
-                title: 'Save',
-                key: 'save',
-                onClick: function(e) {alert('Save')},
-                className: 'action'
-              }
-            ]
-          });
+          this.setState(this.showSettingsPopupState);
           break;
         case 'showStepEditor':
-          this.setState({
-            isPopupShown: true,
-            width: 800,
-            units: 'px',
-            title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].tourName})`,
-            Component: StepEditor,
-            dataProps: {
-              tourEditorSteps: Data.tourEditorSteps,
-              tourSteps: Data.tourList[GUIDED_TOUR_INDEX].steps,
-              currentTourEditorStepIndex: 0
-            },
-            buttons: [
-              {
-                title: 'Save',
-                key: 'save',
-                onClick: function(e) {alert('Save')},
-                className: 'action'
-              }, {
-                title: 'Previous',
-                key: 'previous',
-                onClick: (evt) => {
-                  if (this.state.dataProps.currentTourEditorStepIndex <= 0)
-                    return; // TODO: add disabled attribute
-                  let dataProps = Object.assign({}, this.state.dataProps);  // TODO: make a deep copy of nested array
-                  dataProps.currentTourEditorStepIndex--;
-                  this.setState({
-                    dataProps: dataProps,
-
-                  });
-                },
-                className: 'action'
-              }, {
-                title: 'Next',
-                key: 'next',
-                onClick: (evt) => {
-                  if (this.state.dataProps.currentTourEditorStepIndex >= Data.tourEditorSteps.length - 1)
-                    return; // TODO: add disabled attribute
-                  let dataProps = Object.assign({}, this.state.dataProps);  // TODO: make a copy of nested array
-                  dataProps.currentTourEditorStepIndex++;
-                  this.setState({
-                    dataProps
-                  });
-                },
-                className: 'action'
-              }
-            ]
-          });
+          this.setState(this.showStepEditorState);
           break;
         default:
           console.log(`There is no event handler for "${eventOutsideName}"`);
@@ -159,12 +170,12 @@ class GuideTour extends React.Component {
   };
 
   // TODO: remove on prod (only to facilitate test of components)
-  componentDidMount() {
-    let bt = document.querySelector('[gt-onclick=showStepEditor]');
-    setTimeout(() => {
-      bt.click();
-    }, 0);
-  }
+  // componentDidMount() {
+  //   let bt = document.querySelector('[gt-onclick=showConfigPopup]');
+  //   setTimeout(() => {
+  //     bt.click();
+  //   }, 0);
+  // }
 
   render() {
     let state = this.state;
@@ -179,7 +190,7 @@ class GuideTour extends React.Component {
           {state.isPopupShown
             ? <Popup title={state.title}
                      Component={state.Component}
-                     dataProps={state.dataProps}
+                     componentProps={state.componentProps}
                      width={state.width + state.units}
                      buttons={state.buttons}
                      closeHandler={this.closeHandler}

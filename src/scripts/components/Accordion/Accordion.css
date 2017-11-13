@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  overflow: auto;
+}
+
+.ac-item-content {
+  display: none;
+  position: relative; /* for content */
+  flex-grow: 1;
+  overflow: auto;
+  border: 1px solid #333;
+}
+
+.ac-item-radio {
+  display: none;
+}
+
+.ac-item-label {
+  display: block;
+  padding: 5px 15px;
+  background: #333;
+  color: #fff;
+  border: 1px solid transparent;
+}
+
+.ac-item-label:hover {
+  cursor: pointer;
+  background: #595959;
+  border-color: #333;
+}
+
+.ac-item-radio:checked + .ac-item-label + .ac-item-content {
+  display: block;
+}
+
+.ac-item-radio:checked + .ac-item-label {
+  background: #595959;
+  border-color: transparent;
+}

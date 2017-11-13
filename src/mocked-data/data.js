@@ -1,12 +1,3 @@
-function Tour({tourName, tourType, lastOpen, visitors, steps, creator}) {
-  this.tourName = tourName;
-  this.tourType = tourType;
-  this.lastOpen = lastOpen;
-  this.visitors = visitors;
-  this.steps = steps;
-  this.creator = creator;
-}
-
 let tourEditorSteps = [
   {
     title: 'Tour Steps',
@@ -29,7 +20,7 @@ let tourEditorSteps = [
 
 
 let tourList = [
-  new Tour({
+  {
     tourName: 'Example Tour',
     tourType: 'Tooltip',
     lastOpen: '01/01/2017', //TODO: transform to formatted date
@@ -52,9 +43,17 @@ let tourList = [
         targetControl: '-',
         content: '<p>Content 3</p>'
       }
-    ]
-  }),
-  new Tour({
+    ],
+    settings: {  // TODO: add to every tour
+      window: {
+        style: 'A style name',
+        width: 320,
+        height: 320,
+        orientation: 'center'
+      }
+    }
+  },
+  {
     tourName: 'Self Service Certification',
     tourType: 'Training',
     lastOpen: '01/01/2017',
@@ -73,8 +72,8 @@ let tourList = [
         content: '<p>Content 2</p>'
       }
     ]
-  }),
-  new Tour({
+  },
+  {
     tourName: 'Quick shortcut',
     tourType: 'Sortcut',
     lastOpen: '01/01/2017',
@@ -103,7 +102,7 @@ let tourList = [
         content: '<p>Content 4</p>'
       }
     ]
-  }),
+  },
 ];
 
 export default {

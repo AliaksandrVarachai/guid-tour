@@ -7,13 +7,13 @@ import './Popup.css';
 Popup.propTypes = {
   title: PropTypes.string.isRequired,
   Component: PropTypes.func.isRequired,    // component
-  dataProps: PropTypes.object.isRequired,
+  componentProps: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,      // e.g. '800px', '600pt'
   closeHandler: PropTypes.func.isRequired,
   buttons: PropTypes.array.isRequired
 };
 
-export default function Popup({title, Component, dataProps, width, closeHandler, buttons}) {
+export default function Popup({title, Component, componentProps, width, closeHandler, buttons}) {
   return (
     <div className="gt-popup-container" style={{display: 'block'}}>
       <div className="gt-popup" style={{width: width}}>
@@ -23,7 +23,7 @@ export default function Popup({title, Component, dataProps, width, closeHandler,
             <div styleName="title">{title}</div>
           </header>
           <div styleName="content">
-            <Component {...dataProps}/>
+            <Component {...componentProps}/>
           </div>
           <footer styleName="footer">
             {buttons.map(bt => <ActionButton {...bt}/>)}
