@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import Accordion from '../../components/Accordion/Accordion';
 import TargetPage from '../../components/Targets/Page';
@@ -39,7 +39,7 @@ function Visuals(props) {
   )
 }
 
-export default class SE_StepTarget extends React.Component {
+class SE_StepTarget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,9 +47,9 @@ export default class SE_StepTarget extends React.Component {
     }
   }
 
-  static propTypes = {
-    details: PropTypes.string.isRequired
-  };
+  // static propTypes = {
+  //   details: PropTypes.string.isRequired
+  // };
 
   changeDetailsHandler = (event) => {
     this.setState({details: event.target.value})
@@ -78,3 +78,13 @@ export default class SE_StepTarget extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const componentProps = state.COMPONENTS[state.componentName].componentProps;
+  const currentTourEditorStepIndex = componentProps.currentTourEditorStepIndex;
+  return {
+    details: componentProps.tourEditorSteps[currentTourEditorStepIndex].details
+  }
+};
+
+export default connect(mapStateToProps)(SE_StepTarget)

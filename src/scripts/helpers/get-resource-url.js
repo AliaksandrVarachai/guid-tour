@@ -1,4 +1,4 @@
-import { GT_SCRIPT_ID } from '../constants/constants';
+import { GT_SCRIPT_ID } from '../constants/dom-elements';
 
 /**
  * Returns a current working directory of the current script with trailing '/'.

@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
 
 import './SE_Summary.css';
 
-export default class SE_StepTarget extends React.Component {
+class SE_StepTarget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,17 +13,21 @@ export default class SE_StepTarget extends React.Component {
     }
   }
 
+  // TODO: NOT REMOVE before adding of flow in mapStateToProps!!!
+  // static propTypes = {
+  //   details: PropTypes.string.isRequired,
+  //   settings: PropTypes.shape({
+  //     window: PropTypes.shape({
+  //       style: PropTypes.string.isRequired,
+  //       width: PropTypes.number.isRequired,
+  //       height: PropTypes.number.isRequired,
+  //       orientation: PropTypes.string.isRequired
+  //     }).isRequired,
+  //   }).isRequired,
+  //   step: PropTypes.object.isRequired
+  // };
   static propTypes = {
-    details: PropTypes.string.isRequired,
-    settings: PropTypes.shape({
-      window: PropTypes.shape({
-        style: PropTypes.string.isRequired,
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
-        orientation: PropTypes.string.isRequired
-      }).isRequired,
-    }).isRequired,
-    step: PropTypes.object.isRequired
+    currentStepIndex: PropTypes.number.isRequired
   };
 
   changeDetailsHandler = (event) => {
@@ -78,3 +83,14 @@ export default class SE_StepTarget extends React.Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  const componentProps = state.COMPONENTS[state.componentName].componentProps;
+  const currentTourEditorStepIndex = componentProps.currentTourEditorStepIndex;
+  return {
+    step: componentProps.tourSteps[ownProps.currentStepIndex],
+    details: componentProps.tourEditorSteps[currentTourEditorStepIndex].details,
+    settings: componentProps.settings // TODO: add flow with checking of settings (see state)
+  }
+};
+
+export default connect(mapStateToProps)(SE_StepTarget)

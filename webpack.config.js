@@ -18,6 +18,7 @@ module.exports = {
     : {
       'local-test-preparation': './resources/webpack/dev-server-local-test-tools/copy-html',
       'guided-tour': './src/scripts/index',
+      'local-test-redux-store': './resources/webpack/dev-server-local-test-tools/react-redux/copy-html',
     },
   output: {
     filename: '[name].js',
@@ -38,7 +39,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        include: src,
+        include: [src, 'webpack/dev-server-local-test-tools'],
         use: [
           {
             loader: 'style-loader',

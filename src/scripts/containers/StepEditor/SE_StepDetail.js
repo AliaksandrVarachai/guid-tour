@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import WindowOrientation from '../../components/WindowOrientation/WindowOrientation';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 
 import './SE_StepDetail.css';
 
-export default class SE_StepDetail extends React.Component {
+class SE_StepDetail extends React.Component {
   constructor(props) {
     super(props);
     const _window = props.settings.window;
@@ -22,18 +22,19 @@ export default class SE_StepDetail extends React.Component {
     };
   }
 
-  static propTypes = {
-    details: PropTypes.string.isRequired,
-    settings: PropTypes.shape({
-      window: PropTypes.shape({
-        style: PropTypes.string.isRequired,
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
-        orientation: PropTypes.string.isRequired
-      }).isRequired,
-      // changeHandler: PropTypes.func.isRequired // TODO: save state to store on Save/Next action
-    }).isRequired
-  };
+  // TODO: NOT REMOVE before adding of flow in mapStateToProps!!!
+  // static propTypes = {
+  //   details: PropTypes.string.isRequired,
+  //   settings: PropTypes.shape({
+  //     window: PropTypes.shape({
+  //       style: PropTypes.string.isRequired,
+  //       width: PropTypes.number.isRequired,
+  //       height: PropTypes.number.isRequired,
+  //       orientation: PropTypes.string.isRequired
+  //     }).isRequired,
+  //     // changeHandler: PropTypes.func.isRequired // TODO: save state to store on Save/Next action
+  //   }).isRequired
+  // };
 
   changeDetailsHandler = (event) => {
     this.setState({
@@ -117,4 +118,14 @@ export default class SE_StepDetail extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  const componentProps = state.COMPONENTS[state.componentName].componentProps;
+  const currentTourEditorStepIndex = componentProps.currentTourEditorStepIndex;
+  return {
+    details: componentProps.tourEditorSteps[currentTourEditorStepIndex].details,
+    settings: componentProps.settings // TODO: add flow with checking of settings (see state)
+  }
+};
+
+export default connect(mapStateToProps)(SE_StepDetail)
 

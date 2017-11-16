@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import EditableTour from './EditableTour';
+import { TOUR_TYPES } from '../../constants/tour-settings';
 
 import table from '../../../shared-styles/table.css';
 import styles from './Tour.css';
@@ -15,7 +18,8 @@ Tour.propTypes = {
 };
 
 // TODO: add required for properties (exclude of isHeader == true)
-export default function Tour({tourName, tourType, lastOpen, visitors, steps, creator, isHeader = false}) {
+function Tour(props) {
+  const { tourName, tourType, lastOpen, visitors, steps, creator, isHeader = false, isEditable = false} = props;
   return (
     isHeader ?
       <div styleName="table.row">
@@ -41,32 +45,46 @@ export default function Tour({tourName, tourType, lastOpen, visitors, steps, cre
           {null}
         </div>
       </div>
-      :
-      <div styleName="table.row">
-        <div styleName="table.cell">
-          {tourName}
+      : isEditable ?
+        <div styleName="table.row">
+          <div styleName="table.cell">
+            <EditableTour tourName={tourName} tourType={tourType} />
+          </div>
+          <div styleName="table.cell"/>
+          <div styleName="table.cell"/>
+          <div styleName="table.cell"/>
+          <div styleName="table.cell"/>
+          <div styleName="table.cell"/>
+          <div styleName="table.cell"/>
         </div>
-        <div styleName="table.cell">
-          {tourType}
+        :
+        <div styleName="table.row">
+          <div styleName="table.cell">
+            {tourName}
+          </div>
+          <div styleName="table.cell">
+            {TOUR_TYPES[tourType]}
+          </div>
+          <div styleName="table.cell">
+            {lastOpen}
+          </div>
+          <div styleName="table.cell">
+            {visitors}
+          </div>
+          <div styleName="table.cell">
+            {steps}
+          </div>
+          <div styleName="table.cell">
+            {creator}
+          </div>
+          <div styleName="table.cell">
+            <i className="material-icons" styleName="styles.action">content_copy</i>
+            <i className="material-icons" styleName="styles.action">create</i>
+            <i className="material-icons" styleName="styles.action">delete</i>
+          </div>
         </div>
-        <div styleName="table.cell">
-          {lastOpen}
-        </div>
-        <div styleName="table.cell">
-          {visitors}
-        </div>
-        <div styleName="table.cell">
-          {steps}
-        </div>
-        <div styleName="table.cell">
-          {creator}
-        </div>
-        <div styleName="table.cell">
-          <i className="material-icons" styleName="styles.action">content_copy</i>
-          <i className="material-icons" styleName="styles.action">create</i>
-          <i className="material-icons" styleName="styles.action">delete</i>
-        </div>
-      </div>
   )
 }
+
+export default connect()(Tour);
 

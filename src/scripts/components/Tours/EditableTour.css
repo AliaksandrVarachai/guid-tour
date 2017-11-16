@@ -1,0 +1,19 @@
+.editable {
+  position: absolute;
+  right: 0;
+  left: 0;
+  /*visibility: hidden;*/
+  overflow: hidden;
+  background: yellow;
+  white-space: nowrap;
+}
+
+.editable-name {
+  width: 50%;
+}
+
+.editable-action {
+  float: right;
+  width: 10%;
+  margin-right: 5%;
+}

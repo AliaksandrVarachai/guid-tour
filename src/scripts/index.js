@@ -1,154 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
+import { createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
 import ReactEventOutside from 'react-event-outside';
 import Popup from './containers/Popup/Popup';
-import { GT_ROOT_ID, GT_EVENTS } from './constants/constants';
-
-// Loaded containers
-import Config from './containers/Config/Config';
-import TourSettings from './containers/TourSettings/TourSettings';
-import StepEditor from './containers/StepEditor/StepEditor';
-
-// Mocked data
-import Data from '../mocked-data/data';
+import { GT_ROOT_ID, GT_EVENTS } from './constants/dom-elements';
+import reducer from './reducers';
 
 import './index.css';
 
-const GUIDED_TOUR_INDEX = 0;  // TODO: add choice of guided tour by click;
+const store = createStore(reducer);
 
-class GuideTour extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isPopupShown: false
-    }
+class GuidedTour extends React.Component {
+  constructor(props) {
+    super(props);
   }
 
-  showConfigPopupState = {
-    isPopupShown: true,
-    width: 500,
-    units: 'pt',
-    title: 'Guided Tour Configuration',
-    Component: Config,
-    componentProps: {
-      tourList: Data.tourList
-    },
-    buttons: [
-      {
-        title: 'Cancel',
-        key: 'cancel',
-        onClick: (e) => {
-          this.setState(this.showStepEditorState); // TODO: remove the workaround
-        },
-        className: 'action'
-      }, {
-        title: 'Save',
-        key: 'save',
-        onClick: (e) => {
-          this.setState(this.showStepEditorState); // TODO: remove the workaround
-        },
-        className: 'action'
-      }
-    ]
-  };
-
-  showSettingsPopupState = {
-    isPopupShown: true,
-    width: 350,
-    units: 'pt',
-    title: 'Tour Settings',
-    Component: TourSettings,
-    componentProps: {
-      somePropName: 'qwerty'
-    },
-    buttons: [
-      {
-        title: 'Cancel',
-        key: 'cancel',
-        onClick: function(e) {alert('Cancel')},
-        className: 'action'
-      }, {
-        title: 'Save',
-        key: 'save',
-        onClick: function(e) {alert('Save')},
-        className: 'action'
-      }
-    ]
-  };
-
-  showStepEditorState = {
-    isPopupShown: true,
-    width: 800,
-    units: 'px',
-    title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].tourName})`,
-    Component: StepEditor,
-    componentProps: {
-      tourEditorSteps: Data.tourEditorSteps,
-      tourSteps: Data.tourList[GUIDED_TOUR_INDEX].steps,
-      currentTourEditorStepIndex: 0,
-      settings: Data.tourList[GUIDED_TOUR_INDEX].settings,
-    },
-    buttons: [
-      {
-        title: 'Save',
-        key: 'save',
-        onClick: function(e) {alert('Save')},
-        className: 'action'
-      }, {
-        title: 'Previous',
-        key: 'previous',
-        onClick: (evt) => {
-          if (this.state.componentProps.currentTourEditorStepIndex <= 0)
-            return; // TODO: add disabled attribute
-          let componentProps = Object.assign({}, this.state.componentProps);  // TODO: make a deep copy of nested array
-          componentProps.currentTourEditorStepIndex--;
-          this.setState({
-            componentProps: componentProps,
-
-          });
-        },
-        className: 'action'
-      }, {
-        title: 'Next',
-        key: 'next',
-        onClick: (evt) => {
-          if (this.state.componentProps.currentTourEditorStepIndex >= Data.tourEditorSteps.length - 1)
-            return; // TODO: add disabled attribute
-          let componentProps = Object.assign({}, this.state.componentProps);  // TODO: make a copy of nested array
-          componentProps.currentTourEditorStepIndex++;
-          this.setState({
-            componentProps
-          });
-        },
-        className: 'action'
-      }
-    ]
-  };
-
-  handleEvent = event => {
-    Object.keys(GT_EVENTS).forEach(gtEvent => {
-      if (event.type !== gtEvent)
-        return;
-      let eventOutsideName = event.target.getAttribute(GT_EVENTS[gtEvent]);
-      if (!eventOutsideName)
-        return;
-      switch(eventOutsideName) {
-        // TODO: replace pt with px
-        case 'showConfigPopup':
-          this.setState(this.showConfigPopupState);
-          break;
-        case 'showSettingsPopup':
-          this.setState(this.showSettingsPopupState);
-          break;
-        case 'showStepEditor':
-          this.setState(this.showStepEditorState);
-          break;
-        default:
-          console.log(`There is no event handler for "${eventOutsideName}"`);
-      }
-    });
-  };
+  handleEvent = this.props.handleEvent;
 
   /**
    * Set min-width of the document to avoid sliding up a centered popup form small width.
@@ -163,48 +31,87 @@ class GuideTour extends React.Component {
     }
   };
 
-  closeHandler = (event) => {
-    this.setState({
-      isPopupShown: false
-    });
-  };
-
   // TODO: remove on prod (only to facilitate test of components)
-  // componentDidMount() {
-  //   let bt = document.querySelector('[gt-onclick=showConfigPopup]');
-  //   setTimeout(() => {
-  //     bt.click();
-  //   }, 0);
-  // }
+  componentDidMount() {
+    let bt = document.querySelector('[gt-onclick=showConfigPopup]');
+    setTimeout(() => {
+      bt.click();
+    }, 0);
+  }
 
   render() {
-    let state = this.state;
-    if (state.isPopupShown) {
-      this.bodyWidthHandler(state.width + 10, state.units);
+    const props = this.props;
+    if (props.isPopupShown) {
+      this.bodyWidthHandler(props.width + 10, props.units);
     } else {
       this.bodyWidthHandler();
     }
     return (
       <div className="gt-container">
         <div id="popups-store">
-          {state.isPopupShown
-            ? <Popup title={state.title}
-                     Component={state.Component}
-                     componentProps={state.componentProps}
-                     width={state.width + state.units}
-                     buttons={state.buttons}
-                     closeHandler={this.closeHandler}
-            /> : null}
+          {props.isPopupShown ? <Popup/> : null}
         </div>
       </div>
     );
   }
 }
 
-const SharedComponent = ReactEventOutside(Object.keys(GT_EVENTS))(GuideTour);
+const mapStateToProps = (state) => {
+  const component = state.COMPONENTS[state.componentName];
+  return {
+    isPopupShown: state.isPopupShown,
+    width: component.width,
+    units: component.units
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleEvent: (event) => {
+      Object.keys(GT_EVENTS).forEach(gtEvent => {
+        if (event.type !== gtEvent)
+          return;
+        let eventOutsideName = event.target.getAttribute(GT_EVENTS[gtEvent]);
+        if (!eventOutsideName)
+          return;
+        switch(eventOutsideName) {
+          case 'showConfigPopup':
+            dispatch({
+              type: 'SHOW_POPUP',
+              componentName: 'Config'
+            });
+            break;
+          case 'showSettingsPopup':
+            dispatch({
+              type: 'SHOW_POPUP',
+              componentName: 'TourSettings'
+            });
+            break;
+          case 'showStepEditor':
+            dispatch({
+              type: 'SHOW_POPUP',
+              componentName: 'StepEditor'
+            });
+            break;
+          default:
+            console.log(`There is no event handler for "${eventOutsideName}"`);
+        }
+      });
+    }
+  };
+};
+
+const SharedComponent = ReactEventOutside(Object.keys(GT_EVENTS))(GuidedTour);
+
+const ConnectedSharedComponent = connect(mapStateToProps, mapDispatchToProps)(SharedComponent);
 
 let gtRoot = document.createElement('div');
 gtRoot.id = GT_ROOT_ID;
 document.body.appendChild(gtRoot);
 
-ReactDOM.render(<SharedComponent/>, gtRoot);
+ReactDOM.render(
+  <Provider store={store}>
+    <ConnectedSharedComponent/>
+  </Provider>,
+  gtRoot
+);

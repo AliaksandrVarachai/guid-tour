@@ -1,29 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ActionButton from './ActionButton';
+import { connect } from 'react-redux';
+
+const COMPONENTS = {
+  Config: require('../../containers/Config/Config'),
+  TourSettings: require('../../containers/TourSettings/TourSettings'),
+  StepEditor: require('../../containers/StepEditor/StepEditor')
+};
 
 import './Popup.css';
 
-Popup.propTypes = {
-  title: PropTypes.string.isRequired,
-  Component: PropTypes.func.isRequired,    // component
-  componentProps: PropTypes.object.isRequired,
-  width: PropTypes.string.isRequired,      // e.g. '800px', '600pt'
-  closeHandler: PropTypes.func.isRequired,
-  buttons: PropTypes.array.isRequired
-};
-
-export default function Popup({title, Component, componentProps, width, closeHandler, buttons}) {
+const Popup = (props) => {
+  const { title, componentName, componentProps, width, onClose, buttons } = props;
+  const Component = COMPONENTS[componentName].default;
   return (
     <div className="gt-popup-container" style={{display: 'block'}}>
       <div className="gt-popup" style={{width: width}}>
         <div styleName="wrapper">
           <header styleName="header">
-            <i className="material-icons" styleName="close" onClick={closeHandler}>clear</i>
+            <i className="material-icons" styleName="close" onClick={onClose}>clear</i>
             <div styleName="title">{title}</div>
           </header>
           <div styleName="content">
-            <Component {...componentProps}/>
+            <Component />
           </div>
           <footer styleName="footer">
             {buttons.map(bt => <ActionButton {...bt}/>)}
@@ -32,4 +31,26 @@ export default function Popup({title, Component, componentProps, width, closeHan
       </div>
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => {
+  const componentName = state.componentName;
+  const component = state.COMPONENTS[componentName];
+  return {
+    componentName,
+    title: component.title,
+    componentProps: component.componentProps,
+    width: component.width + component.units,
+    buttons: component.buttons
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onClose: (event) => {
+      dispatch({type: 'ON_CLOSE'});
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Popup);

@@ -18,12 +18,11 @@ let tourEditorSteps = [
   }
 ];
 
-
 let tourList = [
   {
     tourName: 'Example Tour',
-    tourType: 'Tooltip',
-    lastOpen: '01/01/2017', //TODO: transform to formatted date
+    tourType: 'tooltip',    // link to TOUR TYPES
+    lastOpen: '01/01/2017', // TODO: transform to formatted date
     visitors: 0,
     creator: 'Botond Kopacz',
     steps: [
@@ -55,7 +54,7 @@ let tourList = [
   },
   {
     tourName: 'Self Service Certification',
-    tourType: 'Training',
+    tourType: 'training',
     lastOpen: '01/01/2017',
     visitors: 10,
     creator: 'Botond Kopacz',
@@ -75,7 +74,7 @@ let tourList = [
   },
   {
     tourName: 'Quick shortcut',
-    tourType: 'Sortcut',
+    tourType: 'shortcut',
     lastOpen: '01/01/2017',
     visitors: 0,
     creator: 'Botond Kopacz',

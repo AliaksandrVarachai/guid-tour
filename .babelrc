@@ -17,6 +17,7 @@
         "generateScopedName": "[name]__[local]__[hash:base64:5]"
       }
     ],
-    "transform-class-properties"
+    "transform-class-properties",
+    "transform-object-rest-spread"
   ]
 }

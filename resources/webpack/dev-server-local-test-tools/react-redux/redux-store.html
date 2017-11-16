@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Test for Component</title>
+  <style>
+    .gray {
+    color: gray;
+    }
+
+    table {
+    table-layout: fixed;
+    width: 200px;
+    }
+
+    td:first-of-type {
+    text-align: right;
+    width: 50px;
+    }
+
+    button {
+    width: 100px;
+    }
+
+    #area {
+    position: relative;
+    height: 300px;
+    width: 300px;
+    margin-top: 10px;
+    border: 1px solid black;
+    }
+
+    #point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -5px;
+    background: red;
+    border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="./local-test-redux-store.js"></script>
+</body>
+</html>
