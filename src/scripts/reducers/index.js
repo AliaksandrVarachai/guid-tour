@@ -139,7 +139,7 @@ export default (state = initState, action) => {
       };
       break;
 
-    case 'ADD_NEW_TOUR':
+    case 'SAVE_NEW_TOUR':
       let now = new Date();
       const newTour = {
         ...DEFAULT_NEW_TOUR_SETTINGS,
