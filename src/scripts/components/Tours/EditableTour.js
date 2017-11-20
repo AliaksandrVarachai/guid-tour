@@ -18,7 +18,10 @@ class EditableTour extends React.Component {
 
   static propTypes = {
     tourName: PropTypes.string.isRequired,
-    tourType: PropTypes.oneOf(Object.keys(TOUR_TYPES)).isRequired
+    tourType: PropTypes.oneOf(Object.keys(TOUR_TYPES)).isRequired,
+    tourIndex: PropTypes.number,    // only for changed tour (tourIndex !== undefined only for changed tour)
+    saveTourChanges: PropTypes.func,  // TODO: add handler both for an edited Tour & a new added tour
+    cancelTourChanges: PropTypes.func.isRequired,
   };
 
   tourNameHandler = (event) => {
@@ -32,7 +35,7 @@ class EditableTour extends React.Component {
     this.setState({tourType: event.target.value});
   };
 
-  saveHandler = () => {
+  saveNewTourHandler = () => {
     const { tourName, tourType } = this.state;
     if (tourName) {
       this.props.dispatch({
@@ -45,14 +48,36 @@ class EditableTour extends React.Component {
         isWrongTourName: true
       });
     }
+  };
 
+  saveChangedTourHandler = () => {
+    const { tourName, tourType } = this.state;
+    const { tourIndex, saveTourChanges } = this.props;
+    if (tourName) {
+      this.props.dispatch({
+        type: 'SAVE_TOUR_CHANGES',
+        tourIndex,
+        tourName,
+        tourType
+      });
+      saveTourChanges(); // change the parent state
+    } else {
+      this.setState({
+        isWrongTourName: true
+      });
+    }
   };
 
   render() {
     const { tourName, tourType, isWrongTourName } = this.state;
+    const { saveTourChanges, cancelTourChanges, tourIndex } = this.props;
+    const saveHandler = tourIndex !== undefined ? this.saveChangedTourHandler : this.saveNewTourHandler;
     return (
       <div styleName="styles.editable">
-        <i className="material-icons" styleName="styles.editable-action" onClick={this.saveHandler}>save</i>
+        <span styleName="styles.editable-action-panel">
+          <i className="material-icons" styleName="styles.editable-action" onClick={saveHandler}>save</i>
+          <i className="material-icons" styleName="styles.editable-action" onClick={cancelTourChanges}>block</i>
+        </span>
         <input type="text"
                styleName={classNames('styles.editable-name', {'styles.is-wrong-value': isWrongTourName})}
                value={tourName}

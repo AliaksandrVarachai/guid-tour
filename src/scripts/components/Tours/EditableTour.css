@@ -20,9 +20,12 @@
   height: 20px;
 }
 
-:global(.material-icons).editable-action {
+.editable-action-panel {
   float: right;
-  margin-right: 7%;
+  margin-right: 3%;
+}
+
+:global(.material-icons).editable-action {
   font-size: 20px;
 }
 

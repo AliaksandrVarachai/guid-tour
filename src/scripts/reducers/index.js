@@ -161,6 +161,27 @@ export default (state = initState, action) => {
         }
       };
 
+    case 'SAVE_TOUR_CHANGES':
+      let newStore = {
+        ...state,
+        COMPONENTS: {
+          ...state.COMPONENTS,
+          Config: {
+            ...state.COMPONENTS.Config,
+            componentProps: {
+              ...state.COMPONENTS.Config.componentProps,
+              tourList: [ ...state.COMPONENTS.Config.componentProps.tourList ]
+            }
+          }
+        }
+      };
+      newStore.COMPONENTS.Config.componentProps.tourList[action.tourIndex] = {
+        ...newStore.COMPONENTS.Config.componentProps.tourList[action.tourIndex],
+        tourName: action.tourName,
+        tourType: action.tourType
+      };
+      return newStore;
+
     case 'SAVE_TOUR':
       alert('SAVE_TOUR');
       return state;

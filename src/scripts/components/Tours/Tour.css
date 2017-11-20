@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
+.action:hover {
+  cursor: pointer;
+}
+
 :global(.material-icons).action {
   font-size: 1em;
 }

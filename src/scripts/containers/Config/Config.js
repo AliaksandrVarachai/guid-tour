@@ -22,6 +22,12 @@ class Config extends React.Component {
     });
   };
 
+  cancelAddNewTour = () => {
+    this.setState({
+      isNewEditableTourAdded: false
+    })
+  };
+
   componentWillReceiveProps(nextProps) {
     if (this.props.tourList !== nextProps.tourList) {
       this.setState({
@@ -43,9 +49,9 @@ class Config extends React.Component {
             <Search />
           </div>
         </div>
-        <button name="addNew" styleName="action" onClick={this.addNewEditableTour}>Add New</button>
+        <button name="addNew" styleName="action" onClick={this.addNewEditableTour} disabled={isNewEditableTourAdded}>Add New</button>
         <button name="settings" styleName="action">Settings</button>
-        <Tours tourList={tourList} isNewEditableTourAdded={isNewEditableTourAdded} />
+        <Tours tourList={tourList} isNewEditableTourAdded={isNewEditableTourAdded} cancelAddNewTour={this.cancelAddNewTour} />
       </div>
     )
   }

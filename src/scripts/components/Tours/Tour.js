@@ -7,48 +7,90 @@ import { TOUR_TYPES } from '../../constants/tour-settings';
 import table from '../../../shared-styles/table.css';
 import styles from './Tour.css';
 
-Tour.propTypes = {
-  tourName: PropTypes.string,
-  tourType: PropTypes.string,
-  lastOpen: PropTypes.string,
-  visitors: PropTypes.number,
-  steps: PropTypes.number,
-  creator: PropTypes.string,
-  isHeader: PropTypes.bool,
-};
-
 // TODO: add required for properties (exclude of isHeader == true)
-function Tour(props) {
-  const { tourName, tourType, lastOpen, visitors, steps, creator, isHeader = false, isEditable = false} = props;
-  return (
-    isHeader ?
-      <div styleName="table.row">
-        <div styleName="table.header">
-          {tourName ? tourName : "Tour Name"}
+class Tour extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditable: props.isEditable
+    }
+  }
+
+  static propTypes = {
+    tourIndex: PropTypes.number,
+    tourName: PropTypes.string,
+    tourType: PropTypes.string,
+    lastOpen: PropTypes.string,
+    visitors: PropTypes.number,
+    steps: PropTypes.number,
+    creator: PropTypes.string,
+    isHeader: PropTypes.bool,
+    cancelAddNewTour: PropTypes.func,  // only if a new Tour added
+  };
+
+  static defaultProps = {
+    isHeader: false,
+    isEditable: false
+  };
+
+  editTour = (event) => {
+    this.setState({
+      isEditable: true
+    })
+  };
+
+  saveTourChanges = (event) => {
+    alert('dispatch');
+    this.setState({
+      isEditable: false
+    });
+  };
+
+  cancelTourChanges = (event) => {
+    this.setState({
+      isEditable: false
+    });
+  };
+
+  render() {
+    const { tourIndex, tourName, tourType, lastOpen, visitors, steps, creator, isHeader = false } = this.props;
+    let { isEditable } = this.state;
+    const isNewAddedTour = !!this.props.cancelAddNewTour;
+    return (
+      isHeader ?
+        <div styleName="table.row">
+          <div styleName="table.header">
+            {tourName ? tourName : "Tour Name"}
+          </div>
+          <div styleName="table.header">
+            {tourType ? tourType : "Tour Type"}
+          </div>
+          <div styleName="table.header">
+            {lastOpen ? lastOpen : "Last Open"}
+          </div>
+          <div styleName="table.header">
+            {visitors ? visitors : "# Visitors"}
+          </div>
+          <div styleName="table.header">
+            {steps ? steps : "# Steps"}
+          </div>
+          <div styleName="table.header">
+            {creator ? creator : "Creator"}
+          </div>
+          <div styleName="table.header">
+            {null}
+          </div>
         </div>
-        <div styleName="table.header">
-          {tourType ? tourType : "Tour Type"}
-        </div>
-        <div styleName="table.header">
-          {lastOpen ? lastOpen : "Last Open"}
-        </div>
-        <div styleName="table.header">
-          {visitors ? visitors : "# Visitors"}
-        </div>
-        <div styleName="table.header">
-          {steps ? steps : "# Steps"}
-        </div>
-        <div styleName="table.header">
-          {creator ? creator : "Creator"}
-        </div>
-        <div styleName="table.header">
-          {null}
-        </div>
-      </div>
-      : isEditable ?
+        : isEditable ?
         <div styleName="table.row">
           <div styleName="table.cell">
-            <EditableTour tourName={tourName} tourType={tourType} />
+            {isNewAddedTour
+              ?
+              <EditableTour tourName={tourName} tourType={tourType} cancelTourChanges={this.props.cancelAddNewTour} />
+              :
+              <EditableTour tourIndex={tourIndex} tourName={tourName} tourType={tourType} saveTourChanges={this.saveTourChanges} cancelTourChanges={this.cancelTourChanges} />
+            }
+            {tourName} {/* to prevent change of cell for editing row */}
           </div>
           <div styleName="table.cell"/>
           <div styleName="table.cell"/>
@@ -79,11 +121,12 @@ function Tour(props) {
           </div>
           <div styleName="table.cell">
             <i className="material-icons" styleName="styles.action">content_copy</i>
-            <i className="material-icons" styleName="styles.action">create</i>
+            <i className="material-icons" styleName="styles.action" onClick={this.editTour}>create</i>
             <i className="material-icons" styleName="styles.action">delete</i>
           </div>
         </div>
-  )
+    )
+  }
 }
 
 export default connect()(Tour);
