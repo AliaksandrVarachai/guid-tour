@@ -1,6 +1,7 @@
 // Mocked data
 import Data from '../../mocked-data/data';
 import { DEFAULT_NEW_TOUR_SETTINGS } from '../constants/tour-settings';
+import { setStateValue, setStateValues } from '../helpers/state-operations';
 
 const GUIDED_TOUR_INDEX = 0;  // TODO: add choice of guided tour by click;
 
@@ -82,7 +83,7 @@ const COMPONENTS = {
 };
 
 const initState = {
-  isPopupShown: true,
+  isPopupShown: false,
   componentName: 'Config',
   COMPONENTS,
 };
@@ -92,11 +93,7 @@ export default (state = initState, action) => {
   switch (action.type) {
     case 'ON_CANCEL':
     case 'ON_CLOSE':
-      return {
-        ...state,
-        isPopupShown: false
-      };
-      break;
+      return setStateValue(state, 'isPopupShown', false);
 
     case 'ON_SAVE':
       alert('ON_SAVE');
@@ -104,40 +101,26 @@ export default (state = initState, action) => {
 
     case 'ON_PREVIOUS':
     case 'ON_NEXT':
-      const componentName = state.componentName;
-      const COMPONENTS = state.COMPONENTS;
-      const component = COMPONENTS[componentName];
-      const componentProps = component.componentProps;
-      const currentTourEditorStepIndex = component.componentProps.currentTourEditorStepIndex;
+      const currentTourEditorStepIndex = state.COMPONENTS[state.componentName].componentProps.currentTourEditorStepIndex;
       if (action.type === 'ON_PREVIOUS' && currentTourEditorStepIndex <= 0 ||
           action.type === 'ON_NEXT' && currentTourEditorStepIndex >= Data.tourEditorSteps.length - 1) {
         return state; // TODO: add disabled attribute
       }
-      return {
-        ...state,
-        COMPONENTS: {
-          ...COMPONENTS,
-          [componentName]: {
-            ...component,
-            componentProps: {
-              ...componentProps,
-              currentTourEditorStepIndex: action.type === 'ON_NEXT' ? currentTourEditorStepIndex + 1 : currentTourEditorStepIndex - 1
-            }
-          }
-        }
-      };
+      return setStateValue(
+        state,
+        `COMPONENTS[${state.componentName}]componentProps.currentTourEditorStepIndex`,
+        action.type === 'ON_NEXT' ? currentTourEditorStepIndex + 1 : currentTourEditorStepIndex - 1
+      );
 
     case 'SHOW_POPUP':
       if (state.COMPONENTS[action.componentName] === undefined) {
         console.error(`Component "${componentName}" does not exist`);
         return state;
       }
-      return {
-        ...state,
-        isPopupShown: true,
-        componentName: action.componentName
-      };
-      break;
+      return setStateValues(state, [
+        'isPopupShown', true,
+        'componentName', action.componentName
+      ]);
 
     case 'SAVE_NEW_TOUR':
       let now = new Date();
@@ -147,40 +130,19 @@ export default (state = initState, action) => {
         tourName: action.tourName,
         tourType: action.tourType
       };
-      return {
-        ...state,
-        COMPONENTS: {
-          ...state.COMPONENTS,
-          Config: {
-            ...state.COMPONENTS.Config,
-            componentProps: {
-              ...state.COMPONENTS.Config.componentProps,
-              tourList: [ ...state.COMPONENTS.Config.componentProps.tourList, newTour ]
-            }
-          }
-        }
-      };
+      const tourListLength = state.COMPONENTS.Config.componentProps.tourList.length;
+      return setStateValue(
+        state,
+        `COMPONENTS.Config.componentProps.tourList[${tourListLength}]`,
+        newTour
+      );
 
     case 'SAVE_TOUR_CHANGES':
-      let newStore = {
-        ...state,
-        COMPONENTS: {
-          ...state.COMPONENTS,
-          Config: {
-            ...state.COMPONENTS.Config,
-            componentProps: {
-              ...state.COMPONENTS.Config.componentProps,
-              tourList: [ ...state.COMPONENTS.Config.componentProps.tourList ]
-            }
-          }
-        }
-      };
-      newStore.COMPONENTS.Config.componentProps.tourList[action.tourIndex] = {
-        ...newStore.COMPONENTS.Config.componentProps.tourList[action.tourIndex],
-        tourName: action.tourName,
-        tourType: action.tourType
-      };
-      return newStore;
+      return setStateValues(state, [
+        `COMPONENTS.Config.componentProps.tourList[${action.tourIndex}].tourName`, action.tourName,
+        `COMPONENTS.Config.componentProps.tourList[${action.tourIndex}].tourType`, action.tourType
+        ]
+      );
 
     case 'SAVE_TOUR':
       alert('SAVE_TOUR');

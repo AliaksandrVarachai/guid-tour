@@ -40,7 +40,6 @@ class Tour extends React.Component {
   };
 
   saveTourChanges = (event) => {
-    alert('dispatch');
     this.setState({
       isEditable: false
     });
@@ -59,25 +58,25 @@ class Tour extends React.Component {
     return (
       isHeader ?
         <div styleName="table.row">
-          <div styleName="table.header">
+          <div styleName="table.header styles.col-tour-name">
             {tourName ? tourName : "Tour Name"}
           </div>
-          <div styleName="table.header">
+          <div styleName="table.header styles.col-tour-type">
             {tourType ? tourType : "Tour Type"}
           </div>
-          <div styleName="table.header">
+          <div styleName="table.header styles.col-last-open">
             {lastOpen ? lastOpen : "Last Open"}
           </div>
-          <div styleName="table.header">
+          <div styleName="table.header styles.col-visitors">
             {visitors ? visitors : "# Visitors"}
           </div>
-          <div styleName="table.header">
+          <div styleName="table.header styles.col-steps">
             {steps ? steps : "# Steps"}
           </div>
-          <div styleName="table.header">
+          <div styleName="table.header styles.col-creator">
             {creator ? creator : "Creator"}
           </div>
-          <div styleName="table.header">
+          <div styleName="table.header styles.col-actions">
             {null}
           </div>
         </div>

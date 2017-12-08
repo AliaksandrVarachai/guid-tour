@@ -7,3 +7,31 @@
 :global(.material-icons).action {
   font-size: 1em;
 }
+
+.col-tour-name {
+  width: 28%;
+}
+
+.col-tour-type {
+  width: 12%;
+}
+
+.col-last-open {
+  width: 13%;
+}
+
+.col-visitors {
+  width: 11%;
+}
+
+.col-steps {
+  width: 11%;
+}
+
+.col-creator {
+  /* width is calculated */
+}
+
+.col-actions {
+  width: 10%;
+}

@@ -8,6 +8,7 @@ import { GT_ROOT_ID, GT_EVENTS } from './constants/dom-elements';
 import reducer from './reducers';
 
 import './index.css';
+import './index.scss';
 
 const store = createStore(reducer);
 
@@ -30,14 +31,6 @@ class GuidedTour extends React.Component {
       document.body.style.minWidth = '';
     }
   };
-
-  // TODO: remove on prod (only to facilitate test of components)
-  componentDidMount() {
-    let bt = document.querySelector('[gt-onclick=showConfigPopup]');
-    setTimeout(() => {
-      bt.click();
-    }, 0);
-  }
 
   render() {
     const props = this.props;

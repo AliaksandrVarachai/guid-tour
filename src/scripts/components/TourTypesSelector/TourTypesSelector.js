@@ -16,7 +16,7 @@ TourTypesSelector.propTypes = {
 export default function TourTypesSelector(props) {
   const { onChange, tourType } = props;
   return (
-    <select styleName="selector" onChange={onChange}>
+    <select styleName="selector" onChange={onChange} value={tourType}>
       {Object.keys(TOUR_TYPES).map(tourType =>
         <option value={tourType} key={tourType}>
           {TOUR_TYPES[tourType]}

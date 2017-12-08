@@ -38,7 +38,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.css$|\.scss$/,
         include: [src, 'webpack/dev-server-local-test-tools'],
         use: [
           {
