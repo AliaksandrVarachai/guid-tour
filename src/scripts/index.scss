@@ -1,7 +1,24 @@
-body {
+:root {
   background: yellow;
+  --green: green;
+  /*--danger-theme: {
+    color: red;
+    background: black;
+  }*/
+}
 
-  button {
-    background: red;
+li {
+  font-weight: bold;
+  font-size: 1.3em;
+  background: var(--green);
+}
+
+ul {
+  li {
+    color: red;
   }
+}
+
+.p {
+  /*@apply --dange-theme;*/
 }

@@ -38,7 +38,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$|\.scss$/,
+        test: /\.js$/,
+        include: [resources, src],
+        use: 'babel-loader'
+      },
+      {
+        test: /\.s?css$/,
         include: [src, 'webpack/dev-server-local-test-tools'],
         use: [
           {
@@ -51,6 +56,8 @@ module.exports = {
               sourceMap: !isProduction,
               localIdentName: '[name]__[local]__[hash:base64:5]' //must be the same as for react-css-modules
             }
+          }, {
+            loader: 'postcss-loader'
           }
         ]
       },
@@ -81,11 +88,7 @@ module.exports = {
           }
         ]
       },
-      {
-        test: /\.js$/,
-        include: [resources, src],
-        use: 'babel-loader'
-      }
+
     ]
   },
 

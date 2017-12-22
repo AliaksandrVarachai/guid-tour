@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import table from '../../../shared-styles/table.css';
+import table from '../../../styles/table.css';
 import styles from './TourStep.css';
 
 TourStep.propTypes = {

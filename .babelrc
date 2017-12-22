@@ -17,8 +17,7 @@
         "generateScopedName": "[name]__[local]__[hash:base64:5]",
         "filetypes": {
           ".scss": {
-            "syntax": "postcss-scss",
-            "plugins": ["postcss-nested"]
+            "syntax": "postcss-scss"
           }
         }
       }

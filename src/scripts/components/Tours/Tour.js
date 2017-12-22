@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import EditableTour from './EditableTour';
 import { TOUR_TYPES } from '../../constants/tour-settings';
 
-import table from '../../../shared-styles/table.css';
+import table from '../../../styles/table.css';
 import styles from './Tour.css';
 
 // TODO: add required for properties (exclude of isHeader == true)

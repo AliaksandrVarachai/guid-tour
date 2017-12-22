@@ -4,7 +4,7 @@ import getResourceURL from '../../helpers/get-resource-url';
 import Search from '../../components/Search/Search';
 import Tours from '../../components/Tours/Tours';
 
-import './Config.css';
+import './Config.scss';
 
 import logo from '../../../images/gt-logo-179x69.png';
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Tour from './Tour';
 import { DEFAULT_NEW_TOUR_SETTINGS } from '../../constants/tour-settings';
 
-import table from '../../../shared-styles/table.css';
+import table from '../../../styles/table.css';
 import styles from './Tours.css';
 
 Tours.propTypes = {
