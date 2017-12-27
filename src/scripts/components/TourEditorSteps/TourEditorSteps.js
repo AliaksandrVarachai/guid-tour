@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TourEditorStep from './TourEditorStep';
 
-import './TourEditorSteps.css';
+import './TourEditorSteps.pcss';
 
 TourEditorSteps.propTypes = {
   steps: PropTypes.array.isRequired,

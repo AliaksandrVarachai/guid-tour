@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TourStep from './TourStep';
 
-import table from '../../../styles/table.css';
-import styles from './TourSteps.css';
+import './TourSteps.pcss';
 
 TourSteps.propTypes = {
   steps: PropTypes.array.isRequired,
@@ -12,7 +11,7 @@ TourSteps.propTypes = {
 
 export default function TourSteps({steps, currentIndex}) {
   return (
-    <div styleName="table.table">
+    <div className="gtu__table gtu__w100" styleName="steps-container">
       <TourStep isHeader={true}/>
       {steps.map((step, index) => <TourStep isChecked={index === currentIndex}
                                             tourStepName={step.tourStepName}

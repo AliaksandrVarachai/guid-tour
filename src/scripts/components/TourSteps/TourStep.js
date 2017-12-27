@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import table from '../../../styles/table.css';
-import styles from './TourStep.css';
+import './TourStep.pcss';
 
 TourStep.propTypes = {
   isChecked: PropTypes.bool,
@@ -16,54 +15,54 @@ TourStep.propTypes = {
 export default function TourStep({isChecked, tourStepName, targetPage, targetControl, content, isHeader = false}) {
   return (
     isHeader ?
-      <div styleName="table.row">
-        <div styleName="table.header styles.col-1">
+      <div className="gtu__table-row">
+        <div className="gtu__table-cell" styleName="header header-tour-radio">
           {null}
         </div>
-        <div styleName="table.header styles.col-2">
+        <div className="gtu__table-cell" styleName="header header-tour-step">
           {tourStepName ? tourStepName : "Tour Step Name"}
         </div>
-        <div styleName="table.header styles.col-3">
+        <div className="gtu__table-cell" styleName="header header-target-page">
           {targetPage ? targetPage : "Target Page"}
         </div>
-        <div styleName="table.header styles.col-4">
+        <div className="gtu__table-cell" styleName="header header-target-control">
           {targetControl ? targetControl : "Target Control"}
         </div>
-        <div styleName="table.header styles.col-5">
+        <div className="gtu__table-cell" styleName="header header-content">
           {content ? content : "Content"}
         </div>
-        <div styleName="table.header styles.col-6">
+        <div className="gtu__table-cell" styleName="header header-scroll">
           {null}
         </div>
-        <div styleName="table.header styles.col-7">
+        <div className="gtu__table-cell" styleName="header header-actions">
           {null}
         </div>
       </div>
       :
-      <div styleName="table.row">
-        <div styleName="table.cell">
+      <div className="gtu__table-row">
+        <div className="gtu__table-cell" styleName="data">
           <input type="radio" name="tour-item-radio" defaultChecked={isChecked}/>
         </div>
-        <div styleName="table.cell">
+        <div className="gtu__table-cell" styleName="data">
           {tourStepName}
         </div>
-        <div styleName="table.cell">
+        <div className="gtu__table-cell" styleName="data">
           {targetPage}
         </div>
-        <div styleName="table.cell">
+        <div className="gtu__table-cell" styleName="data">
           {targetControl}
         </div>
-        <div styleName="table.cell">
+        <div className="gtu__table-cell" styleName="data">
           {content}
         </div>
-        <div styleName="table.cell">
-          <i className="material-icons" styleName="styles.action">keyboard_arrow_up</i>
-          <i className="material-icons" styleName="styles.action">keyboard_arrow_down</i>
+        <div className="gtu__table-cell" styleName="data">
+          <i className="material-icons" styleName="action">keyboard_arrow_up</i>
+          <i className="material-icons" styleName="action">keyboard_arrow_down</i>
         </div>
-        <div styleName="table.cell">
-          <i className="material-icons" styleName="styles.action">content_copy</i>
-          <i className="material-icons" styleName="styles.action">create</i>
-          <i className="material-icons" styleName="styles.action">delete</i>
+        <div className="gtu__table-cell" styleName="data">
+          <i className="material-icons" styleName="action">content_copy</i>
+          <i className="material-icons" styleName="action">create</i>
+          <i className="material-icons" styleName="action">delete</i>
         </div>
       </div>
   );

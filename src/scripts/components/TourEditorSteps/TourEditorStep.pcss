@@ -1,0 +1,86 @@
+@import '../../../styles/settings.pcss';
+
+.step {
+  flex: 1;
+}
+
+.step-progress-icon {
+  flex: 0 1 30px;
+  height: 30px;
+  border-radius: 50%;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  line-height: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background: #5fd4e2;
+}
+
+.step-progress-icon.passed,
+.step-progress-icon.selected {
+  background: #19c2d5;
+}
+
+.step-progress {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.step-progress-bar-before,
+.step-progress-bar-after {
+  flex: 1;
+  height: 1px;
+  border-top: solid 1px #5fd4e2;
+  margin-top: 15px;
+}
+
+.step-progress-bar-before.passed,
+.step-progress-bar-after.passed {
+  border-color: #19c2d5;
+}
+
+.step-progress-bar-before {
+  margin-right: 2px;
+}
+
+.step-progress-bar-after {
+  margin-left: 2px;
+}
+
+.step:first-child .step-progress-bar-before,
+.step:last-child .step-progress-bar-after {
+  border: 0;
+}
+
+.step-label {
+  text-align: center;
+}
+
+.step-title {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #7f7f7f;
+}
+
+.passed .step-title,
+.selected .step-title {
+  color: #404040;
+}
+
+.step-details {
+  display: none;
+}
+
+.passed .step-details,
+.selected .step-details {
+  display: block;
+  font-family: var(--font-family-Source-Sans-Pro);
+  font-size: 12px;
+  text-transform: capitalize;
+  color: #7f7f7f;
+}
+

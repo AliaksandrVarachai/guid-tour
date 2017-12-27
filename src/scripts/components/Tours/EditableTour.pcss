@@ -1,0 +1,40 @@
+.editable {
+  position: absolute;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.editable-name {
+  box-sizing: border-box;
+  width: 55%;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.editable-type {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 30%;
+  height: 20px;
+}
+
+.editable-action-panel {
+  float: right;
+  margin-right: 3%;
+}
+
+.editable-action {
+  &:global(.material-icons) {
+    font-size: 20px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.is-wrong-value {
+  border-color: red;
+}

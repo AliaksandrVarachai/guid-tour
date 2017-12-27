@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './PreviewWindow.css';
+import './PreviewWindow.pcss';
 
 PreviewWindow.propTypes = {
   orientation: PropTypes.string.isRequired

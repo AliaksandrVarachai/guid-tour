@@ -30,7 +30,7 @@ export default class RichTextEditor extends React.Component {
       <ReactRTE
         value={this.state.value}
         onChange={this.onChange}
-        className="rte-container"
+        className="gt__rte-container"
       />
     );
   }

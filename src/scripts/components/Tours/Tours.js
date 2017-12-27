@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import Tour from './Tour';
 import { DEFAULT_NEW_TOUR_SETTINGS } from '../../constants/tour-settings';
 
-import table from '../../../styles/table.css';
-import styles from './Tours.css';
+import './Tours.pcss';
 
 Tours.propTypes = {
   tourList: PropTypes.array.isRequired,
@@ -14,7 +13,7 @@ Tours.propTypes = {
 
 export default function Tours({tourList, isNewEditableTourAdded = false, cancelAddNewTour = function(){}}) {
   return (
-    <div styleName="table.table">
+    <div className="gtu__table gtu__w100" styleName="tours-container">
       <Tour isHeader={true}/>
       {tourList.map((tour, inx) => <Tour tourIndex={inx}
                                          tourName={tour.tourName}

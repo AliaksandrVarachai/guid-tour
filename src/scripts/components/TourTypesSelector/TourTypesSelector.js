@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TOUR_TYPES } from '../../constants/tour-settings';
 
-import './TourTypesSelector.css';
+import './TourTypesSelector.pcss';
 
 TourTypesSelector.propTypes = {
   onChange: PropTypes.func.isRequired,

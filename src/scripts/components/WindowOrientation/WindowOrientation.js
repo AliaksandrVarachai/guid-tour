@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './WindowOrientation.css';
+import './WindowOrientation.pcss';
 
 const ORIENTATION = {
   CENTER: 'center',

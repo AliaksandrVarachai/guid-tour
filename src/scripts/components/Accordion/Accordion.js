@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './Accordion.css';
+import './Accordion.pcss';
 
 Accordion.propTypes = {
   items: PropTypes.arrayOf(

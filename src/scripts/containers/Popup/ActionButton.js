@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import './ActionButton.css';
+import './ActionButton.pcss';
 
 // TODO: move the list to 'actions'
 const actions = (dispatch) => ({

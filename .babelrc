@@ -14,9 +14,9 @@
       "react-css-modules",
       {
         "webpackHotModuleReloading": true,
-        "generateScopedName": "[name]__[local]__[hash:base64:5]",
+        "generateScopedName": "[name]__[local]--[hash:base64:5]",
         "filetypes": {
-          ".scss": {
+          ".pcss": {
             "syntax": "postcss-scss"
           }
         }

@@ -83,7 +83,7 @@ const COMPONENTS = {
 };
 
 const initState = {
-  isPopupShown: true, //false,
+  isPopupShown: false,
   componentName: 'Config',
   COMPONENTS,
 };

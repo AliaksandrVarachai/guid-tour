@@ -4,7 +4,7 @@ import getResourceURL from '../../helpers/get-resource-url';
 import Search from '../../components/Search/Search';
 import Tours from '../../components/Tours/Tours';
 
-import './Config.scss';
+import './Config.pcss';
 
 import logo from '../../../images/gt-logo-179x69.png';
 
@@ -40,14 +40,12 @@ class Config extends React.Component {
     const { tourList } = this.props;
     const { isNewEditableTourAdded } = this.state;
     return (
-      <div className="gt-config-container">
+      <div className="gt__config-container">
         <div styleName="logo-bar">
           <img styleName="logo" src={getResourceURL(logo)} alt="logo" />
         </div>
         <div styleName="main-header">Available Guided Tours
-          <div style={{float: 'right'}}>
-            <Search />
-          </div>
+          <Search className="gtu__float-right" />
         </div>
         <button name="addNew" styleName="action" onClick={this.addNewEditableTour} disabled={isNewEditableTourAdded}>Add New</button>
         <button name="settings" styleName="action">Settings</button>

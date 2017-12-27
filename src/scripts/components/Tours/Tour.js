@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import EditableTour from './EditableTour';
 import { TOUR_TYPES } from '../../constants/tour-settings';
 
-import table from '../../../styles/table.css';
-import styles from './Tour.css';
+import './Tour.pcss';
 
 // TODO: add required for properties (exclude of isHeader == true)
 class Tour extends React.Component {
@@ -57,32 +56,32 @@ class Tour extends React.Component {
     const isNewAddedTour = !!this.props.cancelAddNewTour;
     return (
       isHeader ?
-        <div styleName="table.row">
-          <div styleName="table.header styles.col-tour-name">
+        <div className="gtu__table-row">
+          <div className="gtu__table-cell" styleName="header header-tour-name">
             {tourName ? tourName : "Tour Name"}
           </div>
-          <div styleName="table.header styles.col-tour-type">
+          <div className="gtu__table-cell" styleName="header header-tour-type">
             {tourType ? tourType : "Tour Type"}
           </div>
-          <div styleName="table.header styles.col-last-open">
+          <div className="gtu__table-cell" styleName="header header-last-open">
             {lastOpen ? lastOpen : "Last Open"}
           </div>
-          <div styleName="table.header styles.col-visitors">
+          <div className="gtu__table-cell" styleName="header header-visitors">
             {visitors ? visitors : "# Visitors"}
           </div>
-          <div styleName="table.header styles.col-steps">
+          <div className="gtu__table-cell" styleName="header header-steps">
             {steps ? steps : "# Steps"}
           </div>
-          <div styleName="table.header styles.col-creator">
+          <div className="gtu__table-cell" styleName="header header-creator">
             {creator ? creator : "Creator"}
           </div>
-          <div styleName="table.header styles.col-actions">
+          <div className="gtu__table-cell" styleName="header header-actions">
             {null}
           </div>
         </div>
         : isEditable ?
-        <div styleName="table.row">
-          <div styleName="table.cell">
+        <div className="gtu__table-row">
+          <div className="gtu__table-cell" styleName="data">
             {isNewAddedTour
               ?
               <EditableTour tourName={tourName} tourType={tourType} cancelTourChanges={this.props.cancelAddNewTour} />
@@ -91,37 +90,37 @@ class Tour extends React.Component {
             }
             {tourName} {/* to prevent change of cell for editing row */}
           </div>
-          <div styleName="table.cell"/>
-          <div styleName="table.cell"/>
-          <div styleName="table.cell"/>
-          <div styleName="table.cell"/>
-          <div styleName="table.cell"/>
-          <div styleName="table.cell"/>
+          <div className="gtu__table-cell" styleName="data" />
+          <div className="gtu__table-cell" styleName="data" />
+          <div className="gtu__table-cell" styleName="data" />
+          <div className="gtu__table-cell" styleName="data" />
+          <div className="gtu__table-cell" styleName="data" />
+          <div className="gtu__table-cell" styleName="data" />
         </div>
         :
-        <div styleName="table.row">
-          <div styleName="table.cell">
+        <div className="gtu__table-row">
+          <div className="gtu__table-cell" styleName="data">
             {tourName}
           </div>
-          <div styleName="table.cell">
+          <div className="gtu__table-cell" styleName="data">
             {TOUR_TYPES[tourType]}
           </div>
-          <div styleName="table.cell">
+          <div className="gtu__table-cell" styleName="data">
             {lastOpen}
           </div>
-          <div styleName="table.cell">
+          <div className="gtu__table-cell" styleName="data">
             {visitors}
           </div>
-          <div styleName="table.cell">
+          <div className="gtu__table-cell" styleName="data">
             {steps}
           </div>
-          <div styleName="table.cell">
+          <div className="gtu__table-cell" styleName="data">
             {creator}
           </div>
-          <div styleName="table.cell">
-            <i className="material-icons" styleName="styles.action">content_copy</i>
-            <i className="material-icons" styleName="styles.action" onClick={this.editTour}>create</i>
-            <i className="material-icons" styleName="styles.action">delete</i>
+          <div className="gtu__table-cell" styleName="data">
+            <i className="material-icons" styleName="action">content_copy</i>
+            <i className="material-icons" styleName="action" onClick={this.editTour}>create</i>
+            <i className="material-icons" styleName="action">delete</i>
           </div>
         </div>
     )

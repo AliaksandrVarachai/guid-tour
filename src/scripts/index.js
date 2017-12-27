@@ -7,8 +7,7 @@ import Popup from './containers/Popup/Popup';
 import { GT_ROOT_ID, GT_EVENTS } from './constants/dom-elements';
 import reducer from './reducers';
 
-import './index.css';
-import './index.scss';
+import './index.pcss';
 
 const store = createStore(reducer);
 

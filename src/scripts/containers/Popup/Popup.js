@@ -8,7 +8,7 @@ const COMPONENTS = {
   StepEditor: require('../../containers/StepEditor/StepEditor')
 };
 
-import './Popup.css';
+import './Popup.pcss';
 
 const Popup = (props) => {
   const { title, componentName, componentProps, width, onClose, buttons } = props;

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { TOUR_TYPES } from '../../constants/tour-settings';
 import TourTypesSelector from '../TourTypesSelector/TourTypesSelector';
 
-import styles from './EditableTour.css';
+import './EditableTour.pcss';
 
 class EditableTour extends React.Component {
   constructor(props) {
@@ -73,17 +73,17 @@ class EditableTour extends React.Component {
     const { saveTourChanges, cancelTourChanges, tourIndex } = this.props;
     const saveHandler = tourIndex !== undefined ? this.saveChangedTourHandler : this.saveNewTourHandler;
     return (
-      <div styleName="styles.editable">
-        <span styleName="styles.editable-action-panel">
-          <i className="material-icons" styleName="styles.editable-action" onClick={saveHandler}>save</i>
-          <i className="material-icons" styleName="styles.editable-action" onClick={cancelTourChanges}>block</i>
+      <div styleName="editable">
+        <span styleName="editable-action-panel">
+          <i className="material-icons" styleName="editable-action" onClick={saveHandler}>save</i>
+          <i className="material-icons" styleName="editable-action" onClick={cancelTourChanges}>block</i>
         </span>
         <input type="text"
-               styleName={classNames('styles.editable-name', {'styles.is-wrong-value': isWrongTourName})}
+               styleName={classNames('editable-name', {'is-wrong-value': isWrongTourName})}
                value={tourName}
                onChange={this.tourNameHandler}
         />
-        <span styleName="styles.editable-type">
+        <span styleName="editable-type">
           <TourTypesSelector tourType={tourType} onChange={this.tourTypeHandler} />
         </span>
       </div>

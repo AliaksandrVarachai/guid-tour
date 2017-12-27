@@ -1,0 +1,28 @@
+@import '../../../styles/settings.pcss';
+
+.container {
+  display: inline-block;
+  position: relative;
+}
+
+.search-input {
+  padding-right: 26px;
+  font-size: 12px;
+}
+
+.search-link {
+  &:global(.material-icons) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 26px;
+    text-align: center;
+    padding-top: 3px;
+    font-size: 16px;
+    background: transparent;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
