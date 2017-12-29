@@ -5,7 +5,7 @@ import Accordion from '../../components/Accordion/Accordion';
 import TargetPage from '../../components/Targets/Page';
 import TargetVisual from '../../components/Targets/Visual';
 
-import './SE_StepTarget.css';
+import './SE_StepTarget.pcss';
 
 // TODO: move to separate component
 function Pages(props) {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
 
-import './SE_Summary.css';
+import './SE_Summary.pcss';
 
 class SE_StepTarget extends React.Component {
   constructor(props) {

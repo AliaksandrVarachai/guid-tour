@@ -39,7 +39,7 @@ class GuidedTour extends React.Component {
       this.bodyWidthHandler();
     }
     return (
-      <div className="gt-container">
+      <div className="gt__main-container gtu__pos-relative">
         <div id="popups-store">
           {props.isPopupShown ? <Popup/> : null}
         </div>

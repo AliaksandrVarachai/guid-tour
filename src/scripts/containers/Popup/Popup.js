@@ -14,8 +14,8 @@ const Popup = (props) => {
   const { title, componentName, componentProps, width, onClose, buttons } = props;
   const Component = COMPONENTS[componentName].default;
   return (
-    <div className="gt-popup-container" style={{display: 'block'}}>
-      <div className="gt-popup" style={{width: width}}>
+    <div className="gt__popup-container" style={{display: 'block'}}>
+      <div className="gt__popup" style={{width: width}}>
         <div styleName="wrapper">
           <header styleName="header">
             <i className="material-icons" styleName="close" onClick={onClose}>clear</i>

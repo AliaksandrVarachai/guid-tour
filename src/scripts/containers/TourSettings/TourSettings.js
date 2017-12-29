@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './TourSettings.css';
+import './TourSettings.pcss';
 
 export default class SettingsPopup extends React.Component {
   constructor(props) {
@@ -9,15 +9,15 @@ export default class SettingsPopup extends React.Component {
 
   render() {
     return (
-      <div className="gt-settings-popup-container">
+      <div className="gt__settings-popup-container">
         <div styleName="table">
           <div styleName="row">
             <div styleName="cell">
-              <input type="checkbox" id="gt-display-notification-option"/>
+              <input type="checkbox" id="gt__display-notification-option"/>
             </div>
             <div styleName="cell">
               <div styleName="option-name">
-                <label htmlFor="gt-display-notification-option">
+                <label htmlFor="gt__display-notification-option">
                   Display Notification
                 </label>
               </div>
@@ -28,11 +28,11 @@ export default class SettingsPopup extends React.Component {
           </div>
           <div styleName="row">
             <div styleName="cell">
-              <input type="checkbox" id="gt-public-tour-option"/>
+              <input type="checkbox" id="gt__public-tour-option"/>
             </div>
             <div styleName="cell">
               <div styleName="option-name">
-                <label htmlFor="gt-public-tour-option">
+                <label htmlFor="gt__public-tour-option">
                   Public Tour
                 </label>
               </div>

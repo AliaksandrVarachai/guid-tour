@@ -16,6 +16,15 @@
 
 .ac-item-radio {
   display: none;
+
+  &:checked + .ac-item-label {
+    background: #595959;
+    border-color: transparent;
+
+    & + .ac-item-content {
+      display: block;
+    }
+  }
 }
 
 .ac-item-label {
@@ -24,19 +33,10 @@
   background: #333;
   color: #fff;
   border: 1px solid transparent;
-}
 
-.ac-item-label:hover {
-  cursor: pointer;
-  background: #595959;
-  border-color: #333;
-}
-
-.ac-item-radio:checked + .ac-item-label + .ac-item-content {
-  display: block;
-}
-
-.ac-item-radio:checked + .ac-item-label {
-  background: #595959;
-  border-color: transparent;
+  &:hover {
+    cursor: pointer;
+    background: #595959;
+    border-color: #333;
+  }
 }

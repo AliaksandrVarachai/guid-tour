@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Search from '../../components/Search/Search';
 import TourSteps from '../../components/TourSteps/TourSteps';
 
-import './SE_TourSteps.css';
+import './SE_TourSteps.pcss';
 
 class SE_TourSteps extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class SE_TourSteps extends React.Component {
   render() {
     const {steps, currentIndex} = this.props;
     return (
-      <div className="gt-se-tour-steps">
+      <div styleName="container">
         <div styleName="main-header">
           <span style={{float: 'right'}}>
             <Search />

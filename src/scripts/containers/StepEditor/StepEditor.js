@@ -6,7 +6,7 @@ import SE_StepDetail from './SE_StepDetail';
 import SE_StepTarget from './SE_StepTarget';
 import SE_Summary from './SE_Summary';
 
-import './StepEditor.css';
+import './StepEditor.pcss';
 
 class StepEditor extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class StepEditor extends React.Component {
     const CURRENT_STEP_INDEX = 0; // make a variable
 
     return (
-      <div className="gt-step-editor">
+      <div className="gt__step-editor">
         <TourEditorSteps steps={tourEditorSteps} currentIndex={currentTourEditorStepIndex} />
         {componentName === 'SE_TourSteps' ? <SE_TourSteps currentIndex={CURRENT_STEP_INDEX} /> : null}
         {componentName === 'SE_StepDetail' ? <SE_StepDetail /> : null}

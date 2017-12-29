@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import WindowOrientation from '../../components/WindowOrientation/WindowOrientation';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 
-import './SE_StepDetail.css';
+import './SE_StepDetail.pcss';
 
 class SE_StepDetail extends React.Component {
   constructor(props) {

@@ -1,0 +1,59 @@
+.container {
+  display: inline-table;
+  width: 100%;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+
+}
+
+.text-editor-container {
+  display: table-cell;
+  position: relative;
+  width: 55%;
+}
+
+.settings-container {
+  display: table-cell;
+  height: 300px;
+  padding-left: 20px;
+}
+
+.details {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.text-editor {
+  position: absolute;
+  top: 35px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+/* TODO: move to separate component */
+.action-container {
+  padding: 10px 15px;
+}
+
+.action-container > input {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 70%;
+  height: 20px;
+}
+
+.action-container > button {
+  float: right;
+  width: 20%;
+  height: 20px;
+  border: 0;
+  border-radius: 0;
+  color: #fff;
+  background: #19c2d5;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

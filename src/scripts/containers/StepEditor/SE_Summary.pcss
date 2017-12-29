@@ -1,0 +1,56 @@
+.container {
+  display: inline-table;
+  width: 100%;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+
+}
+
+.text-editor-container {
+  display: table-cell;
+  position: relative;
+  width: 55%;
+}
+
+.settings-container {
+  display: table-cell;
+  height: 300px;
+  padding-left: 20px;
+}
+
+.details {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.variables-list-title {
+  padding: 20px 0 10px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.variables-list-item {
+  padding: 5px 0;
+}
+
+.variable-name {
+  text-transform: capitalize;
+
+  &:after {
+    content: ':';
+    padding-right: 10px;
+  }
+}
+
+.variable-value {
+  font-family: monospace;
+}
+
+.preview-title {
+  padding-bottom: 20px;
+}
+
+.preview-window {
+  height: 250px;
+}

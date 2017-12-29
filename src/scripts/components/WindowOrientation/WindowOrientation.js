@@ -11,7 +11,7 @@ const ORIENTATION = {
   LEFT: 'left'
 };
 
-const DIRECTION_GROUP_NAME = 'gt-se-window-direction';
+const DIRECTION_GROUP_NAME = 'gt__se-window-direction';
 
 WindowOrientation.propTypes = {
   orientation: PropTypes.oneOf(Object.keys(ORIENTATION).map(key => ORIENTATION[key])).isRequired,

@@ -40,7 +40,7 @@ class Config extends React.Component {
     const { tourList } = this.props;
     const { isNewEditableTourAdded } = this.state;
     return (
-      <div className="gt__config-container">
+      <div className="gt__config-container gtu__pos-relative">
         <div styleName="logo-bar">
           <img styleName="logo" src={getResourceURL(logo)} alt="logo" />
         </div>
