@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TourStep from './TourStep';
+import { DEFAULT_NEW_STEP_SETTINGS } from '../../constants/tour-settings';
 
 import './TourSteps.pcss';
 
 TourSteps.propTypes = {
   steps: PropTypes.array.isRequired,
-  currentIndex: PropTypes.number.isRequired
+  currentIndex: PropTypes.number.isRequired,
+  isNewEditableTourStepAdded: PropTypes.bool,
+  cancelAddNewTourStep: PropTypes.func
 };
 
-export default function TourSteps({steps, currentIndex}) {
+export default function TourSteps({steps, currentIndex, isNewEditableTourStepAdded = false, cancelAddNewTour = function() {}}) {
   return (
     <div className="gtu__table gtu__w100" styleName="steps-container">
       <TourStep isHeader={true}/>
@@ -20,6 +23,10 @@ export default function TourSteps({steps, currentIndex}) {
                                             content={step.content}
                                             key={index}
       />)}
+      {isNewEditableTourStepAdded ? <TourStep tourStepName={DEFAULT_NEW_STEP_SETTINGS.tourStepName}
+                                          cancelAddNewTour={cancelAddNewTour}
+                                          isEditable={true}
+      /> : null }
     </div>
   );
 }

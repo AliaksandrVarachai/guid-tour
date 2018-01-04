@@ -21,7 +21,33 @@ const DEFAULT_NEW_TOUR_SETTINGS = {
   }
 };
 
+const DEFAULT_NEW_STEP_SETTINGS = {
+  tourStepName: 'New Step'
+};
+
+const TOUR_EDITOR_STEPS = [
+  {
+    title: 'Tour Steps',
+    details: 'Step #1 details',
+    componentName: 'SE_TourSteps'
+  }, {
+    title: 'Step Detail',
+    details: 'Step #2 details',
+    componentName: 'SE_StepDetail'
+  }, {
+    title: 'Step Target',
+    details: 'Step #3 details',
+    componentName: 'SE_StepTarget'
+  }, {
+    title: 'Summary',
+    details: 'Step #4 details',
+    componentName: 'SE_Summary'
+  }
+];
+
 export {
   TOUR_TYPES,
-  DEFAULT_NEW_TOUR_SETTINGS
+  DEFAULT_NEW_TOUR_SETTINGS,
+  DEFAULT_NEW_STEP_SETTINGS,
+  TOUR_EDITOR_STEPS
 }

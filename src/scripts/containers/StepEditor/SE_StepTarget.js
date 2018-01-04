@@ -4,6 +4,7 @@ import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import Accordion from '../../components/Accordion/Accordion';
 import TargetPage from '../../components/Targets/Page';
 import TargetVisual from '../../components/Targets/Visual';
+import { TOUR_EDITOR_STEPS } from '../../constants/tour-settings.js';
 
 import './SE_StepTarget.pcss';
 
@@ -43,13 +44,9 @@ class SE_StepTarget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      details: props.details
+      details: TOUR_EDITOR_STEPS[props.stepEditorIndex].details, // TODO: replace input by div or move to tour???
     }
   }
-
-  // static propTypes = {
-  //   details: PropTypes.string.isRequired
-  // };
 
   changeDetailsHandler = (event) => {
     this.setState({details: event.target.value})
@@ -80,10 +77,8 @@ class SE_StepTarget extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const componentProps = state.COMPONENTS[state.componentName].componentProps;
-  const currentTourEditorStepIndex = componentProps.currentTourEditorStepIndex;
   return {
-    details: componentProps.tourEditorSteps[currentTourEditorStepIndex].details
+    stepEditorIndex: state.stepEditorIndex
   }
 };
 

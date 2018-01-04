@@ -1,6 +1,6 @@
 // Mocked data
 import Data from '../../mocked-data/data';
-import { DEFAULT_NEW_TOUR_SETTINGS } from '../constants/tour-settings';
+import { DEFAULT_NEW_TOUR_SETTINGS, DEFAULT_NEW_STEP_SETTINGS, TOUR_EDITOR_STEPS } from '../constants/tour-settings';
 import { setStateValue, setStateValues } from '../helpers/state-operations';
 
 const GUIDED_TOUR_INDEX = 0;  // TODO: add choice of guided tour by click;
@@ -12,7 +12,7 @@ const COMPONENTS = {
     units: 'pt',
     title: 'Guided Tour Configuration',
     componentProps: {
-      tourList: Data.tourList
+      // custom props are here
     },
     buttons: [
       {
@@ -34,6 +34,7 @@ const COMPONENTS = {
     title: 'Tour Settings',
     componentName: 'TourSettings',
     componentProps: {
+      // custom props are here
       somePropName: 'qwerty'
     },
     buttons: [
@@ -56,10 +57,7 @@ const COMPONENTS = {
     title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].tourName})`,
     componentName: 'StepEditor',
     componentProps: {
-      tourEditorSteps: Data.tourEditorSteps,
-      tourSteps: Data.tourList[GUIDED_TOUR_INDEX].steps,
-      currentTourEditorStepIndex: 0,
-      settings: Data.tourList[GUIDED_TOUR_INDEX].settings,
+      // custom props are here
     },
     buttons: [
       {
@@ -83,9 +81,13 @@ const COMPONENTS = {
 };
 
 const initState = {
-  isPopupShown: false,
-  componentName: 'Config',
+  isPopupShown: true, //false,
+  componentName: 'StepEditor', //'Config',
   COMPONENTS,
+  tours: Data.tourList,
+  tourStepIndex: 0,    // =currentTourEditorStepIndex
+  tourIndex: 0,        // =GUIDED_TOUR_INDEX
+  stepEditorIndex: 0,  // =CURRENT_STEP_INDEX in StepEditor.js
 };
 
 
@@ -101,15 +103,15 @@ export default (state = initState, action) => {
 
     case 'ON_PREVIOUS':
     case 'ON_NEXT':
-      const currentTourEditorStepIndex = state.COMPONENTS[state.componentName].componentProps.currentTourEditorStepIndex;
-      if (action.type === 'ON_PREVIOUS' && currentTourEditorStepIndex <= 0 ||
-          action.type === 'ON_NEXT' && currentTourEditorStepIndex >= Data.tourEditorSteps.length - 1) {
+      const stepEditorIndex = state.stepEditorIndex;
+      if (action.type === 'ON_PREVIOUS' && stepEditorIndex <= 0 ||
+          action.type === 'ON_NEXT' && stepEditorIndex >= TOUR_EDITOR_STEPS.length - 1) {
         return state; // TODO: add disabled attribute
       }
       return setStateValue(
         state,
-        `COMPONENTS[${state.componentName}]componentProps.currentTourEditorStepIndex`,
-        action.type === 'ON_NEXT' ? currentTourEditorStepIndex + 1 : currentTourEditorStepIndex - 1
+        `stepEditorIndex`,
+        action.type === 'ON_NEXT' ? stepEditorIndex + 1 : stepEditorIndex - 1
       );
 
     case 'SHOW_POPUP':
@@ -130,22 +132,42 @@ export default (state = initState, action) => {
         tourName: action.tourName,
         tourType: action.tourType
       };
-      const tourListLength = state.COMPONENTS.Config.componentProps.tourList.length;
+      const tourListLength = state.tours.length;
       return setStateValue(
         state,
-        `COMPONENTS.Config.componentProps.tourList[${tourListLength}]`,
+        `tours[${tourListLength}]`,
         newTour
       );
 
     case 'SAVE_TOUR_CHANGES':
       return setStateValues(state, [
-        `COMPONENTS.Config.componentProps.tourList[${action.tourIndex}].tourName`, action.tourName,
-        `COMPONENTS.Config.componentProps.tourList[${action.tourIndex}].tourType`, action.tourType
+        `tours[${action.tourIndex}].tourName`, action.tourName,
+        `tours[${action.tourIndex}].tourType`, action.tourType
         ]
       );
 
     case 'SAVE_TOUR':
       alert('SAVE_TOUR');
+      return state;
+
+    case 'SAVE_NEW_TOUR_STEP':
+      const newTourStep = {
+        ...DEFAULT_NEW_STEP_SETTINGS,
+        tourStepName: action.tourStepName
+      };
+      const tourStepListLength = state.tours[state.tourIndex].steps.length;
+      return setStateValue(
+        state,
+        `tours[${state.tourIndex}].steps[${tourStepListLength}]`,
+        newTourStep
+      );
+
+    case 'SAVE_TOUR_STEP_CHANGES':
+      alert('SAVE_TOUR_STEP_CHANGES')
+      return state;
+
+    case 'SAVE_TOUR_STEP':
+      alert('SAVE_TOUR_STEP');
       return state;
 
     default: {

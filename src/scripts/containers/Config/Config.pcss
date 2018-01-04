@@ -1,4 +1,5 @@
 @import '../../../styles/settings.pcss';
+@import '../../../styles/mixins.pcss';
 @global-import '../../../styles/utilities.pcss';
 
 .logo-bar {}
@@ -21,15 +22,5 @@
 }
 
 .action {
-  min-width: 80pt;
-  padding: 6pt 10pt;
-  border: 0;
-  border-radius: 0;
-  text-align: center;
-  font-size: 8pt;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: white;
-  background: #19c2d5;
-  margin-right: 10pt;
+  @mixin action-button;
 }

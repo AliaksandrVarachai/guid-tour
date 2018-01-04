@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import WindowOrientation from '../../components/WindowOrientation/WindowOrientation';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
+import { TOUR_EDITOR_STEPS } from '../../constants/tour-settings.js';
 
 import './SE_StepDetail.pcss';
 
 class SE_StepDetail extends React.Component {
   constructor(props) {
     super(props);
-    const _window = props.settings.window;
+    const _window = props.tours[props.tourIndex].settings.window;
     this.state = {
-      details: props.details,
+      details: TOUR_EDITOR_STEPS[props.stepEditorIndex].details, // TODO: replace input by div or move to tour???
       settings: {
         window: {
           style: _window.style,
@@ -119,11 +120,11 @@ class SE_StepDetail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const componentProps = state.COMPONENTS[state.componentName].componentProps;
-  const currentTourEditorStepIndex = componentProps.currentTourEditorStepIndex;
   return {
-    details: componentProps.tourEditorSteps[currentTourEditorStepIndex].details,
-    settings: componentProps.settings // TODO: add flow with checking of settings (see state)
+    tours: state.tours,
+    tourIndex: state.tourIndex,
+    tourStepIndex: state.tourStepIndex,
+    stepEditorIndex: state.stepEditorIndex
   }
 };
 

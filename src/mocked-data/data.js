@@ -1,23 +1,3 @@
-let tourEditorSteps = [
-  {
-    title: 'Tour Steps',
-    details: 'Step #1 details',
-    componentName: 'SE_TourSteps'
-  }, {
-    title: 'Step Detail',
-    details: 'Step #2 details',
-    componentName: 'SE_StepDetail'
-  }, {
-    title: 'Step Target',
-    details: 'Step #3 details',
-    componentName: 'SE_StepTarget'
-  }, {
-    title: 'Summary',
-    details: 'Step #4 details',
-    componentName: 'SE_Summary'
-  }
-];
-
 let tourList = [
   {
     tourName: 'Example Tour',
@@ -43,9 +23,9 @@ let tourList = [
         content: '<p>Content 3</p>'
       }
     ],
-    settings: {  // TODO: add to every tour
+    settings: {
       window: {
-        style: 'A style name',
+        style: 'A style name #1',
         width: 320,
         height: 320,
         orientation: 'center'
@@ -70,7 +50,15 @@ let tourList = [
         targetControl: '-',
         content: '<p>Content 2</p>'
       }
-    ]
+    ],
+    settings: {
+      window: {
+        style: 'A style name #2',
+        width: 320,
+        height: 320,
+        orientation: 'center'
+      }
+    }
   },
   {
     tourName: 'Quick shortcut',
@@ -100,11 +88,18 @@ let tourList = [
         targetControl: '-',
         content: '<p>Content 4</p>'
       }
-    ]
+    ],
+    settings: {
+      window: {
+        style: 'A style name #3',
+        width: 320,
+        height: 320,
+        orientation: 'center'
+      }
+    }
   },
 ];
 
 export default {
-  tourEditorSteps,
   tourList
 }

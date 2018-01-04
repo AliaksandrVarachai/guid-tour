@@ -44,12 +44,20 @@ class Config extends React.Component {
         <div styleName="logo-bar">
           <img styleName="logo" src={getResourceURL(logo)} alt="logo" />
         </div>
-        <div styleName="main-header">Available Guided Tours
+        <div styleName="main-header">
+          Available Guided Tours
           <Search className="gtu__float-right" />
         </div>
-        <button name="addNew" styleName="action" onClick={this.addNewEditableTour} disabled={isNewEditableTourAdded}>Add New</button>
-        <button name="settings" styleName="action">Settings</button>
-        <Tours tourList={tourList} isNewEditableTourAdded={isNewEditableTourAdded} cancelAddNewTour={this.cancelAddNewTour} />
+        <button name="addNew" styleName="action" onClick={this.addNewEditableTour} disabled={isNewEditableTourAdded}>
+          Add New
+        </button>
+        <button name="settings" styleName="action">
+          Settings
+        </button>
+        <Tours tourList={tourList}
+               isNewEditableTourAdded={isNewEditableTourAdded}
+               cancelAddNewTour={this.cancelAddNewTour}
+        />
       </div>
     )
   }
@@ -57,7 +65,7 @@ class Config extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    tourList: state.COMPONENTS.Config.componentProps.tourList
+    tourList: state.tours
   }
 };
 

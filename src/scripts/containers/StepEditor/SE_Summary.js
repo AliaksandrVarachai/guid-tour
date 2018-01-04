@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
+import { TOUR_EDITOR_STEPS } from '../../constants/tour-settings.js';
 
 import './SE_Summary.pcss';
 
@@ -9,8 +10,8 @@ class SE_StepTarget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      details: props.details
-    }
+      details: TOUR_EDITOR_STEPS[props.stepEditorIndex].details, // TODO: replace input by div or move to tour???
+    };
   }
 
   // TODO: NOT REMOVE before adding of flow in mapStateToProps!!!
@@ -26,9 +27,6 @@ class SE_StepTarget extends React.Component {
   //   }).isRequired,
   //   step: PropTypes.object.isRequired
   // };
-  static propTypes = {
-    currentStepIndex: PropTypes.number.isRequired
-  };
 
   changeDetailsHandler = (event) => {
     this.setState({details: event.target.value})
@@ -36,7 +34,10 @@ class SE_StepTarget extends React.Component {
 
   render() {
     const { details } = this.state;
-    const { settings, step } = this.props;
+    const { tours, tourIndex, tourStepIndex } = this.props;
+    const tour = tours[tourIndex];
+    const settings = tour.settings;
+    const step = tour.steps[tourStepIndex];
 
     return (
       <div styleName="container">
@@ -83,13 +84,12 @@ class SE_StepTarget extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const componentProps = state.COMPONENTS[state.componentName].componentProps;
-  const currentTourEditorStepIndex = componentProps.currentTourEditorStepIndex;
+const mapStateToProps = (state) => {
   return {
-    step: componentProps.tourSteps[ownProps.currentStepIndex],
-    details: componentProps.tourEditorSteps[currentTourEditorStepIndex].details,
-    settings: componentProps.settings // TODO: add flow with checking of settings (see state)
+    tours: state.tours,
+    tourIndex: state.tourIndex,
+    tourStepIndex: state.tourStepIndex,
+    stepEditorIndex: state.stepEditorIndex
   }
 };
 
