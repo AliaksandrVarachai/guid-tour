@@ -12,7 +12,7 @@ TourSteps.propTypes = {
   cancelAddNewTourStep: PropTypes.func
 };
 
-export default function TourSteps({steps, currentIndex, isNewEditableTourStepAdded = false, cancelAddNewTour = function() {}}) {
+export default function TourSteps({steps, currentIndex, isNewEditableTourStepAdded = false, cancelAddNewTourStep = function() {}}) {
   return (
     <div className="gtu__table gtu__w100" styleName="steps-container">
       <TourStep isHeader={true}/>
@@ -24,7 +24,7 @@ export default function TourSteps({steps, currentIndex, isNewEditableTourStepAdd
                                             key={index}
       />)}
       {isNewEditableTourStepAdded ? <TourStep tourStepName={DEFAULT_NEW_STEP_SETTINGS.tourStepName}
-                                          cancelAddNewTour={cancelAddNewTour}
+                                          cancelAddNewTourStep={cancelAddNewTourStep}
                                           isEditable={true}
       /> : null }
     </div>

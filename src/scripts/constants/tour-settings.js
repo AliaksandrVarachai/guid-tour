@@ -22,7 +22,7 @@ const DEFAULT_NEW_TOUR_SETTINGS = {
 };
 
 const DEFAULT_NEW_STEP_SETTINGS = {
-  tourStepName: 'New Step'
+  tourStepName: ''
 };
 
 const TOUR_EDITOR_STEPS = [

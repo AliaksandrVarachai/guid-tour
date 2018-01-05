@@ -19,7 +19,7 @@ class StepEditor extends React.Component {
     const componentName = TOUR_EDITOR_STEPS[stepEditorIndex].componentName;
 
     return (
-      <div className="gt__step-editor">
+      <div className="gt__step-editor gtu__pos-relative">
         <TourEditorSteps steps={TOUR_EDITOR_STEPS} currentIndex={stepEditorIndex} />
         {componentName === 'SE_TourSteps' ? <SE_TourSteps/> : null}
         {componentName === 'SE_StepDetail' ? <SE_StepDetail/> : null}

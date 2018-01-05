@@ -9,7 +9,6 @@ import './TourStep.pcss';
 class TourStep extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props.isEditable=', props.isEditable)
     this.state = {
       isEditable: props.isEditable
     }
@@ -74,7 +73,7 @@ class TourStep extends React.Component {
         : isEditable ?
         <div className="gtu__table-row">
           <div className="gtu__table-cell" styleName="data">
-            <EditableTourStep tourStepName={tourStepName} cancelTourStepChanges={this.props.cancelAddNewTour} />
+            <EditableTourStep tourStepName={tourStepName} cancelAddNewTourStep={this.props.cancelAddNewTourStep} />
             {tourStepName} {/* to prevent change of cell for editing row */}
           </div>
           <div className="gtu__table-cell" styleName="data" />

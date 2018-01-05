@@ -17,7 +17,7 @@ class EditableTourStep extends React.Component {
     tourStepName: PropTypes.string.isRequired,
     //tourStepIndex: PropTypes.number,    // only for changed tour (tourIndex !== undefined only for changed tour)
     //saveTourStepChanges: PropTypes.func,  // TODO: add handler both for an edited & added TourStep
-    cancelTourStepChanges: PropTypes.func.isRequired,
+    cancelAddNewTourStep: PropTypes.func.isRequired,
   };
 
   tourStepNameHandler = (event) => {
@@ -61,17 +61,18 @@ class EditableTourStep extends React.Component {
 
   render() {
     const { tourStepName, isWrongTourStepName } = this.state;
-    const { /*saveTourStepChanges,*/ cancelTourChanges } = this.props;
+    const { /*saveTourStepChanges,*/ cancelAddNewTourStep } = this.props;
     //const saveHandler = tourIndex !== undefined ? this.saveChangedTourHandler : this.saveNewTourHandler;
     return (
       <div styleName="editable">
         <span styleName="editable-action-panel">
           <i className="material-icons" styleName="editable-action" onClick={this.saveNewTourStepHandler}>save</i>
-          <i className="material-icons" styleName="editable-action" onClick={cancelTourChanges}>block</i>
+          <i className="material-icons" styleName="editable-action" onClick={cancelAddNewTourStep}>block</i>
         </span>
         <input type="text"
                styleName={classNames('editable-name', {'is-wrong-value': isWrongTourStepName})}
                value={tourStepName}
+               placeholder="Enter step name"
                onChange={this.tourStepNameHandler}
         />
       </div>
