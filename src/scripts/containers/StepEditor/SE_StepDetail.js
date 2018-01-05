@@ -2,79 +2,64 @@ import React from 'react';
 import { connect } from 'react-redux';
 import WindowOrientation from '../../components/WindowOrientation/WindowOrientation';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
-import { TOUR_EDITOR_STEPS } from '../../constants/tour-settings.js';
+import { ORIENTATION_NAMES } from '../../constants/tour-settings';
 
 import './SE_StepDetail.pcss';
 
 class SE_StepDetail extends React.Component {
   constructor(props) {
     super(props);
-    const _window = props.tours[props.tourIndex].settings.window;
+    const step = props.tours[props.tourIndex].steps[props.tourStepIndex];
+    const _window = step.settings.window;
     this.state = {
-      details: TOUR_EDITOR_STEPS[props.stepEditorIndex].details, // TODO: replace input by div or move to tour???
-      settings: {
-        window: {
-          style: _window.style,
-          width: _window.width,
-          height: _window.height,
-          orientation: _window.orientation,
-        }
-      }
+      tourStepName: step.tourStepName,
+      content: step.content,
+      style: _window.style,
+      width: _window.width,
+      height: _window.height,
+      orientation: _window.orientation,
     };
   }
 
-  // TODO: NOT REMOVE before adding of flow in mapStateToProps!!!
-  // static propTypes = {
-  //   details: PropTypes.string.isRequired,
-  //   settings: PropTypes.shape({
-  //     window: PropTypes.shape({
-  //       style: PropTypes.string.isRequired,
-  //       width: PropTypes.number.isRequired,
-  //       height: PropTypes.number.isRequired,
-  //       orientation: PropTypes.string.isRequired
-  //     }).isRequired,
-  //     // changeHandler: PropTypes.func.isRequired // TODO: save state to store on Save/Next action
-  //   }).isRequired
-  // };
-
-  changeDetailsHandler = (event) => {
+  changeStateAndDispatch = (propName, value) => {
     this.setState({
-      details: event.target.value
+      [propName]: value
+    });
+    this.props.dispatch({
+      type: 'CHANGE_TOUR_STEP',
+      propName,
+      value
     });
   };
 
-  // TODO: do we need a deep copy?
-  copySettings = () => {
-    return Object.assign({}, {window: this.state.settings.window});
+  changeTourStepNameHandler = (event) => {
+    this.changeStateAndDispatch('tourStepName', event.target.value);
   };
 
   changeStyleHandler = (event) => {
-    let settings = this.copySettings();
-    settings.window.style = event.target.value;
-    this.setState({ settings });
+    this.changeStateAndDispatch('style', event.target.value);
   };
 
   changeWidthHandler = (event) => {
-    let settings = this.copySettings();
-    settings.window.width = event.target.value;
-    this.setState({ settings });
+    this.changeStateAndDispatch('width', event.target.value);
   };
 
   changeHeightHandler = (event) => {
-    let settings = this.copySettings();
-    settings.window.height = event.target.value;
-    this.setState({ settings });
+    this.changeStateAndDispatch('height', event.target.value);
+  };
+
+  changeOrientationHandler = (event) => {
+    this.changeStateAndDispatch('orientation', event.target.value);
   };
 
   render() {
-    const { details, settings } = this.state;
-
+    const { tourStepName, content, style, width, height, orientation } = this.state;
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
-          <input type="text" styleName="details" value={details} onChange={this.changeDetailsHandler} />
+          <input type="text" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
           <div styleName="text-editor">
-            <RichTextEditor />
+            <RichTextEditor value={content} />
           </div>
         </div>
         <div styleName="settings-container">
@@ -82,7 +67,7 @@ class SE_StepDetail extends React.Component {
             <div styleName="row">
               <div styleName="cell param-name">Window Style</div>
               <div styleName="cell param-value">
-                <input type="text" value={settings.window.style} onChange={this.changeStyleHandler} />
+                <input type="text" value={style} onChange={this.changeStyleHandler} />
               </div>
               <div styleName="cell">
                 <button styleName="action">Styles Editor</button>
@@ -92,7 +77,7 @@ class SE_StepDetail extends React.Component {
               <div styleName="cell param-name">Width</div>
               <div styleName="cell param-value">
                 <span styleName="units">px.</span>
-                <input type="text" value={settings.window.width} onChange={this.changeWidthHandler} />
+                <input type="text" value={width} onChange={this.changeWidthHandler} />
               </div>
               <div styleName="cell">
                 <button styleName="action">Preview</button>
@@ -102,15 +87,15 @@ class SE_StepDetail extends React.Component {
               <div styleName="cell param-name">Height</div>
               <div styleName="cell param-value">
                 <span styleName="units">px.</span>
-                <input type="text" value={settings.window.height} onChange={this.changeHeightHandler} />
+                <input type="text" value={height} onChange={this.changeHeightHandler} />
               </div>
               <div styleName="cell"/>
             </div>
           </div>
           <div styleName="window-orientation">
-            <div styleName="orientation-title">Window orientation: {settings.window.orientation}</div>
+            <div styleName="orientation-title">Window orientation: {ORIENTATION_NAMES[orientation]}</div>
             <div styleName="window-orientation-component">
-              <WindowOrientation orientation={settings.window.orientation} />
+              <WindowOrientation orientation={orientation} changeOrientationHandler={this.changeOrientationHandler} />
             </div>
           </div>
         </div>

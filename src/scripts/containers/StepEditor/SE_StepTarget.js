@@ -4,38 +4,42 @@ import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import Accordion from '../../components/Accordion/Accordion';
 import TargetPage from '../../components/Targets/Page';
 import TargetVisual from '../../components/Targets/Visual';
-import { TOUR_EDITOR_STEPS } from '../../constants/tour-settings.js';
+
+// TODO: Replace with a document scan
+import documentData from '../../../mocked-data/document-data'
 
 import './SE_StepTarget.pcss';
 
 // TODO: move to separate component
-function Pages(props) {
+function Pages({ pages, selectedId }) {
   return (
     <div>
       <div styleName="action-container">
         <input type="text" placeholder="Custom page id"/>
         <button>Add</button>
       </div>
-      <TargetPage title="Target page #1"/>
-      <TargetPage title="Target page #2"/>
-      <TargetPage title="Target page #3"/>
-      <TargetPage title="Target page #4"/>
+      {Object.keys(pages).map(pageId => (
+        <TargetPage title={pages[pageId].title}
+                    // styleName={pageId === selectedId ? 'selected-page' : null}
+                    key={pageId} />
+      ))}
     </div>
   )
 }
 
 // TODO: move to separate component
-function Visuals(props) {
+function Visuals({ visuals, selectedId }) {
   return (
     <div>
       <div styleName="action-container">
         <input type="text" placeholder="Custom target id" />
         <button>Add</button>
       </div>
-      <TargetVisual title="Visual #1"/>
-      <TargetVisual title="Visual #2"/>
-      <TargetVisual title="Visual #3"/>
-      <TargetVisual title="Visual #4"/>
+      {Object.keys(visuals).map(visualId => (
+        <TargetPage title={visuals[visualId].title}
+                    // styleName={visualId === selectedId ? 'selected-visual' : null}
+                    key={visualId} />
+      ))}
     </div>
   )
 }
@@ -43,29 +47,57 @@ function Visuals(props) {
 class SE_StepTarget extends React.Component {
   constructor(props) {
     super(props);
+    const step = props.tours[props.tourIndex].steps[props.tourStepIndex];
     this.state = {
-      details: TOUR_EDITOR_STEPS[props.stepEditorIndex].details, // TODO: replace input by div or move to tour???
-    }
+      tourStepName: step.tourStepName,
+      content: step.content,
+    };
   }
 
-  changeDetailsHandler = (event) => {
-    this.setState({details: event.target.value})
+  changeStateAndDispatch = (propName, value) => {
+    this.setState({
+      [propName]: value
+    });
+    this.props.dispatch({
+      type: 'CHANGE_TOUR_STEP',
+      propName,
+      value
+    });
+  };
+
+  changeTourStepNameHandler = (event) => {
+    this.changeStateAndDispatch('tourStepName', event.target.value);
   };
 
   render() {
-    const { details } = this.state;
+    const { tourStepName, content } = this.state;
+    const props = this.props;
 
     let items = [
-      {label: 'Select page', content: Pages},
-      {label: 'Select visual', content: Visuals}
+      {
+        label: 'Select page',
+        content: Pages,
+        contentProps: {
+          pages: documentData.pages,
+          selectedId: props.pageId
+        }
+      },
+      {
+        label: 'Select visual',
+        content: Visuals,
+        contentProps: {
+          visuals: documentData.pages[props.pageId].visuals,
+          selectedId: props.visualId
+        }
+      }
     ];
 
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
-          <input type="text" styleName="details" value={details} onChange={this.changeDetailsHandler} />
+          <input type="text" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
           <div styleName="text-editor">
-            <RichTextEditor />
+            <RichTextEditor value={content} />
           </div>
         </div>
         <div styleName="settings-container">
@@ -78,7 +110,12 @@ class SE_StepTarget extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    stepEditorIndex: state.stepEditorIndex
+    tours: state.tours,
+    tourIndex: state.tourIndex,
+    tourStepIndex: state.tourStepIndex,
+    stepEditorIndex: state.stepEditorIndex,
+    pageId: state.pageId,
+    visualId: state.visualId
   }
 };
 

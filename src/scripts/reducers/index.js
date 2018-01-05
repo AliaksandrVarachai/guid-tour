@@ -1,5 +1,5 @@
 // Mocked data
-import Data from '../../mocked-data/data';
+import Data from '../../mocked-data/rest-data';
 import { DEFAULT_NEW_TOUR_SETTINGS, DEFAULT_NEW_STEP_SETTINGS, TOUR_EDITOR_STEPS } from '../constants/tour-settings';
 import { setStateValue, setStateValues } from '../helpers/state-operations';
 
@@ -85,9 +85,12 @@ const initState = {
   componentName: 'StepEditor', //'Config',
   COMPONENTS,
   tours: Data.tourList,
-  tourStepIndex: 0,    // =currentTourEditorStepIndex
-  tourIndex: 0,        // =GUIDED_TOUR_INDEX
-  stepEditorIndex: 0,  // =CURRENT_STEP_INDEX in StepEditor.js
+  tourStepIndex: 0,
+  tourIndex: 0,
+  stepEditorIndex: 2,
+  //TODO: have to be received?
+  pageId: 'page-id-1', 
+  visualId: 'visual-id-2',
 };
 
 
@@ -150,6 +153,9 @@ export default (state = initState, action) => {
       alert('SAVE_TOUR');
       return state;
 
+    case 'CHANGE_TOUR_STEP_INDEX':
+      return state.tourStepIndex !== action.index ? setStateValue(state, 'tourStepIndex', action.index) : state;
+
     case 'SAVE_NEW_TOUR_STEP':
       const newTourStep = {
         ...DEFAULT_NEW_STEP_SETTINGS,
@@ -162,9 +168,24 @@ export default (state = initState, action) => {
         newTourStep
       );
 
-    case 'SAVE_TOUR_STEP_CHANGES':
-      alert('SAVE_TOUR_STEP_CHANGES')
-      return state;
+    case 'CHANGE_TOUR_STEP': // action.propName & action.value is required
+      const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
+      const stepToPathMap = {
+        tourStepName: 'tourStepName',
+        style: stepPath + '.settings.window.style',
+        width: stepPath + '.settings.window.width',
+        height: stepPath + '.settings.window.height',
+        orientation: stepPath + '.settings.window.orientation',
+      };
+      if (!stepToPathMap.hasOwnProperty(action.propName)) {
+        console.warn(`dispatch "CHANGE_TOUR_STEP" must contain "action.propName" from the list: [${Object.keys(stepToPathMap).join()}]`);
+        return state;
+      }
+      return setStateValue(
+        state,
+        stepToPathMap[action.propName],
+        action.value
+      );
 
     case 'SAVE_TOUR_STEP':
       alert('SAVE_TOUR_STEP');

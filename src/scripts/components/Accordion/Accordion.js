@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// TODO: Replace with a document scan
+import documentData from '../../../mocked-data/document-data'
+
 import './Accordion.pcss';
 
 Accordion.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      content: PropTypes.func.isRequired
+      content: PropTypes.func.isRequired,
+      contentProps: PropTypes.object.isRequired
     })
   ).isRequired
 };
@@ -26,7 +30,7 @@ const generateLabel = (item, index) => (
 
 const generateContent = (item, index) => (
   <div styleName="ac-item-content" key={`content-${index}`}>
-    <item.content />
+    <item.content {...item.contentProps} />
   </div>
 );
 

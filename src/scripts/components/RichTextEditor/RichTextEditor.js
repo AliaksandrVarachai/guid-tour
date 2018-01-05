@@ -6,11 +6,12 @@ import './RichTextEditor.css';
 
 export default class RichTextEditor extends React.Component {
   static propTypes = {
+    value: PropTypes.string.isRequired,
     onChange: PropTypes.func
   };
 
   state = {
-    value: ReactRTE.createEmptyValue()
+    value: this.props.value ? ReactRTE.createValueFromString(this.props.value, 'html') : ReactRTE.createEmptyValue()
   };
 
   onChange = (value) => {

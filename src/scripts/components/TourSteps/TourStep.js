@@ -21,7 +21,7 @@ class TourStep extends React.Component {
     targetControl: PropTypes.string,
     content: PropTypes.string,
     isHeader: PropTypes.bool,
-    cancelAddNewTourStep: PropTypes.func,  // only if a new TourStep added
+    cancelAddNewTourStep: PropTypes.func,
   };
 
   static defaultProps = {
@@ -29,22 +29,16 @@ class TourStep extends React.Component {
     isEditable: false
   };
 
-  // saveTourStepChanges = (event) => {
-  //   this.setState({
-  //     isEditable: false
-  //   });
-  // };
-
-  // cancelTourStepChanges = (event) => {
-  //   this.setState({
-  //     isEditable: false
-  //   });
-  // };
+  stepSelectHandler = (event) => {
+    this.props.dispatch({
+      type: 'CHANGE_TOUR_STEP_INDEX',
+      index: +event.target.getAttribute('data-step-index')
+    });
+  };
 
   render() {
-    const { isChecked, tourStepName, targetPage, targetControl, content, isHeader = false } = this.props;
+    const { index, isChecked, tourStepName, targetPage, targetControl, content, isHeader = false } = this.props;
     let { isEditable } = this.state;
-    //const isNewAddedTourStep = !!this.props.cancelAddNewTourStep;
     return (
       isHeader ?
         <div className="gtu__table-row">
@@ -84,9 +78,9 @@ class TourStep extends React.Component {
           <div className="gtu__table-cell" styleName="data" />
         </div>
         :
-        <div className="gtu__table-row">
+        <label className="gtu__table-row">
           <div className="gtu__table-cell" styleName="data">
-            <input type="radio" name="tour-item-radio" defaultChecked={isChecked}/>
+            <input type="radio" name="tour-item-radio" data-step-index={index} defaultChecked={isChecked} onChange={this.stepSelectHandler} />
           </div>
           <div className="gtu__table-cell" styleName="data">
             {tourStepName}
@@ -108,14 +102,9 @@ class TourStep extends React.Component {
             <i className="material-icons" styleName="action">content_copy</i>
             <i className="material-icons" styleName="action">delete</i>
           </div>
-        </div>
+        </label>
     );
   }
 }
-
-// class TourStep({isChecked, tourStepName, targetPage, targetControl, content, isHeader = false}) {
-//
-//
-// }
 
 export default connect()(TourStep);

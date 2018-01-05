@@ -5,6 +5,25 @@ const TOUR_TYPES = {
   shortcut: 'Shortcut'
 };
 
+const ORIENTATION = {
+  CENTER: '0',
+  LEFT: '1',
+  RIGHT: '2',
+  UP: '3',
+  DOWN: '4'
+};
+
+const ORIENTATION_NAMES = (function(o) {
+  return {
+    [o.CENTER]: 'Center',
+    [o.LEFT]: 'Left',
+    [o.RIGHT]: 'Right',
+    [o.UP]: 'Up',
+    [o.DOWN]: 'Down'
+  }
+})(ORIENTATION);
+
+
 const DEFAULT_NEW_TOUR_SETTINGS = {
   tourName: '',
   tourType: 'tooltip',
@@ -47,6 +66,8 @@ const TOUR_EDITOR_STEPS = [
 
 export {
   TOUR_TYPES,
+  ORIENTATION,
+  ORIENTATION_NAMES,
   DEFAULT_NEW_TOUR_SETTINGS,
   DEFAULT_NEW_STEP_SETTINGS,
   TOUR_EDITOR_STEPS

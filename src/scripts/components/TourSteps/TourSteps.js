@@ -16,7 +16,8 @@ export default function TourSteps({steps, currentIndex, isNewEditableTourStepAdd
   return (
     <div className="gtu__table gtu__w100" styleName="steps-container">
       <TourStep isHeader={true}/>
-      {steps.map((step, index) => <TourStep isChecked={index === currentIndex}
+      {steps.map((step, index) => <TourStep index={index}
+                                            isChecked={index === currentIndex}
                                             tourStepName={step.tourStepName}
                                             targetPage={step.targetPage}
                                             targetControl={step.targetControl}
