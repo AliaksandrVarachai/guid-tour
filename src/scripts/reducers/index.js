@@ -87,7 +87,7 @@ const initState = {
   tours: Data.tourList,
   tourStepIndex: 0,
   tourIndex: 0,
-  stepEditorIndex: 2
+  stepEditorIndex: 3
 };
 
 
@@ -168,13 +168,13 @@ export default (state = initState, action) => {
     case 'CHANGE_TOUR_STEP': // action.propName & action.value is required
       const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
       const stepToPathMap = {
-        tourStepName: 'tourStepName',
+        tourStepName: stepPath + '.tourStepName',
         style: stepPath + '.style',
         width: stepPath + '.width',
         height: stepPath + '.height',
         orientation: stepPath + '.orientation',
-        pageId: stepPath + 'pageId',
-        visualId: stepPath + 'visualId',
+        pageId: stepPath + '.pageId',
+        visualId: stepPath + '.visualId',
       };
       if (!stepToPathMap.hasOwnProperty(action.propName)) {
         console.warn(`dispatch "CHANGE_TOUR_STEP" must contain "action.propName" from the list: [${Object.keys(stepToPathMap).join()}]`);

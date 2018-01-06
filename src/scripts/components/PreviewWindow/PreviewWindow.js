@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ORIENTATION_NAMES } from '../../constants/tour-settings';
 
 import './PreviewWindow.pcss';
 
@@ -7,10 +8,10 @@ PreviewWindow.propTypes = {
   orientation: PropTypes.string.isRequired
 };
 
-export default function PreviewWindow(props) {
+export default function PreviewWindow({ orientation }) {
   return (
     <div styleName="container table">
-      <div styleName={`cell ${props.orientation}`}>
+      <div styleName={`cell ${ORIENTATION_NAMES[orientation].toLowerCase()}`}>
         <div styleName="popup">
           <div styleName="popup-title">
             <span styleName="close">X</span>

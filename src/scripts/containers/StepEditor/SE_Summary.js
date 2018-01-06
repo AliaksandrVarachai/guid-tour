@@ -2,47 +2,52 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
-import { TOUR_EDITOR_STEPS } from '../../constants/tour-settings.js';
 
 import './SE_Summary.pcss';
 
 class SE_StepTarget extends React.Component {
   constructor(props) {
     super(props);
+    const { tours, tourIndex, tourStepIndex } = this.props;
     this.state = {
-      details: TOUR_EDITOR_STEPS[props.stepEditorIndex].details, // TODO: replace input by div or move to tour???
+      tourStepName: tours[tourIndex].steps[tourStepIndex].tourStepName,
     };
   }
 
   // TODO: NOT REMOVE before adding of flow in mapStateToProps!!!
   // static propTypes = {
   //   details: PropTypes.string.isRequired,
-  //   settings: PropTypes.shape({
-  //     window: PropTypes.shape({
-  //       style: PropTypes.string.isRequired,
-  //       width: PropTypes.number.isRequired,
-  //       height: PropTypes.number.isRequired,
-  //       orientation: PropTypes.string.isRequired
-  //     }).isRequired,
-  //   }).isRequired,
+  //   style: PropTypes.string.isRequired,
+  //   width: PropTypes.number.isRequired,
+  //   height: PropTypes.number.isRequired,
+  //   orientation: PropTypes.string.isRequired
   //   step: PropTypes.object.isRequired
   // };
 
-  changeDetailsHandler = (event) => {
-    this.setState({details: event.target.value})
+  changeStateAndDispatch = (propName, value) => {
+    this.setState({
+      [propName]: value
+    });
+    this.props.dispatch({
+      type: 'CHANGE_TOUR_STEP',
+      propName,
+      value
+    });
+  };
+
+  changeTourStepNameHandler = (event) => {
+    this.changeStateAndDispatch('tourStepName', event.target.value);
   };
 
   render() {
-    const { details } = this.state;
+    const { tourStepName } = this.state;
     const { tours, tourIndex, tourStepIndex } = this.props;
-    const tour = tours[tourIndex];
-    const settings = tour.settings;
-    const step = tour.steps[tourStepIndex];
+    const step = tours[tourIndex].steps[tourStepIndex];
 
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
-          <input type="text" styleName="details" value={details} onChange={this.changeDetailsHandler} />
+          <input type="text" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
           <div styleName="variables-list-title">
             Guided Tour Step Details
           </div>
@@ -56,19 +61,19 @@ class SE_StepTarget extends React.Component {
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Window theme</span>
-            <span styleName="variable-value">{settings.window.style}</span>
+            <span styleName="variable-value">{step.style}</span>
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Window orientation</span>
-            <span styleName="variable-value">{settings.window.orientation}</span>
+            <span styleName="variable-value">{step.orientation}</span>
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Window width</span>
-            <span styleName="variable-value">{settings.window.width} px</span>
+            <span styleName="variable-value">{step.width} px</span>
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Window height</span>
-            <span styleName="variable-value">{settings.window.height} px</span>
+            <span styleName="variable-value">{step.height} px</span>
           </div>
         </div>
         <div styleName="settings-container">
@@ -76,7 +81,7 @@ class SE_StepTarget extends React.Component {
             Guided Tour Step Preview
           </div>
           <div styleName="preview-window">
-            <PreviewWindow orientation={settings.window.orientation} />
+            <PreviewWindow orientation={step.orientation} />
           </div>
         </div>
       </div>
@@ -88,8 +93,7 @@ const mapStateToProps = (state) => {
   return {
     tours: state.tours,
     tourIndex: state.tourIndex,
-    tourStepIndex: state.tourStepIndex,
-    stepEditorIndex: state.stepEditorIndex
+    tourStepIndex: state.tourStepIndex
   }
 };
 
