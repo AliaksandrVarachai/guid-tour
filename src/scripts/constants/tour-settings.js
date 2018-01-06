@@ -1,4 +1,3 @@
-// { value: visibleName }
 const TOUR_TYPES = {
   tooltip: 'Tooltip',
   training: 'Training',
@@ -30,25 +29,21 @@ const DEFAULT_NEW_TOUR_SETTINGS = {
   visitors: 0,
   creator: 'Unknown User',
   steps: [],
-  settings: {
-    window: {
-      style: 'A style name',
-      width: 320,
-      height: 320,
-      orientation: 'center'
-    }
-  }
 };
 
 const DEFAULT_NEW_STEP_SETTINGS = {
-  tourStepName: ''
+  tourStepName: '',
+  style: '',
+  width: 300,
+  height: 300,
+  orientation: ORIENTATION.CENTER,
 };
 
 const TOUR_EDITOR_STEPS = [
   {
     title: 'Tour Steps',
     details: 'Step #1 details',
-    componentName: 'SE_TourSteps'
+    componentName: 'SE_TourSteps',
   }, {
     title: 'Step Detail',
     details: 'Step #2 details',

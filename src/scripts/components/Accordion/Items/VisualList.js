@@ -4,7 +4,7 @@ import RadioList from '../../RadioList/RadioList';
 
 import './PageList.pcss';
 
-function Visuals({ visuals, tours, tourIndex, tourStepIndex, dispatch }) {
+function VisualList({ visuals, tours, tourIndex, tourStepIndex, dispatch }) {
   function changeHandler(e) {
     dispatch({
       type: 'CHANGE_TOUR_STEP',
@@ -48,4 +48,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(Visuals)
+export default connect(mapStateToProps)(VisualList)

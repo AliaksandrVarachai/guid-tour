@@ -10,7 +10,7 @@ export default class RadioList extends React.Component {
       label: PropTypes.string.isRequired
     })).isRequired,
     listName: PropTypes.string.isRequired,
-    selectedId: PropTypes.string.isRequired,
+    selectedId: PropTypes.string, // it is not required for a new added step
     changeHandler: PropTypes.func.isRequired,
   };
 

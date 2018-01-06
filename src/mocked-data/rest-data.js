@@ -16,14 +16,10 @@ let tourList = [
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
         pageId: 'page-id-2',
         visualId: 'visual-id-5',
-        settings: {
-          window: {
-            style: 'Step #0 style',
-            width: 320,
-            height: 320,
-            orientation: CENTER
-          }
-        }
+        style: 'Step #0 style',
+        width: 320,
+        height: 320,
+        orientation: CENTER,
       }, {
         tourStepName: 'Second Step',
         targetPage: 'Page <2>',
@@ -31,14 +27,10 @@ let tourList = [
         content: '<p>Content 2</p>',
         pageId: 'page-id-1',
         visualId: 'visual-id-2',
-        settings: {
-          window: {
-            style: 'Step #1 style',
-            width: 321,
-            height: 321,
-            orientation: LEFT
-          }
-        }
+        style: 'Step #1 style',
+        width: 321,
+        height: 321,
+        orientation: LEFT,
       }, {
         tourStepName: 'Third Step',
         targetPage: 'Page <1>',
@@ -46,14 +38,10 @@ let tourList = [
         content: '<p>Content 3</p>',
         pageId: 'page-id-1',
         visualId: 'visual-id-3',
-        settings: {
-          window: {
-            style: 'Step #2 style',
-            width: 322,
-            height: 322,
-            orientation: UP
-          }
-        }
+        style: 'Step #2 style',
+        width: 322,
+        height: 322,
+        orientation: UP,
       }
     ]
   },
@@ -71,14 +59,10 @@ let tourList = [
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
         pageId: 'page-id-2',
         visualId: 'visual-id-5',
-        settings: {
-          window: {
-            style: 'Style #0',
-            width: 320,
-            height: 320,
-            orientation: RIGHT
-          }
-        }
+        style: 'Style #0',
+        width: 320,
+        height: 320,
+        orientation: RIGHT,
       }, {
         tourStepName: 'Second Step',
         targetPage: 'Page <1>',
@@ -86,14 +70,10 @@ let tourList = [
         content: '<p>Content 2</p>',
         pageId: 'page-id-2',
         visualId: 'visual-id-6',
-        settings: {
-          window: {
-            style: 'Style #1',
-            width: 321,
-            height: 321,
-            orientation: LEFT
-          }
-        }
+        style: 'Style #1',
+        width: 321,
+        height: 321,
+        orientation: LEFT,
       }
     ]
   },
@@ -111,14 +91,10 @@ let tourList = [
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
         pageId: 'page-id-1',
         visualId: 'visual-id-1',
-        settings: {
-          window: {
-            style: 'Style #0',
-            width: 320,
-            height: 320,
-            orientation: UP
-          }
-        }
+        style: 'Style #0',
+        width: 320,
+        height: 320,
+        orientation: UP,
       }, {
         tourStepName: 'Second Step',
         targetPage: 'Page <1>',
@@ -126,14 +102,10 @@ let tourList = [
         content: '<p>Content 2</p>',
         pageId: 'page-id-2',
         visualId: 'visual-id-5',
-        settings: {
-          window: {
-            style: 'Style #1',
-            width: 321,
-            height: 321,
-            orientation: DOWN
-          }
-        }
+        style: 'Style #1',
+        width: 321,
+        height: 321,
+        orientation: DOWN,
       }, {
         tourStepName: 'Third Step',
         targetPage: 'Page <1>',
@@ -141,14 +113,10 @@ let tourList = [
         content: '<p>Content 3</p>',
         pageId: 'page-id-3',
         visualId: 'visual-id-8',
-        settings: {
-          window: {
-            style: 'Style #2',
-            width: 322,
-            height: 322,
-            orientation: RIGHT
-          }
-        }
+        style: 'Style #2',
+        width: 322,
+        height: 322,
+        orientation: RIGHT,
       }, {
         tourStepName: 'Forth Step',
         targetPage: 'Page <1>',
@@ -156,14 +124,10 @@ let tourList = [
         content: '<p>Content 4</p>',
         pageId: 'page-id-1',
         visualId: 'visual-id-2',
-        settings: {
-          window: {
-            style: 'Style #3',
-            width: 323,
-            height: 323,
-            orientation: LEFT
-          }
-        }
+        style: 'Style #3',
+        width: 323,
+        height: 323,
+        orientation: LEFT,
       }
     ]
   },

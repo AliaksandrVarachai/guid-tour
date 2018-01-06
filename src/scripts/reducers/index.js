@@ -169,10 +169,10 @@ export default (state = initState, action) => {
       const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
       const stepToPathMap = {
         tourStepName: 'tourStepName',
-        style: stepPath + '.settings.window.style',
-        width: stepPath + '.settings.window.width',
-        height: stepPath + '.settings.window.height',
-        orientation: stepPath + '.settings.window.orientation',
+        style: stepPath + '.style',
+        width: stepPath + '.width',
+        height: stepPath + '.height',
+        orientation: stepPath + '.orientation',
         pageId: stepPath + 'pageId',
         visualId: stepPath + 'visualId',
       };

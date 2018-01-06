@@ -10,14 +10,13 @@ class SE_StepDetail extends React.Component {
   constructor(props) {
     super(props);
     const step = props.tours[props.tourIndex].steps[props.tourStepIndex];
-    const _window = step.settings.window;
     this.state = {
       tourStepName: step.tourStepName,
       content: step.content,
-      style: _window.style,
-      width: _window.width,
-      height: _window.height,
-      orientation: _window.orientation,
+      style: step.style,
+      width: step.width,
+      height: step.height,
+      orientation: step.orientation,
     };
   }
 

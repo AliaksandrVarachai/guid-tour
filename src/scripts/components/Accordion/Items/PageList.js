@@ -4,7 +4,7 @@ import RadioList from '../../RadioList/RadioList';
 
 import './PageList.pcss';
 
-function Pages({ pages, tours, tourIndex, tourStepIndex, dispatch }) {
+function PageList({ pages, tours, tourIndex, tourStepIndex, dispatch }) {
 
   function changeHandler(e) {
     // TODO: make propNames = []
@@ -46,4 +46,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(Pages)
+export default connect(mapStateToProps)(PageList)
