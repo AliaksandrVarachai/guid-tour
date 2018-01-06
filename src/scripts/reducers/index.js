@@ -87,10 +87,7 @@ const initState = {
   tours: Data.tourList,
   tourStepIndex: 0,
   tourIndex: 0,
-  stepEditorIndex: 2,
-  //TODO: have to be received?
-  pageId: 'page-id-1', 
-  visualId: 'visual-id-2',
+  stepEditorIndex: 2
 };
 
 
@@ -176,6 +173,8 @@ export default (state = initState, action) => {
         width: stepPath + '.settings.window.width',
         height: stepPath + '.settings.window.height',
         orientation: stepPath + '.settings.window.orientation',
+        pageId: stepPath + 'pageId',
+        visualId: stepPath + 'visualId',
       };
       if (!stepToPathMap.hasOwnProperty(action.propName)) {
         console.warn(`dispatch "CHANGE_TOUR_STEP" must contain "action.propName" from the list: [${Object.keys(stepToPathMap).join()}]`);

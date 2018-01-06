@@ -1,20 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// TODO: Replace with a document scan
-import documentData from '../../../mocked-data/document-data'
-
 import './Accordion.pcss';
-
-Accordion.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      content: PropTypes.func.isRequired,
-      contentProps: PropTypes.object.isRequired
-    })
-  ).isRequired
-};
 
 const AC_ITEM_NAME = 'accordion';
 
@@ -30,23 +17,32 @@ const generateLabel = (item, index) => (
 
 const generateContent = (item, index) => (
   <div styleName="ac-item-content" key={`content-${index}`}>
-    <item.content {...item.contentProps} />
+    {item.content}
   </div>
 );
 
 // height of container must be set strictly otherwise accordion height will be calculated according to its content
-export default function Accordion(props) {
-  // Accordion is selected by CSS, so it ought to stick to the strict DOM element order: input+label+content (without any container for them)
-  let inputLabelContentItems = [];
-  props.items.forEach((item, index) => {
-    inputLabelContentItems.push(generateInput(item, index));
-    inputLabelContentItems.push(generateLabel(item, index));
-    inputLabelContentItems.push(generateContent(item, index));
-  });
+export default class Accordion extends React.Component {
+  static propTypes = {
+    children: PropTypes.arrayOf(PropTypes.shape({
+      content: PropTypes.element.isRequired,
+      label: PropTypes.string.isRequired
+    })).isRequired
+  };
 
-  return (
-    <div styleName="container">
-      {inputLabelContentItems}
-    </div>
-  );
+  render() {
+    // Accordion is selected by CSS, so it ought to stick to the strict DOM element order: input+label+content (without any container for them)
+    let inputLabelContentItems = [];
+    this.props.children.forEach((item, index) => {
+      inputLabelContentItems.push(generateInput(item, index));
+      inputLabelContentItems.push(generateLabel(item, index));
+      inputLabelContentItems.push(generateContent(item, index));
+    });
+
+    return (
+      <div styleName="container">
+        {inputLabelContentItems}
+      </div>
+    );
+  }
 }
