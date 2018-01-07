@@ -30,9 +30,26 @@ class TourStep extends React.Component {
   };
 
   stepSelectHandler = (event) => {
+
     this.props.dispatch({
       type: 'CHANGE_TOUR_STEP_INDEX',
       index: +event.target.getAttribute('data-step-index')
+    });
+  };
+
+  moveStepToPrevHandler = (event) => {
+    event.preventDefault(); // TODO: remove
+    this.props.dispatch({
+      type: 'REORDER_TOUR_STEPS',
+      order: 'MOVE_PREV'
+    });
+  };
+
+  moveStepToNextHandler = (event) => {
+    event.preventDefault(); // TODO: remove
+    this.props.dispatch({
+      type: 'REORDER_TOUR_STEPS',
+      order: 'MOVE_NEXT'
     });
   };
 
@@ -80,7 +97,7 @@ class TourStep extends React.Component {
         :
         <label className="gtu__table-row">
           <div className="gtu__table-cell" styleName="data">
-            <input type="radio" name="tour-item-radio" data-step-index={index} defaultChecked={isChecked} onChange={this.stepSelectHandler} />
+            <input type="radio" name="tour-item-radio" data-step-index={index} checked={isChecked} onChange={this.stepSelectHandler} />
           </div>
           <div className="gtu__table-cell" styleName="data">
             {tourStepName}
@@ -95,8 +112,8 @@ class TourStep extends React.Component {
             {content}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            <i className="material-icons" styleName="action">keyboard_arrow_up</i>
-            <i className="material-icons" styleName="action">keyboard_arrow_down</i>
+            <i className="material-icons" styleName="action" onClick={this.moveStepToPrevHandler}>keyboard_arrow_up</i>
+            <i className="material-icons" styleName="action" onClick={this.moveStepToNextHandler}>keyboard_arrow_down</i>
           </div>
           <div className="gtu__table-cell" styleName="data">
             <i className="material-icons" styleName="action">content_copy</i>

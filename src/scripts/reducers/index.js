@@ -87,7 +87,7 @@ const initState = {
   tours: Data.tourList,
   tourStepIndex: 0,
   tourIndex: 0,
-  stepEditorIndex: 3
+  stepEditorIndex: 0
 };
 
 
@@ -190,9 +190,34 @@ export default (state = initState, action) => {
       alert('SAVE_TOUR_STEP');
       return state;
 
-    default: {
-      return state;
-    }
+    // TODO: check for immutability with freeze
+    case 'REORDER_TOUR_STEPS':
+      const steps = state.tours[state.tourIndex].steps;
+      const step = steps[state.tourStepIndex];
+      switch (action.order) {
+        case 'MOVE_PREV':
+          if (state.tourStepIndex === 0)
+            return state;
+          const prevStep = steps[state.tourStepIndex - 1];
+          return setStateValues(state, [
+            `tours[${state.tourIndex}].steps[${state.tourStepIndex - 1}]`, step,
+            `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`, prevStep,
+            'tourStepIndex', state.tourStepIndex - 1
+          ]);
+        case 'MOVE_NEXT':
+          if (state.tourStepIndex === steps.length - 1)
+            return state;
+          const nextStep = steps[state.tourStepIndex + 1];
+          return setStateValues(state, [
+            `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`, nextStep,
+            `tours[${state.tourIndex}].steps[${state.tourStepIndex + 1}]`, step,
+            'tourStepIndex', state.tourStepIndex + 1
+          ]);
+        default:
+          return state;
+      }
 
+    default:
+      return state;
   }
 };

@@ -47,7 +47,7 @@ class SE_TourSteps extends React.Component {
           </button>
         </div>
         <TourSteps steps={tours[tourIndex].steps}
-                   currentIndex={tourStepIndex}
+                   tourStepIndex={tourStepIndex}
                    isNewEditableTourStepAdded={isNewEditableTourStepAdded}
                    cancelAddNewTourStep={this.cancelAddNewTourStep}
         />
