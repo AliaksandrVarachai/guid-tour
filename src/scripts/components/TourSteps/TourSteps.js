@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TourStep from './TourStep';
 import { DEFAULT_NEW_STEP_SETTINGS } from '../../constants/tour-settings';
+import documentData from '../../../mocked-data/document-data';
 
 import './TourSteps.pcss';
 
@@ -16,14 +17,18 @@ export default function TourSteps({steps, currentIndex, isNewEditableTourStepAdd
   return (
     <div className="gtu__table gtu__w100" styleName="steps-container">
       <TourStep isHeader={true}/>
-      {steps.map((step, index) => <TourStep index={index}
-                                            isChecked={index === currentIndex}
-                                            tourStepName={step.tourStepName}
-                                            targetPage={step.targetPage}
-                                            targetControl={step.targetControl}
-                                            content={step.content}
-                                            key={index}
-      />)}
+      {steps.map((step, index) => {
+        const visual = documentData.visuals[step.visualId] || '';
+        const page =  documentData.pages[visual.pageId] || '';
+        return <TourStep index={index}
+                          isChecked={index === currentIndex}
+                          tourStepName={step.tourStepName}
+                          targetPage={page.title}
+                          targetControl={visual.title}
+                          content={step.content}
+                          key={index}
+        />
+      })}
       {isNewEditableTourStepAdded ? <TourStep tourStepName={DEFAULT_NEW_STEP_SETTINGS.tourStepName}
                                           cancelAddNewTourStep={cancelAddNewTourStep}
                                           isEditable={true}

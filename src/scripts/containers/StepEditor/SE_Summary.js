@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
+import documentData from '../../../mocked-data/document-data';
 
 import './SE_Summary.pcss';
 
@@ -43,6 +44,8 @@ class SE_StepTarget extends React.Component {
     const { tourStepName } = this.state;
     const { tours, tourIndex, tourStepIndex } = this.props;
     const step = tours[tourIndex].steps[tourStepIndex];
+    const visual = documentData.visuals[step.visualId] || '';
+    const page =  documentData.pages[visual.pageId] || '';
 
     return (
       <div styleName="container">
@@ -53,11 +56,11 @@ class SE_StepTarget extends React.Component {
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Target page</span>
-            <span styleName="variable-value">{step.targetPage}</span>
+            <span styleName="variable-value">{page.title}</span>
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Target control</span>
-            <span styleName="variable-value">{step.targetControl}</span>
+            <span styleName="variable-value">{visual.title}</span>
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Window theme</span>

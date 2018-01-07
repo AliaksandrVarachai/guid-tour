@@ -11,8 +11,8 @@ let tourList = [
     steps: [
       {
         tourStepName: 'First Step',
-        targetPage: 'Page <1>',
-        targetControl: 'SampleBarChart',
+        //targetPage: 'Page <1>',
+        //targetControl: 'SampleBarChart',
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
         pageId: 'page-id-2',
         visualId: 'visual-id-5',
@@ -22,8 +22,8 @@ let tourList = [
         orientation: CENTER,
       }, {
         tourStepName: 'Second Step',
-        targetPage: 'Page <2>',
-        targetControl: '-',
+        //targetPage: 'Page <2>',
+        //targetControl: '-',
         content: '<p>Content 2</p>',
         pageId: 'page-id-1',
         visualId: 'visual-id-2',
@@ -33,8 +33,8 @@ let tourList = [
         orientation: LEFT,
       }, {
         tourStepName: 'Third Step',
-        targetPage: 'Page <1>',
-        targetControl: '-',
+        //targetPage: 'Page <1>',
+        //targetControl: '-',
         content: '<p>Content 3</p>',
         pageId: 'page-id-1',
         visualId: 'visual-id-3',
@@ -54,8 +54,8 @@ let tourList = [
     steps: [
       {
         tourStepName: 'First Step',
-        targetPage: 'Page <1>',
-        targetControl: 'SampleBarChart',
+        //targetPage: 'Page <1>',
+        //targetControl: 'SampleBarChart',
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
         pageId: 'page-id-2',
         visualId: 'visual-id-5',
@@ -65,8 +65,8 @@ let tourList = [
         orientation: RIGHT,
       }, {
         tourStepName: 'Second Step',
-        targetPage: 'Page <1>',
-        targetControl: '-',
+        //targetPage: 'Page <1>',
+        //targetControl: '-',
         content: '<p>Content 2</p>',
         pageId: 'page-id-2',
         visualId: 'visual-id-6',
@@ -86,8 +86,8 @@ let tourList = [
     steps: [
       {
         tourStepName: 'First Step',
-        targetPage: 'Page <1>',
-        targetControl: 'SampleBarChart',
+        //targetPage: 'Page <1>',
+        //targetControl: 'SampleBarChart',
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
         pageId: 'page-id-1',
         visualId: 'visual-id-1',
@@ -97,8 +97,8 @@ let tourList = [
         orientation: UP,
       }, {
         tourStepName: 'Second Step',
-        targetPage: 'Page <1>',
-        targetControl: '-',
+        //targetPage: 'Page <1>',
+        //targetControl: '-',
         content: '<p>Content 2</p>',
         pageId: 'page-id-2',
         visualId: 'visual-id-5',
@@ -108,8 +108,8 @@ let tourList = [
         orientation: DOWN,
       }, {
         tourStepName: 'Third Step',
-        targetPage: 'Page <1>',
-        targetControl: '-',
+        //targetPage: 'Page <1>',
+        //targetControl: '-',
         content: '<p>Content 3</p>',
         pageId: 'page-id-3',
         visualId: 'visual-id-8',
@@ -119,8 +119,8 @@ let tourList = [
         orientation: RIGHT,
       }, {
         tourStepName: 'Forth Step',
-        targetPage: 'Page <1>',
-        targetControl: '-',
+        //targetPage: 'Page <1>',
+        //targetControl: '-',
         content: '<p>Content 4</p>',
         pageId: 'page-id-1',
         visualId: 'visual-id-2',
