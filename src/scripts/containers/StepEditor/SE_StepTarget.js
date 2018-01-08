@@ -6,7 +6,8 @@ import PageList from '../../components/Accordion/Items/PageList';
 import VisualList from '../../components/Accordion/Items/VisualList';
 
 // TODO: Replace with a document scan
-import documentData from '../../../mocked-data/document-data'
+//import documentData from '../../../mocked-data/document-data'
+import documentData from '../../helpers/document-parsing';
 
 import './SE_StepTarget.pcss';
 

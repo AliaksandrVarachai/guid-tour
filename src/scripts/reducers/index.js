@@ -2,6 +2,7 @@
 import Data from '../../mocked-data/rest-data';
 import { DEFAULT_NEW_TOUR_SETTINGS, DEFAULT_NEW_STEP_SETTINGS, TOUR_EDITOR_STEPS } from '../constants/tour-settings';
 import { setStateValue, setStateValues } from '../helpers/state-operations';
+import { deepCopy } from '../helpers/deep-operations';
 
 const GUIDED_TOUR_INDEX = 0;  // TODO: add choice of guided tour by click;
 
@@ -81,13 +82,13 @@ const COMPONENTS = {
 };
 
 const initState = {
-  isPopupShown: true, //false,
-  componentName: 'StepEditor', //'Config',
+  isPopupShown: true,
+  componentName: 'StepEditor',
   COMPONENTS,
   tours: Data.tourList,
   tourStepIndex: 0,
   tourIndex: 0,
-  stepEditorIndex: 0
+  stepEditorIndex: 2
 };
 
 
@@ -124,6 +125,13 @@ export default (state = initState, action) => {
         'componentName', action.componentName
       ]);
 
+    case 'GO_TO_STEP_EDITOR':
+      return setStateValues(state, [
+        'tourIndex', action.index,
+        'tourStepIndex', 0,
+        'componentName', 'StepEditor'
+      ]);
+
     case 'SAVE_NEW_TOUR':
       let now = new Date();
       const newTour = {
@@ -150,8 +158,24 @@ export default (state = initState, action) => {
       alert('SAVE_TOUR');
       return state;
 
+    case 'COPY_TOUR': {
+      const now = new Date();
+      const tour = state.tours[action.index];
+      const copiedTour = Object.assign(
+        deepCopy(tour), {
+          tourName: tour.tourName + ' Copy',
+          visitors: 0,
+          lastOpen: `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`, //TODO: store UTC but show local date
+        });
+      return setStateValue(
+        state,
+        `tours`,
+        [...state.tours, copiedTour]
+      );
+    }
+
     case 'CHANGE_TOUR_STEP_INDEX':
-      return state.tourStepIndex !== action.index ? setStateValue(state, 'tourStepIndex', action.index) : state;
+      return setStateValue(state, 'tourStepIndex', action.index);
 
     case 'SAVE_NEW_TOUR_STEP':
       const newTourStep = {
@@ -191,31 +215,67 @@ export default (state = initState, action) => {
       return state;
 
     // TODO: check for immutability with freeze
-    case 'REORDER_TOUR_STEPS':
+    case 'REORDER_TOUR_STEPS': {
       const steps = state.tours[state.tourIndex].steps;
-      const step = steps[state.tourStepIndex];
       switch (action.order) {
-        case 'MOVE_PREV':
-          if (state.tourStepIndex === 0)
+        case 'MOVE_PREV': {
+          const step = steps[action.index];
+          if (action.index === 0)
             return state;
-          const prevStep = steps[state.tourStepIndex - 1];
+          const prevStep = steps[action.index - 1];
           return setStateValues(state, [
-            `tours[${state.tourIndex}].steps[${state.tourStepIndex - 1}]`, step,
-            `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`, prevStep,
-            'tourStepIndex', state.tourStepIndex - 1
+            `tours[${state.tourIndex}].steps[${action.index - 1}]`, step,
+            `tours[${state.tourIndex}].steps[${action.index}]`, prevStep,
+            'tourStepIndex', action.index - 1
           ]);
-        case 'MOVE_NEXT':
-          if (state.tourStepIndex === steps.length - 1)
+        }
+        case 'MOVE_NEXT': {
+          const step = steps[action.index];
+          if (action.index === steps.length - 1)
             return state;
-          const nextStep = steps[state.tourStepIndex + 1];
+          const nextStep = steps[action.index + 1];
           return setStateValues(state, [
-            `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`, nextStep,
-            `tours[${state.tourIndex}].steps[${state.tourStepIndex + 1}]`, step,
-            'tourStepIndex', state.tourStepIndex + 1
+            `tours[${state.tourIndex}].steps[${action.index}]`, nextStep,
+            `tours[${state.tourIndex}].steps[${action.index + 1}]`, step,
+            'tourStepIndex', action.index + 1
           ]);
+        }
         default:
           return state;
       }
+    }
+
+    case 'DELETE_TOUR_STEP': {
+      const steps = state.tours[state.tourIndex].steps;
+      if (!steps.length)
+        return state;
+      let nextTourStepIndex = state.tourStepIndex;
+      if (action.index < state.tourStepIndex) {
+        nextTourStepIndex--;
+      } else if (action.index === state.tourStepIndex) {
+        if (action.index) {
+          nextTourStepIndex--;
+        } else {
+          nextTourStepIndex = steps.length > 1 ? 0 : -1;
+        }
+      }
+      return setStateValues(state, [
+        `tours[${state.tourIndex}].steps`, steps.filter((step, inx) => inx !== action.index),
+        'tourStepIndex', nextTourStepIndex
+      ]);
+    }
+
+    case 'COPY_TOUR_STEP': {
+      const steps = state.tours[state.tourIndex].steps;
+      const copiedStep = deepCopy(steps[action.index]);
+      copiedStep.tourStepName = steps[action.index].tourStepName + ' copy';
+      if (!steps.length)
+        return state;
+      return setStateValues(state, [
+        `tours[${state.tourIndex}].steps`, [...steps, copiedStep],
+        'tourStepIndex', steps.length
+      ]);
+    }
 
     default:
       return state;

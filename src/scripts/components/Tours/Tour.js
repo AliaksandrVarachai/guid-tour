@@ -50,6 +50,20 @@ class Tour extends React.Component {
     });
   };
 
+  goToStepEditorHandler = (event) => {
+    this.props.dispatch({
+      type: 'GO_TO_STEP_EDITOR',
+      index: +event.target.getAttribute('data-tour-index')
+    });
+  };
+
+  copyTourHandler = (event) => {
+    this.props.dispatch({
+      type: 'COPY_TOUR',
+      index: +event.target.getAttribute('data-tour-index')
+    });
+  };
+
   render() {
     const { tourIndex, tourName, tourType, lastOpen, visitors, steps, creator, isHeader = false } = this.props;
     let { isEditable } = this.state;
@@ -118,7 +132,8 @@ class Tour extends React.Component {
             {creator}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            <i className="material-icons" styleName="action">content_copy</i>
+            <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.goToStepEditorHandler}>dashboard</i>
+            <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.copyTourHandler}>content_copy</i>
             <i className="material-icons" styleName="action" onClick={this.editTour}>create</i>
             <i className="material-icons" styleName="action">delete</i>
           </div>
