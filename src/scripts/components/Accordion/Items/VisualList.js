@@ -9,7 +9,7 @@ function VisualList({ visuals, tours, tourIndex, tourStepIndex, dispatch }) {
     dispatch({
       type: 'CHANGE_TOUR_STEP',
       propName: 'visualId',
-      value: e.target.id
+      value: e.target.getAttribute('data-id')
     })
   }
 
@@ -23,10 +23,9 @@ function VisualList({ visuals, tours, tourIndex, tourStepIndex, dispatch }) {
       </div>
       {step.pageId
         ?
-        <RadioList listName="visual-list"
-                     selectedId={step.visualId}
-                     changeHandler={changeHandler}>
-
+        <RadioList listName="gt-visual-list"
+                   selectedId={step.visualId}
+                   changeHandler={changeHandler}>
           {Object.keys(visuals).filter(id => visuals[id].pageId === step.pageId).map(id => ({
             id,
             label: visuals[id].title,

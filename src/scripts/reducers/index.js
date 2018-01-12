@@ -83,12 +83,12 @@ const COMPONENTS = {
 
 const initState = {
   isPopupShown: true,
-  componentName: 'StepEditor',
+  componentName: 'Config',
   COMPONENTS,
   tours: Data.tourList,
   tourStepIndex: 0,
   tourIndex: 0,
-  stepEditorIndex: 2
+  stepEditorIndex: 0
 };
 
 

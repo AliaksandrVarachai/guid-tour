@@ -3,30 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Guided Tour Configuration</title>
+    <style>
+        .table {
+            border-collapse: collapse;
+        }
+        .table td, .table th {
+            border: 1px solid black;
+            padding: 3px 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <button gt-onclick="showConfigPopup" class="action">
-            Guided Tour Configuration
-        </button>
-        <button gt-onclick="showSettingsPopup" class="action">
-            Settings
-        </button>
-        <button gt-onclick="showStepEditor" class="action">
-            Step Editor
-        </button>
-    </div>
-    <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br/>
-        <ul class="ul">
-            <li class="li">item 1</li>
-            <li class="li">item 2</li>
-            <li class="li">item 3</li>
-        </ul>
-        <p class="p">Text paragraph</p>
-        <input type="number" min="1" max="5" step="1.5"/>
-        <h3>Lorem ipsum dolor sit amet</h3>
-    </div>
-    <script id="guided-tour-script" src="./guided-tour.js"></script>
+    <h3>Use one of the next links to test a specific tool</h3>
+    <table class="table">
+        <tr>
+            <th>
+                NPM command
+            </th>
+            <th>
+                Test link
+            </th>
+        </tr>
+        <tr>
+            <td>
+                npm start
+            </td>
+            <td>
+                <a href="http://localhost:9090/default.html">Default</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                npm run start-microstrategy
+            </td>
+            <td>
+                <a href="http://localhost:9090/microstrategy.html">MicroStrategy</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                npm run start-tableau
+            </td>
+            <td>
+                <a href="http://localhost:9090/tableau.html">Tableau</a></li>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

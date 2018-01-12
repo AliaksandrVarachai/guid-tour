@@ -4,10 +4,7 @@ import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import Accordion from '../../components/Accordion/Accordion';
 import PageList from '../../components/Accordion/Items/PageList';
 import VisualList from '../../components/Accordion/Items/VisualList';
-
-// TODO: Replace with a document scan
-//import documentData from '../../../mocked-data/document-data'
-import documentData from '../../helpers/document-parsing';
+import documentHelper from '../../tool-specific-helpers';
 
 import './SE_StepTarget.pcss';
 
@@ -52,10 +49,10 @@ class SE_StepTarget extends React.Component {
           <Accordion>
             {[
               {
-                content: <PageList pages={documentData.pages} />,
+                content: <PageList pages={documentHelper.pages} />,
                 label: 'Select page'
               }, {
-                content: <VisualList visuals={documentData.visuals} />,
+                content: <VisualList visuals={documentHelper.visuals} />,
                 label: 'Select visual'
               }
             ]}

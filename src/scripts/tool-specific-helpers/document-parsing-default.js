@@ -1,5 +1,3 @@
-// TODO: check if a document is loaded
-
 function getClosestNode(node, className) {
   let parentNode = node.parentNode;
   while (parentNode) {
@@ -37,12 +35,8 @@ const pages = Object.keys(visuals).reduce((accum, id) => {
   return accum;
 }, {});
 
-console.log('visuals=',visuals)
-console.log('pages=',pages)
-
 export default {
   visuals,
-  pages
+  pages,
+  getAllVisuals: getAllDocumentVisuals
 }
-
-

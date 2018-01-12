@@ -14,19 +14,24 @@ export default class RadioList extends React.Component {
     changeHandler: PropTypes.func.isRequired,
   };
 
-  // id must be unique (e.g. 32 hex digits)
+  // Provides unique ID in the document, different from a visual's ID
+  generateRadioId = (item) => (this.props.listName + '-' + item.id);
+
+  // ID must be unique (e.g. 32 hex digits)
   generateInput = (item) => (
     <input type="radio"
            name={this.props.listName}
-           id={item.id}
-           styleName="item-radio" key={`radio-${item.id}`}
+           id={this.generateRadioId(item)}
+           data-id={item.id}
+           styleName="item-radio"
+           key={item.id}
            onChange={this.props.changeHandler}
            checked={item.id === this.props.selectedId}
     />
   );
 
   generateLabel = (item) => (
-    <label htmlFor={item.id}
+    <label htmlFor={this.generateRadioId(item)}
            styleName="item-label"
            key={`label-${item.id}`}>
       {item.label}

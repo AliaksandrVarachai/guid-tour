@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guided Tour Configuration</title>
+  <style>
+    .visuals-container {
+      position: relative;
+    }
+    .visual {
+      float: left;
+      width: 300px;
+      height: 100px;
+      background: yellow;
+      margin: 0 30px 50px;
+      padding: 10px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .page {
+      overflow: hidden;
+      margin: 20px 0;
+      text-align: center;
+      background: lightskyblue;
+    }
+  </style>
+  <script id="guided-tour-script" src="./guided-tour.js" async defer></script>
+</head>
+<body>
+<div class="container">
+  <button gt-onclick="showConfigPopup" class="action">
+    Guided Tour Configuration
+  </button>
+  <button gt-onclick="showSettingsPopup" class="action">
+    Settings
+  </button>
+  <button gt-onclick="showStepEditor" class="action">
+    Step Editor
+  </button>
+</div>
+<div>
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br/>
+  <ul class="ul">
+    <li class="li">item 1</li>
+    <li class="li">item 2</li>
+    <li class="li">item 3</li>
+  </ul>
+  <p class="p">Text paragraph</p>
+  <input type="number" min="1" max="5" step="1.5"/>
+  <h3>Lorem ipsum dolor sit amet</h3>
+
+  <div id="page-id-1" class="page" data-gt-page-title="Page #1">
+    <h2>page-id-1</h2>
+    <div id="visual-id-1" class="visual" data-gt-visual-title="Title #1">
+      visual-id-1
+    </div>
+    <div id="visual-id-2" class="visual" data-gt-visual-title="Title #2">
+      visual-id-2
+    </div>
+    <div id="visual-id-3" class="visual" data-gt-visual-title="Title #3">
+      visual-id-3
+    </div>
+  </div>
+  <div id="page-id-2" class="page" data-gt-page-title="Page #2">
+    <h3>page-id-2</h3>
+    <div id="visual-id-5" class="visual" data-gt-visual-title="Title #5">
+      visual-id-5
+    </div>
+    <div id="visual-id-7" class="visual" data-gt-visual-title="Title #7">
+      visual-id-7
+    </div>
+  </div>
+  <div id="page-id-3" class="page" data-gt-page-title="Page #3">
+    <h3>page-id-3</h3>
+    <div id="visual-id-8" class="visual" data-gt-visual-title="Title #8">
+      visual-id-8
+    </div>
+  </div>
+</div>
+</body>
+</html>

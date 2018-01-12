@@ -7,7 +7,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const resources = path.resolve(__dirname, 'resources');
 const src = path.resolve(__dirname, 'src');
 const images = path.resolve(src, 'images');
-const dist = path.resolve(__dirname, 'dist');
+const dist = path.resolve(__dirname, 'dist-' + process.env.NODE_TOOL);
 
 
 module.exports = {
@@ -16,9 +16,10 @@ module.exports = {
       'guided-tour': './src/scripts/index'
     }
     : {
-      'local-test-preparation': './resources/webpack/dev-server-local-test-tools/copy-html',
+      'local-test-preparation-common': './resources/webpack/dev-server-local-test-tools',
+      'local-test-preparation': './resources/webpack/dev-server-local-test-tools/' + process.env.NODE_TOOL,
       'guided-tour': './src/scripts/index',
-      'local-test-redux-store': './resources/webpack/dev-server-local-test-tools/react-redux/copy-html',
+      'local-test-redux-store': './resources/webpack/dev-server-local-test-tools/react-redux/redux-store',
     },
   output: {
     filename: '[name].js',
@@ -30,8 +31,9 @@ module.exports = {
     new CleanWebpackPlugin([dist]),
     new webpack.DefinePlugin({
       'process.env': {
-        isProduction
-      }
+        isProduction,
+        NODE_TOOL: JSON.stringify(process.env.NODE_TOOL)
+      },
     }),
     new UglifyJSPlugin()
   ],

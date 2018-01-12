@@ -11,13 +11,13 @@ function PageList({ pages, tours, tourIndex, tourStepIndex, dispatch }) {
     dispatch({
       type: 'CHANGE_TOUR_STEP',
       propName: 'pageId',
-      value: e.target.id
+      value: e.target.getAttribute('data-id')
     });
     dispatch({
       type: 'CHANGE_TOUR_STEP',
       propName: 'visualId', // clear visualId when a new page is chosen
       value: ''
-    })
+    });
   }
 
   return (
@@ -26,7 +26,7 @@ function PageList({ pages, tours, tourIndex, tourStepIndex, dispatch }) {
         <input type="text" placeholder="Custom page id"/>
         <button>Add</button>
       </div>
-      <RadioList listName="page-list"
+      <RadioList listName="gt-page-list"
                  selectedId={tours[tourIndex].steps[tourStepIndex].pageId}
                  changeHandler={changeHandler}>
         {Object.keys(pages).map(id => ({

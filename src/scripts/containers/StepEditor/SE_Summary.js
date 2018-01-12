@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
-//import documentData from '../../../mocked-data/document-data';
-import documentData from '../../helpers/document-parsing';
+import documentData from '../../tool-specific-helpers';
 
 import './SE_Summary.pcss';
 

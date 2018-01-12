@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TourStep from './TourStep';
 import { DEFAULT_NEW_STEP_SETTINGS } from '../../constants/tour-settings';
-//import documentData from '../../../mocked-data/document-data';
-import documentData from '../../helpers/document-parsing';
+import documentData from '../../tool-specific-helpers';
 
 import './TourSteps.pcss';
 
