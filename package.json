@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_TOOL=default webpack-dev-server",
-    "start-microstrategy": "NODE_TOOL=microstrategy webpack-dev-server",
-    "start-tableau": "NODE_TOOL=tableau webpack-dev-server",
+    "start": "cross-env NODE_TOOL=default webpack-dev-server",
+    "start-microstrategy": "cross-env NODE_TOOL=microstrategy webpack-dev-server",
+    "start-tableau": "cross-env NODE_TOOL=tableau webpack-dev-server",
     "build": "cross-env NODE_ENV=production NODE_TOOL=default webpack",
     "build-microstrategy": "cross-env NODE_ENV=production NODE_TOOL=microstrategy webpack",
     "build-tableau": "cross-env NODE_ENV=production NODE_TOOL=tableau webpack"

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
-import documentData from '../../tool-specific-helpers';
+import documentHelpers from '../../tool-specific-helpers';
 
 import './SE_Summary.pcss';
 
@@ -44,8 +44,9 @@ class SE_StepTarget extends React.Component {
     const { tourStepName } = this.state;
     const { tours, tourIndex, tourStepIndex } = this.props;
     const step = tours[tourIndex].steps[tourStepIndex];
-    const visual = documentData.visuals[step.visualId] || '';
-    const page =  documentData.pages[visual.pageId] || '';
+    const { visuals, pages } = documentHelpers.getTargets();
+    const visual = visuals[step.visualId] || '';
+    const page =  pages[visual.pageId] || '';
 
     return (
       <div styleName="container">

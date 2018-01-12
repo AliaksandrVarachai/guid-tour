@@ -10,7 +10,7 @@ function VisualList({ visuals, tours, tourIndex, tourStepIndex, dispatch }) {
       type: 'CHANGE_TOUR_STEP',
       propName: 'visualId',
       value: e.target.getAttribute('data-id')
-    })
+    });
   }
 
   const step = tours[tourIndex].steps[tourStepIndex];
@@ -34,7 +34,6 @@ function VisualList({ visuals, tours, tourIndex, tourStepIndex, dispatch }) {
         :
         'Target page is not selected'
       }
-
     </div>
   )
 }

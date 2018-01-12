@@ -4,7 +4,7 @@ import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import Accordion from '../../components/Accordion/Accordion';
 import PageList from '../../components/Accordion/Items/PageList';
 import VisualList from '../../components/Accordion/Items/VisualList';
-import documentHelper from '../../tool-specific-helpers';
+import documentHelpers from '../../tool-specific-helpers';
 
 import './SE_StepTarget.pcss';
 
@@ -35,7 +35,7 @@ class SE_StepTarget extends React.Component {
 
   render() {
     const { tourStepName, content } = this.state;
-    const props = this.props;
+    const { visuals, pages } = documentHelpers.getTargets();
 
     return (
       <div styleName="container">
@@ -49,10 +49,10 @@ class SE_StepTarget extends React.Component {
           <Accordion>
             {[
               {
-                content: <PageList pages={documentHelper.pages} />,
+                content: <PageList pages={pages} />,
                 label: 'Select page'
               }, {
-                content: <VisualList visuals={documentHelper.visuals} />,
+                content: <VisualList visuals={visuals} />,
                 label: 'Select visual'
               }
             ]}

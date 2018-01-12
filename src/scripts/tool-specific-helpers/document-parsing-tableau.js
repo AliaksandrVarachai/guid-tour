@@ -1,13 +1,11 @@
-let visuals = {};
-let pages = {};
+let targets = {};
 
 /**
  * Returns all visuals from the document and iframes.
- * @returns {{title: string, frameIndex: number, pageId: string, pageTitle: string}}
+ * @returns {visuals:{title: string, frameIndex: number, pageId: string, pageTitle: string},}
  */
-function getParsedVisuals() {
-  // const visuals = {};
-  visuals = {};
+function getParsedTargets() {
+  const visuals = {};
   const nodes = document.querySelectorAll('.tab-zone.tabSuppressVizTooltipsAndOverlays:not(.tabZone-empty), .tabZone-viz:not(.tabZone-empty)');
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
@@ -19,7 +17,7 @@ function getParsedVisuals() {
     }
   }
 
-  pages = Object.keys(visuals).reduce((accum, id) => {
+  const pages = Object.keys(visuals).reduce((accum, id) => {
     accum[visuals[id].pageId] = {
       title: visuals[id].pageTitle
     };
@@ -44,20 +42,18 @@ function getParsedVisuals() {
       console.warn('No access to the content of iframe #' + frameIndex);
     }
   }*/
-  return {
+  return targets = {
     visuals,
     pages
   };
 }
 
 /**
- * Returns all visuals without parsing of the document (if it's possible)
+ * Returns all targets without parsing of the document (if it's possible)
  * @returns {*}
  */
-function getVisuals() {
-  return Object.keys(visuals).length
-    ? {visuals, pages}
-    : getParsedVisuals();
+function getTargets() {
+  return targets.visuals ? targets : getParsedTargets();
 }
 
 
@@ -69,6 +65,6 @@ function getVisuals() {
 // }, {});
 
 export default {
-  getVisuals,
-  getParsedVisuals
+  getTargets,
+  getParsedTargets
 }
