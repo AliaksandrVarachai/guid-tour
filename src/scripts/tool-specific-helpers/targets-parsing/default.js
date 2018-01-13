@@ -1,3 +1,5 @@
+import { getTargets, getParsedTargets } from './helpers';
+
 function getClosestNode(node, className) {
   let parentNode = node.parentNode;
   while (parentNode) {
@@ -9,7 +11,7 @@ function getClosestNode(node, className) {
   return parentNode;
 }
 
-function getAllDocumentVisuals() {
+function parseTargets() {
   const visualNodes = document.getElementsByClassName('visual');
   const visuals = {};
   for (let i = 0; i < visualNodes.length; i++) {
@@ -26,17 +28,7 @@ function getAllDocumentVisuals() {
   return visuals;
 }
 
-const visuals = getAllDocumentVisuals();
-
-const pages = Object.keys(visuals).reduce((accum, id) => {
-  accum[visuals[id].pageId] = {
-    title: visuals[id].pageTitle
-  };
-  return accum;
-}, {});
-
 export default {
-  visuals,
-  pages,
-  getAllVisuals: getAllDocumentVisuals
+  getTargets: () => getTargets(parseTargets),
+  getParsedTargets: () => getParsedTargets(parseTargets)
 }

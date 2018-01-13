@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
-import documentHelpers from '../../tool-specific-helpers';
+import documentHelpers from '../../tool-specific-helpers/targets-parsing';
 
 import './SE_Summary.pcss';
 

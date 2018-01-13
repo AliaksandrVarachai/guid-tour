@@ -4,7 +4,7 @@ import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import Accordion from '../../components/Accordion/Accordion';
 import PageList from '../../components/Accordion/Items/PageList';
 import VisualList from '../../components/Accordion/Items/VisualList';
-import documentHelpers from '../../tool-specific-helpers';
+import documentHelpers from '../../tool-specific-helpers/targets-parsing';
 
 import './SE_StepTarget.pcss';
 
