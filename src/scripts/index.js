@@ -4,13 +4,17 @@ import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
 import addGtButtonsToDocument from './tool-specific-helpers/buttons-addition';
 
+// TODO: remove after API tests
+import restApi from './helpers/rest-api';
+restApi.run();
+
 import './index.pcss';
 
 // TODO: move check to Apache httpd file
-// if (/\/dima\//.test(parent.window.location.href)) {
+if (/\/dima\//.test(parent.window.location.href)) {
 
   // TODO: add the event listener only for rerendering of document's visuals
-  // parent.tableau.VizManager.getVizs()[0].addEventListener(parent.tableau.TableauEventName.CUSTOM_VIEW_LOAD, () => {
+  parent.tableau.VizManager.getVizs()[0].addEventListener(parent.tableau.TableauEventName.CUSTOM_VIEW_LOAD, () => {
 
     addGtButtonsToDocument();
 
@@ -119,6 +123,6 @@ import './index.pcss';
       gtRoot
     );
 
-  //}); // end addEventListener
+  }); // end addEventListener
 
-// } // end if
+} // end if
