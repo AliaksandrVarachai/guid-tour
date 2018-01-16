@@ -55,7 +55,7 @@ const COMPONENTS = {
   StepEditor: {
     width: 800,
     units: 'px',
-    title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].tourName})`,
+    title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].name})`,
     componentName: 'StepEditor',
     componentProps: {
       // custom props are here
@@ -136,9 +136,9 @@ export default (state = initState, action) => {
       let now = new Date();
       const newTour = {
         ...DEFAULT_NEW_TOUR_SETTINGS,
-        lastOpen: `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`, //TODO: store UTC but show local date
-        tourName: action.tourName,
-        tourType: action.tourType
+        lastOpenDate: `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`, //TODO: store UTC but show local date
+        name: action.tourName,
+        type: action.tourType
       };
       const tourListLength = state.tours.length;
       return setStateValue(
@@ -149,8 +149,8 @@ export default (state = initState, action) => {
 
     case 'SAVE_TOUR_CHANGES':
       return setStateValues(state, [
-        `tours[${action.tourIndex}].tourName`, action.tourName,
-        `tours[${action.tourIndex}].tourType`, action.tourType
+        `tours[${action.tourIndex}].name`, action.tourName,
+        `tours[${action.tourIndex}].type`, action.tourType
         ]
       );
 
@@ -163,9 +163,9 @@ export default (state = initState, action) => {
       const tour = state.tours[action.index];
       const copiedTour = Object.assign(
         deepCopy(tour), {
-          tourName: tour.tourName + ' Copy',
+          name: tour.name + ' Copy',
           visitors: 0,
-          lastOpen: `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`, //TODO: store UTC but show local date
+          lastOpenDate: `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`, //TODO: store UTC but show local date
         });
       return setStateValue(
         state,
@@ -180,7 +180,7 @@ export default (state = initState, action) => {
     case 'SAVE_NEW_TOUR_STEP':
       const newTourStep = {
         ...DEFAULT_NEW_STEP_SETTINGS,
-        tourStepName: action.tourStepName
+        name: action.tourStepName
       };
       const tourStepListLength = state.tours[state.tourIndex].steps.length;
       return setStateValue(
@@ -192,7 +192,7 @@ export default (state = initState, action) => {
     case 'CHANGE_TOUR_STEP': // action.propName & action.value is required
       const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
       const stepToPathMap = {
-        tourStepName: stepPath + '.tourStepName',
+        name: stepPath + '.name',
         style: stepPath + '.style',
         width: stepPath + '.width',
         height: stepPath + '.height',
@@ -268,7 +268,7 @@ export default (state = initState, action) => {
     case 'COPY_TOUR_STEP': {
       const steps = state.tours[state.tourIndex].steps;
       const copiedStep = deepCopy(steps[action.index]);
-      copiedStep.tourStepName = steps[action.index].tourStepName + ' copy';
+      copiedStep.name = steps[action.index].name + ' copy';
       if (!steps.length)
         return state;
       return setStateValues(state, [

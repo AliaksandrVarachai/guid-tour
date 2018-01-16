@@ -277,8 +277,8 @@ function getToursFromDb() {
 //   // DELETE api/Tours/delete/ + tourId + "?templateid=" + templateId
 //   var jsonData =  {
 //     "<Id>k__BackingField": tourId,
-//     "<Name>k__BackingField": tourName,
-//     "<Type>k__BackingField": tourType,
+//     "<Name>k__BackingField": name,
+//     "<Type>k__BackingField": type,
 //     "<CountWrongAnswers>k__BackingField": 0,
 //     "<Visibility>k__BackingField": null
 //   };

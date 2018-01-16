@@ -1,33 +1,62 @@
 import communication from '../helpers/communication';
 import converting from '../helpers/converting';
-import TourDto from '../entities/tour-dto';
-import SaveTourDto from '../entities/save-tour-dto';
+import TourStepDto from '../entities/tour-step-dto';
 
-export function getStepsByTourId(tourId) {
+/**
+ * Gets list of steps by tour's ID.
+ * @param {string} tourId - tour's ID.
+ * @returns {Promise<array>} - promise returning array of steps or empty array if there is no such tour or the tour does not contain steps.
+ */
+function getStepsByTourId(tourId) {
   return communication.get(`api/steps?tourId=${tourId}`)
-    .then(data => new TourStepDto(converting.mapFromDto(data)));
+    .then(dtoSteps => {
+      return dtoSteps.length ? converting.dtoToObject(dtoSteps).map(dtoStep => new TourStepDto(dtoStep)) : [];
+    });
 }
 
-export function getStepByTargetId(targetId) {
+/**
+ * Gets a step by target's ID.
+ * @param {string} targetId - target's ID.
+ * @returns {Promise<object|null>} - promise returning step object or null if there is no such target ID.
+ */
+function getStepByTargetId(targetId) {
   return communication.get(`api/steps?targetId=${targetId}`)
-    .then(data => new TourStepDto(converting.mapFromDto(data)));
+    .then(dtoStep => {
+      return dtoStep ? new TourStepDto(converting.dtoToObject(dtoStep)) : null;
+    });
 }
 
-export function getStepById(stepId) {
+/**
+ * Gets a step by step's ID.
+ * @param {string} stepId - step's ID.
+ * @returns {Promise<object|null>} - promise returning step object or null if there is no such step ID.
+ */
+function getStepById(stepId) {
   return communication.get(`api/steps/get/${stepId}`)
-    .then(data => new TourStepDto(converting.mapFromDto(data)));
+    .then(dtoStep => {
+      return dtoStep ? new TourStepDto(converting.dtoToObject(dtoStep)) : null;
+    });
 }
 
-export function addStep(tourStep) {
-  return communication.post('api/steps/add', converting.mapToDto(tourStep))
-    .then(data => new TourStepDto(converting.mapFromDto(data)));
+function addStep(tourStep) {
+  return communication.post('api/steps/add', converting.dtoToObject(tourStep))
+    .then(data => new TourStepDto(converting.dtoToObject(data)));
 }
 
-export function updateStep(tourStep) {
-  return communication.put('api/steps/update', converting.mapToDto(tourStep))
-    .then(data => new TourStepDto(converting.mapFromDto(data)));
+function updateStep(tourStep) {
+  return communication.put('api/steps/update', converting.dtoToObject(tourStep))
+    .then(data => new TourStepDto(converting.dtoToObject(data)));
 }
 
-export function deleteStep(stepId) {
+function deleteStep(stepId) {
   return communication.delete(`api/Steps/delete/${stepId}`);
+}
+
+export default {
+  getStepsByTourId,
+  getStepByTargetId,
+  getStepById,
+  addStep,
+  updateStep,
+  deleteStep
 }

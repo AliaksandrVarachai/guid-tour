@@ -3,14 +3,14 @@ const { CENTER, LEFT, RIGHT, UP, DOWN } = ORIENTATION;
 
 let tourList = [
   {
-    tourName: 'Example Tour',
-    tourType: 'tooltip',    // link to TOUR TYPES
-    lastOpen: '01/01/2017', // TODO: transform to formatted date
+    name: 'Example Tour',
+    type: 'tooltip',    // link to TOUR TYPES
+    lastOpenDate: '01/01/2017', // TODO: transform to formatted date
     visitors: 0,
     creator: 'Botond Kopacz',
     steps: [
       {
-        tourStepName: 'First Step',
+        name: 'First Step',
         //targetPage: 'Page <1>',
         //targetControl: 'SampleBarChart',
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
@@ -21,7 +21,7 @@ let tourList = [
         height: 320,
         orientation: CENTER,
       }, {
-        tourStepName: 'Second Step',
+        name: 'Second Step',
         //targetPage: 'Page <2>',
         //targetControl: '-',
         content: '<p>Content 2</p>',
@@ -32,7 +32,7 @@ let tourList = [
         height: 321,
         orientation: LEFT,
       }, {
-        tourStepName: 'Third Step',
+        name: 'Third Step',
         //targetPage: 'Page <1>',
         //targetControl: '-',
         content: '<p>Content 3</p>',
@@ -46,14 +46,14 @@ let tourList = [
     ]
   },
   {
-    tourName: 'Self Service Certification',
-    tourType: 'training',
-    lastOpen: '01/01/2017',
+    name: 'Self Service Certification',
+    type: 'training',
+    lastOpenDate: '01/01/2017',
     visitors: 10,
     creator: 'Botond Kopacz',
     steps: [
       {
-        tourStepName: 'First Step',
+        name: 'First Step',
         //targetPage: 'Page <1>',
         //targetControl: 'SampleBarChart',
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
@@ -64,7 +64,7 @@ let tourList = [
         height: 320,
         orientation: RIGHT,
       }, {
-        tourStepName: 'Second Step',
+        name: 'Second Step',
         //targetPage: 'Page <1>',
         //targetControl: '-',
         content: '<p>Content 2</p>',
@@ -78,14 +78,14 @@ let tourList = [
     ]
   },
   {
-    tourName: 'Quick shortcut',
-    tourType: 'shortcut',
-    lastOpen: '01/01/2017',
+    name: 'Quick shortcut',
+    type: 'shortcut',
+    lastOpenDate: '01/01/2017',
     visitors: 0,
     creator: 'Botond Kopacz',
     steps: [
       {
-        tourStepName: 'First Step',
+        name: 'First Step',
         //targetPage: 'Page <1>',
         //targetControl: 'SampleBarChart',
         content: '<nav>Home|About|Help</nav><div>Content 1</div>',
@@ -96,7 +96,7 @@ let tourList = [
         height: 320,
         orientation: UP,
       }, {
-        tourStepName: 'Second Step',
+        name: 'Second Step',
         //targetPage: 'Page <1>',
         //targetControl: '-',
         content: '<p>Content 2</p>',
@@ -107,7 +107,7 @@ let tourList = [
         height: 321,
         orientation: DOWN,
       }, {
-        tourStepName: 'Third Step',
+        name: 'Third Step',
         //targetPage: 'Page <1>',
         //targetControl: '-',
         content: '<p>Content 3</p>',
@@ -118,7 +118,7 @@ let tourList = [
         height: 322,
         orientation: RIGHT,
       }, {
-        tourStepName: 'Forth Step',
+        name: 'Forth Step',
         //targetPage: 'Page <1>',
         //targetControl: '-',
         content: '<p>Content 4</p>',

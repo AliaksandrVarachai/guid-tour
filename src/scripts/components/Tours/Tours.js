@@ -16,16 +16,16 @@ export default function Tours({tourList, isNewEditableTourAdded = false, cancelA
     <div className="gtu__table gtu__w100" styleName="tours-container">
       <Tour isHeader={true}/>
       {tourList.map((tour, inx) => <Tour tourIndex={inx}
-                                         tourName={tour.tourName}
-                                         tourType={tour.tourType}
-                                         lastOpen={tour.lastOpen}
+                                         tourName={tour.name}
+                                         tourType={tour.type}
+                                         lastOpenDate={tour.lastOpenDate}
                                          visitors={tour.visitors}
                                          steps={tour.steps.length}
                                          creator={tour.creator}
                                          key={inx}
       />)}
-      {isNewEditableTourAdded ? <Tour tourName={DEFAULT_NEW_TOUR_SETTINGS.tourName}
-                                      tourType={DEFAULT_NEW_TOUR_SETTINGS.tourType}
+      {isNewEditableTourAdded ? <Tour tourName={DEFAULT_NEW_TOUR_SETTINGS.name}
+                                      tourType={DEFAULT_NEW_TOUR_SETTINGS.type}
                                       cancelAddNewTour={cancelAddNewTour}
                                       isEditable={true}
       /> : null }

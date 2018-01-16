@@ -11,7 +11,7 @@ class SE_StepDetail extends React.Component {
     super(props);
     const step = props.tours[props.tourIndex].steps[props.tourStepIndex];
     this.state = {
-      tourStepName: step.tourStepName,
+      name: step.name,
       content: step.content,
       style: step.style,
       width: step.width,

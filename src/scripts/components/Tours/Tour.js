@@ -19,7 +19,7 @@ class Tour extends React.Component {
     tourIndex: PropTypes.number,
     tourName: PropTypes.string,
     tourType: PropTypes.string,
-    lastOpen: PropTypes.string,
+    lastOpenDate: PropTypes.string,
     visitors: PropTypes.number,
     steps: PropTypes.number,
     creator: PropTypes.string,
@@ -65,7 +65,7 @@ class Tour extends React.Component {
   };
 
   render() {
-    const { tourIndex, tourName, tourType, lastOpen, visitors, steps, creator, isHeader = false } = this.props;
+    const { tourIndex, tourName, tourType, lastOpenDate, visitors, steps, creator, isHeader = false } = this.props;
     let { isEditable } = this.state;
     const isNewAddedTour = !!this.props.cancelAddNewTour;
     return (
@@ -78,7 +78,7 @@ class Tour extends React.Component {
             {tourType ? tourType : "Tour Type"}
           </div>
           <div className="gtu__table-cell" styleName="header header-last-open">
-            {lastOpen ? lastOpen : "Last Open"}
+            {lastOpenDate ? lastOpenDate : "Last Open"}
           </div>
           <div className="gtu__table-cell" styleName="header header-visitors">
             {visitors ? visitors : "# Visitors"}
@@ -120,7 +120,7 @@ class Tour extends React.Component {
             {TOUR_TYPES[tourType]}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            {lastOpen}
+            {lastOpenDate}
           </div>
           <div className="gtu__table-cell" styleName="data">
             {visitors}

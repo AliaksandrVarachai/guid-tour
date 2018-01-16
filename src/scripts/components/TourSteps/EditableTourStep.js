@@ -44,12 +44,12 @@ class EditableTourStep extends React.Component {
   // saveChangedTourHandler = () => {
   //   const { tourStepName } = this.state;
   //   const { tourIndex, saveTourChanges } = this.props;
-  //   if (tourName) {
+  //   if (name) {
   //     this.props.dispatch({
   //       type: 'SAVE_TOUR_CHANGES',
   //       tourIndex,
-  //       tourName,
-  //       tourType
+  //       name,
+  //       type
   //     });
   //     saveTourChanges(); // change the parent state
   //   } else {

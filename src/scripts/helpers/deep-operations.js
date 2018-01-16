@@ -31,7 +31,7 @@
 function deepCopy(o) {
   if (o instanceof Array)
     return o.map(elem => deepCopy(elem));
-  if (typeof o === 'object') {
+  if (typeof o === 'object' && o !== null) {
     const copied = {...o};
     return Object.keys(copied).reduce((accum, key) => {
       accum[key] = deepCopy(copied[key]);

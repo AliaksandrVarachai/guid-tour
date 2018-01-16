@@ -24,15 +24,15 @@ const ORIENTATION_NAMES = (function(o) {
 
 
 const DEFAULT_NEW_TOUR_SETTINGS = {
-  tourName: '',
-  tourType: 'tooltip',
+  name: '',
+  type: 'tooltip',
   visitors: 0,
   creator: 'Unknown User',
   steps: [],
 };
 
 const DEFAULT_NEW_STEP_SETTINGS = {
-  tourStepName: '',
+  name: '',
   style: '',
   width: 300,
   height: 300,

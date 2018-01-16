@@ -24,14 +24,14 @@ export default function TourSteps({steps, tourStepIndex, isNewEditableTourStepAd
         return <TourStep index={index}
                          isChecked={index === tourStepIndex}
                          tourStepIndex={tourStepIndex}
-                         tourStepName={step.tourStepName}
+                         tourStepName={step.name}
                          targetPage={page.title}
                          targetControl={visual.title}
                          content={step.content}
                          key={index}
         />
       })}
-      {isNewEditableTourStepAdded ? <TourStep tourStepName={DEFAULT_NEW_STEP_SETTINGS.tourStepName}
+      {isNewEditableTourStepAdded ? <TourStep tourStepName={DEFAULT_NEW_STEP_SETTINGS.name}
                                           cancelAddNewTourStep={cancelAddNewTourStep}
                                           isEditable={true}
       /> : null }

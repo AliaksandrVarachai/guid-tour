@@ -2,7 +2,8 @@ import mergeCustomFields from '../helpers/merge-custom-fields';
 import {
   TOUR_ID,
   TOUR_STEP_ID,
-  GUIDE_ID
+  GUIDE_ID,
+  STYLE_ID
 } from '../helpers/default-settings';
 
 const necessaryFields = {
