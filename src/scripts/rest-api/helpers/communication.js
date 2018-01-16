@@ -13,7 +13,7 @@ function fetchRequest(url, options){
         return response.json();
       }
       else if (response.status === 204) {
-        // TODO: process empyt data
+        // TODO: process empty data
         console.warn('empty data received');
         return;
       }
@@ -47,7 +47,7 @@ function put(api, data){
 }
 
 function delete1(api) {
-  return this.fetchRequest(`${this.host}${api}`, {method: 'DELETE'});
+  return fetchRequest(`${this.host}${api}`, {method: 'DELETE'});
 }
 
 export default {

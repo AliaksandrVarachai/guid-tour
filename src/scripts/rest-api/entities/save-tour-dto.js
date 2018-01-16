@@ -23,7 +23,7 @@ const necessaryFields = {
   documentId: DOCUMENT_ID,
 };
 
-export default function SaveTourDto(tour) {
+export default function SaveTourDto(tour, options) {
   Object.assign(this, mergeCustomFields(necessaryFields, tour), {
     id: uuidv4() // is generated on every save request
   });
