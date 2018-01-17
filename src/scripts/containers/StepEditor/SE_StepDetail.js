@@ -11,8 +11,8 @@ class SE_StepDetail extends React.Component {
     super(props);
     const step = props.tours[props.tourIndex].steps[props.tourStepIndex];
     this.state = {
-      name: step.name,
-      content: step.content,
+      tourStepName: step.name,
+      htmlContent: step.htmlContent,
       style: step.style,
       width: step.width,
       height: step.height,
@@ -48,17 +48,17 @@ class SE_StepDetail extends React.Component {
   };
 
   changeOrientationHandler = (event) => {
-    this.changeStateAndDispatch('orientation', event.target.value);
+    this.changeStateAndDispatch('orientation', +event.target.value);
   };
 
   render() {
-    const { tourStepName, content, style, width, height, orientation } = this.state;
+    const { tourStepName, htmlContent, style, width, height, orientation } = this.state;
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
           <input type="text" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
           <div styleName="text-editor">
-            <RichTextEditor value={content} />
+            <RichTextEditor value={htmlContent} />
           </div>
         </div>
         <div styleName="settings-container">

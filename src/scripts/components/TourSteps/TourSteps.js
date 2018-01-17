@@ -27,7 +27,7 @@ export default function TourSteps({steps, tourStepIndex, isNewEditableTourStepAd
                          tourStepName={step.name}
                          targetPage={page.title}
                          targetControl={visual.title}
-                         content={step.content}
+                         content={step.htmlContent}
                          key={index}
         />
       })}

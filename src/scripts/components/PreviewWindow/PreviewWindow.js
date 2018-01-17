@@ -5,7 +5,7 @@ import { ORIENTATION_NAMES } from '../../constants/tour-settings';
 import './PreviewWindow.pcss';
 
 PreviewWindow.propTypes = {
-  orientation: PropTypes.string.isRequired
+  orientation: PropTypes.number.isRequired
 };
 
 export default function PreviewWindow({ orientation }) {

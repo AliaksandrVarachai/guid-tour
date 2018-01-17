@@ -6,7 +6,7 @@ import {
   STYLE_ID
 } from '../helpers/default-settings';
 
-const necessaryFields = {
+const requiredFields = {
   id: TOUR_STEP_ID,
   name: '',
   pageTitle: '',
@@ -33,8 +33,11 @@ const necessaryFields = {
   isToolTip: true
 };
 
-export default function TourStepDto(tourStep) {
-  Object.assign(this, mergeCustomFields(necessaryFields, tourStep), {
-    // TODO: copy subVisuals{} and validation{}  here
-  });
+/**
+ * Provides tour's step object with all required fields.
+ * @param {object} tourStep - origin tour step.
+ * @returns {object} - new tour step object with filled required fields.
+ */
+export default function createTourStep(tourStep) {
+  return mergeCustomFields(requiredFields, tourStep);
 }

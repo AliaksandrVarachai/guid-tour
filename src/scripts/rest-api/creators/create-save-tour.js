@@ -11,7 +11,7 @@ import {
 } from '../helpers/default-settings';
 const uuidv4 = require('uuid/v4');
 
-const necessaryFields = {
+const requiredFields = {
   tourId: TOUR_ID,
   isLibraryItem: false,
   libraryItemId: LIBRARY_ITEM_ID,
@@ -23,8 +23,13 @@ const necessaryFields = {
   documentId: DOCUMENT_ID,
 };
 
-export default function SaveTourDto(tour, options) {
-  Object.assign(this, mergeCustomFields(necessaryFields, tour), {
+/**
+ * Provides saveTour object with all required fields.
+ * @param {object} tour - origin tour.
+ * @returns {object} - new saveTour object with filled required fields.
+ */
+export default function createSaveTour(tour) {
+  return Object.assign(mergeCustomFields(requiredFields, tour), {
     id: uuidv4() // is generated on every save request
   });
 }

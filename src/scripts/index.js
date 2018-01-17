@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
 import addGtButtonsToDocument from './tool-specific-helpers/buttons-addition';
 
 import './index.pcss';
+
+// TODO: remove after async implementation
+import getToursByTemplateId from './actions/get-tours-by-template-id';
 
 // TODO: remove after testing
 import apiTests from './rest-api/helpers/tests';
@@ -25,11 +29,12 @@ apiTests.run();
     const reducer = require('./reducers').default;
 
 
-    const store = createStore(reducer);
+    const store = createStore(reducer, applyMiddleware(thunk));
 
     class GuidedTour extends React.Component {
       constructor(props) {
         super(props);
+        store.dispatch(getToursByTemplateId('1E78A063-7506-4DE3-BA46-08FAEA8EE879'));
       }
 
       handleEvent = this.props.handleEvent;

@@ -18,7 +18,7 @@ class EditableTour extends React.Component {
 
   static propTypes = {
     tourName: PropTypes.string.isRequired,
-    tourType: PropTypes.oneOf(Object.keys(TOUR_TYPES)).isRequired,
+    tourType: PropTypes.oneOf(TOUR_TYPES).isRequired,
     tourIndex: PropTypes.number,    // only for changed tour (tourIndex !== undefined only for changed tour)
     saveTourChanges: PropTypes.func,  // TODO: add handler both for an edited Tour & a new added tour
     cancelTourChanges: PropTypes.func.isRequired,

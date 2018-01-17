@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EditableTour from './EditableTour';
-import { TOUR_TYPES } from '../../constants/tour-settings';
 
 import './Tour.pcss';
 
@@ -20,7 +19,7 @@ class Tour extends React.Component {
     tourName: PropTypes.string,
     tourType: PropTypes.string,
     lastOpenDate: PropTypes.string,
-    visitors: PropTypes.number,
+    totalVisits: PropTypes.number,
     steps: PropTypes.number,
     creator: PropTypes.string,
     isHeader: PropTypes.bool,
@@ -65,7 +64,7 @@ class Tour extends React.Component {
   };
 
   render() {
-    const { tourIndex, tourName, tourType, lastOpenDate, visitors, steps, creator, isHeader = false } = this.props;
+    const { tourIndex, tourName, tourType, lastOpenDate, totalVisits, steps, creator, isHeader = false } = this.props;
     let { isEditable } = this.state;
     const isNewAddedTour = !!this.props.cancelAddNewTour;
     return (
@@ -81,7 +80,7 @@ class Tour extends React.Component {
             {lastOpenDate ? lastOpenDate : "Last Open"}
           </div>
           <div className="gtu__table-cell" styleName="header header-visitors">
-            {visitors ? visitors : "# Visitors"}
+            {totalVisits ? totalVisits : "# Visitors"}
           </div>
           <div className="gtu__table-cell" styleName="header header-steps">
             {steps ? steps : "# Steps"}
@@ -117,13 +116,13 @@ class Tour extends React.Component {
             {tourName}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            {TOUR_TYPES[tourType]}
+            {tourType}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            {lastOpenDate}
+            {new Date(lastOpenDate).toLocaleDateString()}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            {visitors}
+            {totalVisits}
           </div>
           <div className="gtu__table-cell" styleName="data">
             {steps}

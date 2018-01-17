@@ -1,5 +1,4 @@
 // Mocked data
-import Data from '../../mocked-data/rest-data';
 import { DEFAULT_NEW_TOUR_SETTINGS, DEFAULT_NEW_STEP_SETTINGS, TOUR_EDITOR_STEPS } from '../constants/tour-settings';
 import { setStateValue, setStateValues } from '../helpers/state-operations';
 import { deepCopy } from '../helpers/deep-operations';
@@ -55,7 +54,8 @@ const COMPONENTS = {
   StepEditor: {
     width: 800,
     units: 'px',
-    title: `Guided Tour Steps (${Data.tourList[GUIDED_TOUR_INDEX].name})`,
+    // TODO: change tour name after a tour is switchee
+    title: 'Guided Tour Steps (Tour name)',
     componentName: 'StepEditor',
     componentProps: {
       // custom props are here
@@ -85,7 +85,7 @@ const initState = {
   isPopupShown: true,
   componentName: 'Config',
   COMPONENTS,
-  tours: Data.tourList,
+  tours: [], //Data.tourList,
   tourStepIndex: 0,
   tourIndex: 0,
   stepEditorIndex: 0
@@ -132,11 +132,18 @@ export default (state = initState, action) => {
         'componentName', 'StepEditor'
       ]);
 
+    case 'LOAD_TOURS':
+      return setStateValues(state, [
+        'tours', action.tours,
+        'tourIndex', 0,
+        'tourStepIndex', 0,
+        'stepEditorIndex', 0
+      ]);
+
     case 'SAVE_NEW_TOUR':
-      let now = new Date();
       const newTour = {
         ...DEFAULT_NEW_TOUR_SETTINGS,
-        lastOpenDate: `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`, //TODO: store UTC but show local date
+        lastOpenDate: new Date().toISOString(), //TODO: move out of the reducer
         name: action.tourName,
         type: action.tourType
       };
@@ -159,13 +166,12 @@ export default (state = initState, action) => {
       return state;
 
     case 'COPY_TOUR': {
-      const now = new Date();
       const tour = state.tours[action.index];
       const copiedTour = Object.assign(
         deepCopy(tour), {
           name: tour.name + ' Copy',
           visitors: 0,
-          lastOpenDate: `${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`, //TODO: store UTC but show local date
+          lastOpenDate: new Date().toISOString(), //TODO: move out of the reducer
         });
       return setStateValue(
         state,
@@ -192,7 +198,7 @@ export default (state = initState, action) => {
     case 'CHANGE_TOUR_STEP': // action.propName & action.value is required
       const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
       const stepToPathMap = {
-        name: stepPath + '.name',
+        tourStepName: stepPath + '.name',
         style: stepPath + '.style',
         width: stepPath + '.width',
         height: stepPath + '.height',

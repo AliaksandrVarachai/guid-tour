@@ -1,6 +1,6 @@
 import communication from '../helpers/communication';
 import converting from '../helpers/converting';
-import TourStepDto from '../entities/tour-step-dto';
+import createTourStep from '../creators/create-tour-step';
 
 /**
  * Gets list of steps by tour's ID.
@@ -10,7 +10,7 @@ import TourStepDto from '../entities/tour-step-dto';
 function getStepsByTourId(tourId) {
   return communication.get(`api/steps?tourId=${tourId}`)
     .then(dtoSteps => {
-      return dtoSteps.length ? converting.dtoToObject(dtoSteps).map(dtoStep => new TourStepDto(dtoStep)) : [];
+      return dtoSteps.length ? converting.dtoToObject(dtoSteps).map(step => createTourStep(step)) : [];
     });
 }
 
@@ -22,7 +22,7 @@ function getStepsByTourId(tourId) {
 function getStepByTargetId(targetId) {
   return communication.get(`api/steps?targetId=${targetId}`)
     .then(dtoStep => {
-      return dtoStep ? new TourStepDto(converting.dtoToObject(dtoStep)) : null;
+      return dtoStep ? createTourStep(converting.dtoToObject(dtoStep)) : null;
     });
 }
 
@@ -34,18 +34,18 @@ function getStepByTargetId(targetId) {
 function getStepById(stepId) {
   return communication.get(`api/steps/get/${stepId}`)
     .then(dtoStep => {
-      return dtoStep ? new TourStepDto(converting.dtoToObject(dtoStep)) : null;
+      return dtoStep ? createTourStep(converting.dtoToObject(dtoStep)) : null;
     });
 }
 
 function addStep(tourStep) {
   return communication.post('api/steps/add', converting.dtoToObject(tourStep))
-    .then(data => new TourStepDto(converting.dtoToObject(data)));
+    .then(data => createTourStep(converting.dtoToObject(data)));
 }
 
 function updateStep(tourStep) {
   return communication.put('api/steps/update', converting.dtoToObject(tourStep))
-    .then(data => new TourStepDto(converting.dtoToObject(data)));
+    .then(data => createTourStep(converting.dtoToObject(data)));
 }
 
 function deleteStep(stepId) {

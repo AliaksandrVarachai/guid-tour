@@ -6,7 +6,7 @@ import './TourTypesSelector.pcss';
 
 TourTypesSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
-  tourType: PropTypes.oneOf(Object.keys(TOUR_TYPES)).isRequired,
+  tourType: PropTypes.oneOf(TOUR_TYPES).isRequired,
 };
 
 /**
@@ -17,9 +17,9 @@ export default function TourTypesSelector(props) {
   const { onChange, tourType } = props;
   return (
     <select styleName="selector" onChange={onChange} value={tourType}>
-      {Object.keys(TOUR_TYPES).map(tourType =>
+      {TOUR_TYPES.map(tourType =>
         <option value={tourType} key={tourType}>
-          {TOUR_TYPES[tourType]}
+          {tourType}
         </option>
       )}
     </select>

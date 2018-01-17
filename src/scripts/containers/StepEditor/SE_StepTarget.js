@@ -13,8 +13,8 @@ class SE_StepTarget extends React.Component {
     super(props);
     const step = props.tours[props.tourIndex].steps[props.tourStepIndex];
     this.state = {
-      tourStepName: step.tourStepName,
-      content: step.content,
+      tourStepName: step.name,
+      content: step.htmlContent,
     };
   }
 

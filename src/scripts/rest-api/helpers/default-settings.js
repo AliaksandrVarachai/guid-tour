@@ -10,8 +10,8 @@ const STYLE_ID = '00000000-0000-0000-0000-000000000000';
 const PATH = 'N/A';
 const COMPUTER_NAME = 'N/A';
 const USER_NAME = 'N/A';
-const LAST_MODIFIED_TIME = '2018-01-15T16:20:22.4348154+01:00'; // TODO: replace with a function
-const LAST_OPEN_DATE = '2018-01-15T16:20:22.4348154+01:00'; // TODO: replace with a function
+const LAST_MODIFIED_TIME = new Date('2000-01-01T00:00:00Z').toISOString();
+const LAST_OPEN_DATE = new Date('2000-01-01T00:00:00Z').toISOString();
 const TOUR_TYPE = 'TABLEAU_Tour';
 
 export {

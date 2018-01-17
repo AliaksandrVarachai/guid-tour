@@ -1,31 +1,36 @@
-const TOUR_TYPES = {
-  tooltip: 'Tooltip',
-  training: 'Training',
-  shortcut: 'Shortcut'
-};
+// TODO: leave only necessary tour types
+const TOUR_TYPES = [
+  'Exam',
+  'MSTR_Default_Tour',
+  'MSTR_Tour',
+  'TABLEAU_Tour',
+  'TABLEAU_Default_Tour',
+  'TitleButtons',
+  'Tooltip',
+  'Tour',
+  'Training',
+  'Shortcuts',
+];
 
 const ORIENTATION = {
-  CENTER: '0',
-  LEFT: '1',
-  RIGHT: '2',
-  UP: '3',
-  DOWN: '4'
+  CENTER: 0,
+  LEFT: 1,
+  RIGHT: 2,
+  UP: 3,
+  DOWN: 4
 };
 
-const ORIENTATION_NAMES = (function(o) {
-  return {
-    [o.CENTER]: 'Center',
-    [o.LEFT]: 'Left',
-    [o.RIGHT]: 'Right',
-    [o.UP]: 'Up',
-    [o.DOWN]: 'Down'
-  }
-})(ORIENTATION);
-
+const ORIENTATION_NAMES = {
+  [ORIENTATION.CENTER]: 'Center',
+  [ORIENTATION.LEFT]: 'Left',
+  [ORIENTATION.RIGHT]: 'Right',
+  [ORIENTATION.UP]: 'Up',
+  [ORIENTATION.DOWN]: 'Down'
+};
 
 const DEFAULT_NEW_TOUR_SETTINGS = {
   name: '',
-  type: 'tooltip',
+  type: TOUR_TYPES.indexOf('Tooltip') > -1 ? 'Tooltip' : TOUR_TYPES[0],
   visitors: 0,
   creator: 'Unknown User',
   steps: [],
