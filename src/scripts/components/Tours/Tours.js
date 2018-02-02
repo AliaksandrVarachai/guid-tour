@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Tour from './Tour';
-import { DEFAULT_NEW_TOUR_SETTINGS } from '../../constants/tour-settings';
+import { TOUR_REQUIRED_FIELDS } from '../../constants/tour-settings';
 
 import './Tours.pcss';
 
@@ -22,10 +22,10 @@ export default function Tours({tourList, isNewEditableTourAdded = false, cancelA
                                          totalVisits={tour.totalVisits}
                                          steps={tour.steps.length}
                                          creator={tour.creator}
-                                         key={inx}
+                                         key={tour.id}
       />)}
-      {isNewEditableTourAdded ? <Tour tourName={DEFAULT_NEW_TOUR_SETTINGS.name}
-                                      tourType={DEFAULT_NEW_TOUR_SETTINGS.type}
+      {isNewEditableTourAdded ? <Tour tourName={TOUR_REQUIRED_FIELDS.name}
+                                      tourType={TOUR_REQUIRED_FIELDS.type}
                                       cancelAddNewTour={cancelAddNewTour}
                                       isEditable={true}
       /> : null }

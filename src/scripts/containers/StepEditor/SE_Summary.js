@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PreviewWindow from '../../components/PreviewWindow/PreviewWindow';
 import documentHelpers from '../../tool-specific-helpers/targets-parsing';
+import { ORIENTATION_NAMES } from '../../constants/tour-settings';
+import * as actions from '../../actions';
 
 import './SE_Summary.pcss';
 
-class SE_StepTarget extends React.Component {
+class SE_StepSummary extends React.Component {
   constructor(props) {
     super(props);
     const { tours, tourIndex, tourStepIndex } = this.props;
@@ -22,30 +24,29 @@ class SE_StepTarget extends React.Component {
   //   width: PropTypes.number.isRequired,
   //   height: PropTypes.number.isRequired,
   //   orientation: PropTypes.string.isRequired
-  //   step: PropTypes.object.isRequired
+  //   step: PropTypes.object.isRequired,
+  //   changeTourStep: PropTypes.func.isRequired
   // };
 
   changeStateAndDispatch = (propName, value) => {
     this.setState({
       [propName]: value
     });
-    this.props.dispatch({
-      type: 'CHANGE_TOUR_STEP',
-      propName,
-      value
+    this.props.changeTourStep({
+      [propName]: value
     });
   };
 
   changeTourStepNameHandler = (event) => {
     this.changeStateAndDispatch('tourStepName', event.target.value);
   };
-
+  // TODO:window style
   render() {
     const { tourStepName } = this.state;
     const { tours, tourIndex, tourStepIndex } = this.props;
     const step = tours[tourIndex].steps[tourStepIndex];
     const { visuals, pages } = documentHelpers.getTargets();
-    const visual = visuals[step.visualId] || '';
+    const visual = visuals[step.customTargetId] || '';
     const page =  pages[visual.pageId] || '';
 
     return (
@@ -63,13 +64,13 @@ class SE_StepTarget extends React.Component {
             <span styleName="variable-name">Target control</span>
             <span styleName="variable-value">{visual.title}</span>
           </div>
-          <div styleName="variables-list-item">
-            <span styleName="variable-name">Window theme</span>
+          <div styleName="variables-list-item" style={{display : 'none'}}>
+            <span styleName="variable-name">Window style</span>
             <span styleName="variable-value">{step.style}</span>
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Window orientation</span>
-            <span styleName="variable-value">{step.orientation}</span>
+            <span styleName="variable-value">{ORIENTATION_NAMES[step.orientation]}</span>
           </div>
           <div styleName="variables-list-item">
             <span styleName="variable-name">Window width</span>
@@ -101,4 +102,10 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(SE_StepTarget)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeTourStep: (...args) => dispatch(actions.changeTourStep(...args)),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SE_StepSummary);

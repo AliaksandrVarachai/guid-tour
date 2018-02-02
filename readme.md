@@ -71,3 +71,31 @@ The script adds a tag `<div id="guided-tour-root"></div>` to the end of body of 
  npm run start-tableau         | Launches GT local server for Tableau           | [Tableau](http://localhost:9090/tableau.html)
 
 
+
+### Using of tool-specific global objects (advanced)
+
+Avoid of strait getting of global objects for tools, i.e.:
+1.  <span style="color:red;">bad:</span>
+    ``` 
+    let workBook = window.parent.tableau.VizManager.getVizs()[0].getWorkbook(); 
+    ```
+2.  <span style="color:red;">bad:</span>
+    ``` 
+    let mstrPageName = window.mstrApp.pageName;
+    let mstrServerName = window.mstrConfig.serverName;
+    ```
+
+Use instead:
+1.  <span style="color:green;">good:</span>
+    ```
+    import globals from '../../tool-specific-helpers/globals';
+    let workBook = globals.tableau.VizManager.getVizs()[0].getWorkbook();
+    ```
+2.  <span style="color:green;">good:</span>
+     ```
+    import globals from '../../tool-specific-helpers/globals';
+    let mstrPageName = globals.mstrApp.pageName;
+    let mstrServerName = globals.mstrConfig.serverName;
+    ```
+
+It helps to launch and test the application locally.

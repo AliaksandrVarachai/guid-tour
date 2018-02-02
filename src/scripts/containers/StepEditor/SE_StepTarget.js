@@ -4,7 +4,7 @@ import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import Accordion from '../../components/Accordion/Accordion';
 import PageList from '../../components/Accordion/Items/PageList';
 import VisualList from '../../components/Accordion/Items/VisualList';
-import documentHelpers from '../../tool-specific-helpers/targets-parsing';
+import * as actions from '../../actions';
 
 import './SE_StepTarget.pcss';
 
@@ -14,7 +14,7 @@ class SE_StepTarget extends React.Component {
     const step = props.tours[props.tourIndex].steps[props.tourStepIndex];
     this.state = {
       tourStepName: step.name,
-      content: step.htmlContent,
+      htmlContent: step.htmlContent,
     };
   }
 
@@ -22,10 +22,8 @@ class SE_StepTarget extends React.Component {
     this.setState({
       [propName]: value
     });
-    this.props.dispatch({
-      type: 'CHANGE_TOUR_STEP',
-      propName,
-      value
+    this.props.changeTourStep({
+      [propName]: value
     });
   };
 
@@ -33,26 +31,30 @@ class SE_StepTarget extends React.Component {
     this.changeStateAndDispatch('tourStepName', event.target.value);
   };
 
+  changeRichTextEditorHandler = (event) => {
+    this.changeStateAndDispatch('htmlContent', event.toString('html'));
+  };
+
   render() {
-    const { tourStepName, content } = this.state;
-    const { visuals, pages } = documentHelpers.getTargets();
+    const { tourStepName, htmlContent } = this.state;
+    const { targets } = this.props;
 
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
           <input type="text" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
           <div styleName="text-editor">
-            <RichTextEditor value={content} />
+            <RichTextEditor value={htmlContent} onChange={this.changeRichTextEditorHandler} />
           </div>
         </div>
         <div styleName="settings-container">
           <Accordion>
             {[
               {
-                content: <PageList pages={pages} />,
+                content: <PageList pages={targets.pages} />,
                 label: 'Select page'
               }, {
-                content: <VisualList visuals={visuals} />,
+                content: <VisualList visuals={targets.visuals} />,
                 label: 'Select visual'
               }
             ]}
@@ -70,8 +72,15 @@ const mapStateToProps = (state) => {
     tourStepIndex: state.tourStepIndex,
     stepEditorIndex: state.stepEditorIndex,
     pageId: state.pageId,
-    visualId: state.visualId
+    customTargetId: state.customTargetId,
+    targets: state.targets,
   }
 };
 
-export default connect(mapStateToProps)(SE_StepTarget)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeTourStep: (...args) => dispatch(actions.changeTourStep(...args)),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SE_StepTarget);

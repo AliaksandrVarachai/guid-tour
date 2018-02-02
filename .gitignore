@@ -5,3 +5,6 @@ dist-*/
 node_modules/
 
 *.log
+
+# temproray needed vendor files not included in the bundle yet
+resources/webpack/vendors/

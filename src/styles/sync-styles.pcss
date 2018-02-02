@@ -1,0 +1,28 @@
+/* Styles to be applied elements out of Guided Tour */
+
+@global-import './sync-placeholders.pcss';
+
+:global .tour-tour {
+  .popover-content {
+    h1 {
+      @extend gt__rte-h1;
+    }
+
+    h2 {
+      @extend gt__rte-h2;
+    }
+
+    h3 {
+      @extend gt__rte-h3;
+    }
+
+    pre {
+      @extend gt__rte-code-block;
+    }
+
+    code {
+      @extend gt__rte-code-inline;
+    }
+  }
+}
+

@@ -1,6 +1,7 @@
 import React from 'react';
-import ActionButton from './ActionButton';
+import Footer from './Footer';
 import { connect } from 'react-redux';
+import * as actions from '../../actions';
 
 const COMPONENTS = {
   Config: require('../../containers/Config/Config'),
@@ -11,22 +12,25 @@ const COMPONENTS = {
 import './Popup.pcss';
 
 const Popup = (props) => {
-  const { title, componentName, componentProps, width, onClose, buttons } = props;
+  const { title, componentName, componentProps, width, closePopup } = props;
   const Component = COMPONENTS[componentName].default;
+
+  const onCloseHandler = (event) => {
+    closePopup();
+  };
+
   return (
     <div className="gt__popup-container" style={{display: 'block'}}>
       <div className="gt__popup" style={{width: width}}>
         <div styleName="wrapper">
           <header styleName="header">
-            <i className="material-icons" styleName="close" onClick={onClose}>clear</i>
+            <i className="material-icons" styleName="close" onClick={onCloseHandler}>clear</i>
             <div styleName="title">{title}</div>
           </header>
           <div styleName="content">
             <Component />
           </div>
-          <footer styleName="footer">
-            {buttons.map(bt => <ActionButton {...bt}/>)}
-          </footer>
+          <Footer/>
         </div>
       </div>
     </div>
@@ -40,16 +44,13 @@ const mapStateToProps = (state) => {
     componentName,
     title: component.title,
     componentProps: component.componentProps,
-    width: component.width + component.units,
-    buttons: component.buttons
+    width: component.width + component.units
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onClose: (event) => {
-      dispatch({type: 'ON_CLOSE'});
-    }
+    closePopup: () => dispatch(actions.closePopup())
   }
 };
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TourStep from './TourStep';
-import { DEFAULT_NEW_STEP_SETTINGS } from '../../constants/tour-settings';
+import { TOUR_STEP_REQUIRED_FIELDS } from '../../constants/tour-settings';
 import documentHelpers from '../../tool-specific-helpers/targets-parsing';
+import { sortStepsByIndex } from '../../helpers/tour-step-helper';
 
 import './TourSteps.pcss';
 
@@ -18,8 +19,8 @@ export default function TourSteps({steps, tourStepIndex, isNewEditableTourStepAd
   return (
     <div className="gtu__table gtu__w100" styleName="steps-container">
       <TourStep isHeader={true}/>
-      {steps.map((step, index) => {
-        const visual = visuals[step.visualId] || '';
+      {sortStepsByIndex(steps).map((step, index) => {
+        const visual = visuals[step.customTargetId] || '';
         const page =  pages[visual.pageId] || '';
         return <TourStep index={index}
                          isChecked={index === tourStepIndex}
@@ -27,11 +28,13 @@ export default function TourSteps({steps, tourStepIndex, isNewEditableTourStepAd
                          tourStepName={step.name}
                          targetPage={page.title}
                          targetControl={visual.title}
-                         content={step.htmlContent}
-                         key={index}
+                         htmlContent={step.htmlContent}
+                         isSynchronized={step.isSynchronized}
+                         isNew={step.isNew}
+                         key={step.id}
         />
       })}
-      {isNewEditableTourStepAdded ? <TourStep tourStepName={DEFAULT_NEW_STEP_SETTINGS.name}
+      {isNewEditableTourStepAdded ? <TourStep tourStepName={TOUR_STEP_REQUIRED_FIELDS.name}
                                           cancelAddNewTourStep={cancelAddNewTourStep}
                                           isEditable={true}
       /> : null }

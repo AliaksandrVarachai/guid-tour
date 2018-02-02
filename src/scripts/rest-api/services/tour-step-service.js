@@ -1,6 +1,7 @@
 import communication from '../helpers/communication';
-import converting from '../helpers/converting';
-import createTourStep from '../creators/create-tour-step';
+import objectKeyConverter from '../converters/object-key-converter';
+import toRequiredTourStep from '../converters/to-required-tour-step';
+import toRequiredTourStepDto from '../converters/to-required-tour-step-dto';
 
 /**
  * Gets list of steps by tour's ID.
@@ -10,7 +11,7 @@ import createTourStep from '../creators/create-tour-step';
 function getStepsByTourId(tourId) {
   return communication.get(`api/steps?tourId=${tourId}`)
     .then(dtoSteps => {
-      return dtoSteps.length ? converting.dtoToObject(dtoSteps).map(step => createTourStep(step)) : [];
+      return dtoSteps.length ? objectKeyConverter.dtoToObject(dtoSteps).map(step => toRequiredTourStep(step)) : [];
     });
 }
 
@@ -22,7 +23,7 @@ function getStepsByTourId(tourId) {
 function getStepByTargetId(targetId) {
   return communication.get(`api/steps?targetId=${targetId}`)
     .then(dtoStep => {
-      return dtoStep ? createTourStep(converting.dtoToObject(dtoStep)) : null;
+      return dtoStep ? toRequiredTourStep(objectKeyConverter.dtoToObject(dtoStep)) : null;
     });
 }
 
@@ -34,18 +35,37 @@ function getStepByTargetId(targetId) {
 function getStepById(stepId) {
   return communication.get(`api/steps/get/${stepId}`)
     .then(dtoStep => {
-      return dtoStep ? createTourStep(converting.dtoToObject(dtoStep)) : null;
+      return dtoStep ? toRequiredTourStep(objectKeyConverter.dtoToObject(dtoStep)) : null;
     });
 }
 
+/**
+ * Adds steps to DB.
+ * @param {object} tourStep - tour step need to be added to DB.
+ * @returns {Promise<Object>} - tour step with the same ID as tourStep if success or with ID filled by zeros otherwise.
+ */
 function addStep(tourStep) {
-  return communication.post('api/steps/add', converting.dtoToObject(tourStep))
-    .then(data => createTourStep(converting.dtoToObject(data)));
+  return communication.post('api/steps/add', objectKeyConverter.objectToDto(tourStep))
+    .then(tourStepDto => toRequiredTourStep(objectKeyConverter.dtoToObject(tourStepDto)));
 }
 
+/**
+ * Updates existing step in DB.
+ * @param {object} tourStep - tour step.
+ * @returns {Promise<Object>} - tour step added to DB.
+ */
 function updateStep(tourStep) {
-  return communication.put('api/steps/update', converting.dtoToObject(tourStep))
-    .then(data => createTourStep(converting.dtoToObject(data)));
+  return communication.put('api/steps/update', objectKeyConverter.objectToDto(tourStep))
+    .then(dtoTourStep => {
+      return toRequiredTourStep(objectKeyConverter.dtoToObject(dtoTourStep))
+    });
+}
+
+function cloneStep(tourStep) {
+  return communication.post('api/Steps/clone', objectKeyConverter.objectToDto(tourStep))
+    .then(dtoTourStep => {
+      return toRequiredTourStep(objectKeyConverter.dtoToObject(dtoTourStep))
+    });
 }
 
 function deleteStep(stepId) {
@@ -58,5 +78,6 @@ export default {
   getStepById,
   addStep,
   updateStep,
+  cloneStep,
   deleteStep
 }

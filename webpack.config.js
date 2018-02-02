@@ -2,11 +2,13 @@ const webpack = require('webpack');
 const path = require('path');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const resources = path.resolve(__dirname, 'resources');
 const src = path.resolve(__dirname, 'src');
 const images = path.resolve(src, 'images');
+const config = path.resolve(src, 'config');
 const dist = path.resolve(__dirname, 'dist-' + process.env.NODE_TOOL);
 
 
@@ -27,16 +29,7 @@ module.exports = {
     publicPath: '/'
   },
   devtool: isProduction ? false : 'eval-source-map', //'eval' does not work
-  plugins: [
-    new CleanWebpackPlugin([dist]),
-    new webpack.DefinePlugin({
-      'process.env': {
-        isProduction,
-        NODE_TOOL: JSON.stringify(process.env.NODE_TOOL)
-      },
-    }),
-    new UglifyJSPlugin()
-  ],
+  plugins: getPlugins(),
   module: {
     rules: [
       {
@@ -74,6 +67,20 @@ module.exports = {
         ]
       },
       {
+        test: /\.json$/,
+        include: config,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name (file) {
+                return path.relative(config, file);
+              }
+            }
+          }
+        ]
+      },
+      {
         test: /\.html$/,
         include: path.resolve(resources, 'webpack/dev-server-local-test-tools'),
         use: [
@@ -98,3 +105,24 @@ module.exports = {
     port: 9090
   }
 };
+
+function getPlugins() {
+  let plugins = [
+    new CleanWebpackPlugin([dist]),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        NODE_TOOL: JSON.stringify(process.env.NODE_TOOL),
+        NODE_IS_LOCAL_START: !!JSON.stringify(process.env.NODE_IS_LOCAL_START),
+      },
+    }),
+    new UglifyJSPlugin(),
+  ];
+  if (process.env.NODE_ENV === 'development') {
+    plugins.push(new CopyWebpackPlugin([{
+      from: path.resolve(resources, 'webpack/vendors'),
+      ignore: ['README.MD']
+    }]));
+  }
+  return plugins;
+}

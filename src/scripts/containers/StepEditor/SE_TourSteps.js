@@ -12,13 +12,13 @@ class SE_TourSteps extends React.Component {
     };
   }
 
-  addNewEditableTourStep = () => {
+  addNewEditableTourStep = (event) => {
     this.setState({
       isNewEditableTourStepAdded: true
     });
   };
 
-  cancelAddNewTourStep = () => {
+  cancelAddNewTourStep = (event) => {
     this.setState({
       isNewEditableTourStepAdded: false
     })
@@ -43,7 +43,7 @@ class SE_TourSteps extends React.Component {
                   styleName="action"
                   onClick={this.addNewEditableTourStep}
                   disabled={isNewEditableTourStepAdded}>
-            Add New
+            Add new step
           </button>
         </div>
         <TourSteps steps={tours[tourIndex].steps}

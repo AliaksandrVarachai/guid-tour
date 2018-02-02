@@ -1,9 +1,7 @@
 // Mocked data
-import { DEFAULT_NEW_TOUR_SETTINGS, DEFAULT_NEW_STEP_SETTINGS, TOUR_EDITOR_STEPS } from '../constants/tour-settings';
+import { NOTIFICATION_TYPES } from '../constants/tour-settings';
 import { setStateValue, setStateValues } from '../helpers/state-operations';
 import { deepCopy } from '../helpers/deep-operations';
-
-const GUIDED_TOUR_INDEX = 0;  // TODO: add choice of guided tour by click;
 
 // TODO: replace pt with px
 const COMPONENTS = {
@@ -14,19 +12,7 @@ const COMPONENTS = {
     componentProps: {
       // custom props are here
     },
-    buttons: [
-      {
-        title: 'Cancel',
-        key: 'cancel',
-        onClick: 'onCancel',
-        className: 'action'
-      }, {
-        title: 'Save',
-        key: 'save',
-        onClick: 'onSave',
-        className: 'action'
-      }
-    ]
+    buttons: []
   },
   TourSettings: {
     width: 350,
@@ -54,19 +40,13 @@ const COMPONENTS = {
   StepEditor: {
     width: 800,
     units: 'px',
-    // TODO: change tour name after a tour is switchee
-    title: 'Guided Tour Steps (Tour name)',
+    title: 'Guided Tour Steps',
     componentName: 'StepEditor',
     componentProps: {
       // custom props are here
     },
     buttons: [
       {
-        title: 'Save',
-        key: 'save',
-        onClick: 'onSave',
-        className: 'action'
-      }, {
         title: 'Previous',
         key: 'previous',
         onClick: 'onPrevious',
@@ -76,44 +56,91 @@ const COMPONENTS = {
         key: 'next',
         onClick: 'onNext',
         className: 'action'
+      }, {
+        title: 'Save',
+        key: 'save',
+        onClick: 'onSave',
+        className: 'action'
       }
     ]
   }
 };
 
 const initState = {
-  isPopupShown: true,
+  isPopupShown: false,
   componentName: 'Config',
   COMPONENTS,
-  tours: [], //Data.tourList,
+  tours: [],
   tourStepIndex: 0,
   tourIndex: 0,
-  stepEditorIndex: 0
+  stepEditorIndex: 0,
+  targets: {
+    pages: {},
+    visuals: {}
+  },
+  // Synchronizes just locally added TourStep with DB (false between ADD_NEW_TOUR_STEP and SAVE_NEW_TOUR_STEP actions)
+  //isTourStepDifferFromDb: false,
+  notificationMessage: '',
+  notificationType: NOTIFICATION_TYPES.empty
+};
+
+initState.snapShot = {
+  tours: deepCopy(initState.tours),
+  tourStepIndex: initState.tourStepIndex,
+  tourIndex: initState.tourIndex,
 };
 
 
+function shallowCopyRequiredFields(requiredFields, source) {
+  if (typeof requiredFields !== 'object' || typeof source !== 'object')
+    throw Error(`requiredFields and source must be objects but "${typeof requiredFields}" and "${typeof source}" provided`)
+  return Object.keys(requiredFields).reduce((accum, key) => {
+    accum[key] = source[key];
+    return accum;
+  }, {});
+}
+
+function createArrayForSetStateValues(requiredFields, source) {
+  if (typeof requiredFields !== 'object' || typeof source !== 'object')
+    throw Error(`requiredFields and source must be objects but "${typeof requiredFields}" and "${typeof source}" provided`)
+  const result = [];
+  Object.keys(requiredFields).forEach(key => {
+    result.push(key, source[key]);
+  });
+  return result;
+}
+
 export default (state = initState, action) => {
   switch (action.type) {
+    case 'TAKE_SNAPSHOT': {
+      const {tours, tourIndex} = state;
+      const synchronizedSteps = tours[tourIndex].steps.filter(step => !step.isNew && step.isSynchronized);
+      return setStateValues(state, [
+        'snapShot', shallowCopyRequiredFields(state.snapShot, state),  // all state (for any case)
+        `snapShot.tours[${tourIndex}].steps`, synchronizedSteps
+      ]);
+    }
+
+    case 'APPLY_SNAPSHOT':
+      return setStateValues(state, createArrayForSetStateValues(state.snapShot, state.snapShot));
+
     case 'ON_CANCEL':
-    case 'ON_CLOSE':
       return setStateValue(state, 'isPopupShown', false);
 
     case 'ON_SAVE':
-      alert('ON_SAVE');
       return state;
 
     case 'ON_PREVIOUS':
     case 'ON_NEXT':
       const stepEditorIndex = state.stepEditorIndex;
-      if (action.type === 'ON_PREVIOUS' && stepEditorIndex <= 0 ||
-          action.type === 'ON_NEXT' && stepEditorIndex >= TOUR_EDITOR_STEPS.length - 1) {
-        return state; // TODO: add disabled attribute
-      }
       return setStateValue(
         state,
         `stepEditorIndex`,
         action.type === 'ON_NEXT' ? stepEditorIndex + 1 : stepEditorIndex - 1
       );
+
+    case 'CLOSE_POPUP':
+      return setStateValue(state, 'isPopupShown', false);
 
     case 'SHOW_POPUP':
       if (state.COMPONENTS[action.componentName] === undefined) {
@@ -125,11 +152,20 @@ export default (state = initState, action) => {
         'componentName', action.componentName
       ]);
 
-    case 'GO_TO_STEP_EDITOR':
+    case 'GO_TO_CONFIG':
       return setStateValues(state, [
-        'tourIndex', action.index,
         'tourStepIndex', 0,
-        'componentName', 'StepEditor'
+        'componentName', 'Config'
+      ]);
+
+    case 'GO_TO_STEP_EDITOR':
+      const tourName = state.tours[action.tourIndex].name;
+      state.COMPONENTS['StepEditor'].title = `Guided Tour Steps (${tourName})`;
+      return setStateValues(state, [
+        'tourIndex', action.tourIndex,
+        'tourStepIndex', action.tourStepIndex,
+        'componentName', 'StepEditor',
+        'stepEditorIndex', 0
       ]);
 
     case 'LOAD_TOURS':
@@ -140,85 +176,78 @@ export default (state = initState, action) => {
         'stepEditorIndex', 0
       ]);
 
-    case 'SAVE_NEW_TOUR':
-      const newTour = {
-        ...DEFAULT_NEW_TOUR_SETTINGS,
-        lastOpenDate: new Date().toISOString(), //TODO: move out of the reducer
-        name: action.tourName,
-        type: action.tourType
-      };
-      const tourListLength = state.tours.length;
-      return setStateValue(
-        state,
-        `tours[${tourListLength}]`,
-        newTour
-      );
-
-    case 'SAVE_TOUR_CHANGES':
+    case 'ADD_NEW_TOUR':
+      const addedTourIndex = state.tours.length;
       return setStateValues(state, [
-        `tours[${action.tourIndex}].name`, action.tourName,
-        `tours[${action.tourIndex}].type`, action.tourType
-        ]
-      );
+        `tours[${addedTourIndex}]`, action.tour,
+        'tourIndex', addedTourIndex,
+      ]);
+
+    case 'CHANGE_TOUR':
+      return setStateValue(state, `tours[${state.tourIndex}]`, action.tour);
+
+    case 'CHANGE_TOUR_INDEX':
+      return setStateValue(state, 'tourIndex', action.index);
 
     case 'SAVE_TOUR':
       alert('SAVE_TOUR');
       return state;
 
-    case 'COPY_TOUR': {
-      const tour = state.tours[action.index];
-      const copiedTour = Object.assign(
-        deepCopy(tour), {
-          name: tour.name + ' Copy',
-          visitors: 0,
-          lastOpenDate: new Date().toISOString(), //TODO: move out of the reducer
-        });
+    case 'DELETE_TOUR':
+      return setStateValues(state, [
+        'tours', state.tours.filter((step, inx) => inx !== action.removedTourIndex),
+        'tourIndex', action.nextTourIndex
+      ]);
+
+    case 'CLONE_TOUR':
       return setStateValue(
         state,
-        `tours`,
-        [...state.tours, copiedTour]
+        'tours', [...state.tours, action.tour]
       );
-    }
 
     case 'CHANGE_TOUR_STEP_INDEX':
       return setStateValue(state, 'tourStepIndex', action.index);
 
-    case 'SAVE_NEW_TOUR_STEP':
-      const newTourStep = {
-        ...DEFAULT_NEW_STEP_SETTINGS,
-        name: action.tourStepName
-      };
-      const tourStepListLength = state.tours[state.tourIndex].steps.length;
-      return setStateValue(
-        state,
-        `tours[${state.tourIndex}].steps[${tourStepListLength}]`,
-        newTourStep
-      );
+    case 'ADD_NEW_TOUR_STEP': // adds tour step to the store locally (w/o saving to DB)
+      const addedTourStepIndex = state.tours[state.tourIndex].steps.length;
+      return setStateValues(state, [
+        `tours[${state.tourIndex}].steps[${addedTourStepIndex}]`, action.tourStep,
+        'tourStepIndex', addedTourStepIndex,
+      ]);
 
+    // sets a flag that user saved a tourStep to DB (both for new step and for updated step)
+    case 'SAVE_TOUR_STEP': {
+      const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
+      return setStateValues(state, [
+        stepPath + '.isSynchronized', true,
+        stepPath + '.isNew', false
+      ]);
+    }
+
+    // set a flag that user made changes and tourStep differ from DB
     case 'CHANGE_TOUR_STEP': // action.propName & action.value is required
       const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
       const stepToPathMap = {
         tourStepName: stepPath + '.name',
-        style: stepPath + '.style',
+        styleId: stepPath + '.styleId',
         width: stepPath + '.width',
         height: stepPath + '.height',
         orientation: stepPath + '.orientation',
         pageId: stepPath + '.pageId',
-        visualId: stepPath + '.visualId',
+        targetId: stepPath + '.targetId',
+        customTargetId: stepPath + '.customTargetId',
+        htmlContent: stepPath + '.htmlContent',
+        isSynchronized: stepPath + '.isSynchronized',
+        isNew: stepPath + '.isNew',
       };
       if (!stepToPathMap.hasOwnProperty(action.propName)) {
         console.warn(`dispatch "CHANGE_TOUR_STEP" must contain "action.propName" from the list: [${Object.keys(stepToPathMap).join()}]`);
         return state;
       }
-      return setStateValue(
-        state,
-        stepToPathMap[action.propName],
-        action.value
-      );
-
-    case 'SAVE_TOUR_STEP':
-      alert('SAVE_TOUR_STEP');
-      return state;
+      return setStateValues(state, [
+        stepToPathMap[action.propName], action.value,
+        stepToPathMap.isSynchronized, false,
+      ]);
 
     // TODO: check for immutability with freeze
     case 'REORDER_TOUR_STEPS': {
@@ -253,35 +282,26 @@ export default (state = initState, action) => {
 
     case 'DELETE_TOUR_STEP': {
       const steps = state.tours[state.tourIndex].steps;
-      if (!steps.length)
-        return state;
-      let nextTourStepIndex = state.tourStepIndex;
-      if (action.index < state.tourStepIndex) {
-        nextTourStepIndex--;
-      } else if (action.index === state.tourStepIndex) {
-        if (action.index) {
-          nextTourStepIndex--;
-        } else {
-          nextTourStepIndex = steps.length > 1 ? 0 : -1;
-        }
-      }
       return setStateValues(state, [
-        `tours[${state.tourIndex}].steps`, steps.filter((step, inx) => inx !== action.index),
-        'tourStepIndex', nextTourStepIndex
+        `tours[${state.tourIndex}].steps`, steps.filter((step, inx) => inx !== action.removedTourStepIndex),
+        'tourStepIndex', action.nextTourStepIndex
       ]);
     }
 
-    case 'COPY_TOUR_STEP': {
-      const steps = state.tours[state.tourIndex].steps;
-      const copiedStep = deepCopy(steps[action.index]);
-      copiedStep.name = steps[action.index].name + ' copy';
-      if (!steps.length)
-        return state;
+    case 'CLONE_TOUR_STEP': {;
       return setStateValues(state, [
-        `tours[${state.tourIndex}].steps`, [...steps, copiedStep],
-        'tourStepIndex', steps.length
+        `tours[${state.tourIndex}].steps`, [...state.tours[state.tourIndex].steps, action.tourStep]
       ]);
     }
+
+    case 'CHANGE_NOTIFICATION':
+      return setStateValues(state, [
+        'notificationMessage', action.message,
+        'notificationType', action.messageType
+      ]);
+
+    case 'UPDATE_TARGETS':
+      return setStateValue(state, 'targets', action.targets);
 
     default:
       return state;

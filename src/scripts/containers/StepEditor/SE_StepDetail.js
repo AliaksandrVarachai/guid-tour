@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import WindowOrientation from '../../components/WindowOrientation/WindowOrientation';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
 import { ORIENTATION_NAMES } from '../../constants/tour-settings';
+import * as actions from '../../actions';
 
 import './SE_StepDetail.pcss';
 
@@ -13,7 +14,7 @@ class SE_StepDetail extends React.Component {
     this.state = {
       tourStepName: step.name,
       htmlContent: step.htmlContent,
-      style: step.style,
+      styleId: step.styleId,
       width: step.width,
       height: step.height,
       orientation: step.orientation,
@@ -24,10 +25,8 @@ class SE_StepDetail extends React.Component {
     this.setState({
       [propName]: value
     });
-    this.props.dispatch({
-      type: 'CHANGE_TOUR_STEP',
-      propName,
-      value
+    this.props.changeTourStep({
+      [propName]: value
     });
   };
 
@@ -36,7 +35,7 @@ class SE_StepDetail extends React.Component {
   };
 
   changeStyleHandler = (event) => {
-    this.changeStateAndDispatch('style', event.target.value);
+    this.changeStateAndDispatch('styleId', event.target.value);
   };
 
   changeWidthHandler = (event) => {
@@ -51,34 +50,40 @@ class SE_StepDetail extends React.Component {
     this.changeStateAndDispatch('orientation', +event.target.value);
   };
 
+  changeRichTextEditorHandler = (event) => {
+    this.changeStateAndDispatch('htmlContent', event.toString('html'));
+  };
+  // TODO:window style, styles editor button, preview button 
   render() {
-    const { tourStepName, htmlContent, style, width, height, orientation } = this.state;
+    const { tourStepName, htmlContent, styleId, width, height, orientation } = this.state;
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
-          <input type="text" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
+          <input type="text" maxLength="100" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
           <div styleName="text-editor">
-            <RichTextEditor value={htmlContent} />
+            <RichTextEditor value={this.state.htmlContent} onChange={this.changeRichTextEditorHandler}/>
           </div>
         </div>
         <div styleName="settings-container">
           <div styleName="table">
-            <div styleName="row">
+            <div styleName="row" style={{display: 'none'}}>
               <div styleName="cell param-name">Window Style</div>
               <div styleName="cell param-value">
-                <input type="text" value={style} onChange={this.changeStyleHandler} />
+                <input type="text" value={styleId} onChange={this.changeStyleHandler} />
               </div>
               <div styleName="cell">
                 <button styleName="action">Styles Editor</button>
               </div>
             </div>
+            {/* TODO: uncomment when width & height will be defined */}
+            {/*
             <div styleName="row">
               <div styleName="cell param-name">Width</div>
               <div styleName="cell param-value">
                 <span styleName="units">px.</span>
                 <input type="text" value={width} onChange={this.changeWidthHandler} />
               </div>
-              <div styleName="cell">
+              <div styleName="cell" style={{visibility: 'hidden'}}>
                 <button styleName="action">Preview</button>
               </div>
             </div>
@@ -90,6 +95,7 @@ class SE_StepDetail extends React.Component {
               </div>
               <div styleName="cell"/>
             </div>
+             */}
           </div>
           <div styleName="window-orientation">
             <div styleName="orientation-title">Window orientation: {ORIENTATION_NAMES[orientation]}</div>
@@ -112,5 +118,11 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(SE_StepDetail)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeTourStep: (...args) => dispatch(actions.changeTourStep(...args)),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SE_StepDetail);
 

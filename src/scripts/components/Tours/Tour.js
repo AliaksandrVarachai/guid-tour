@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EditableTour from './EditableTour';
+import * as actions from '../../actions';
+import documentMetaInfo from '../../tool-specific-helpers/document-meta-info';
 
 import './Tour.pcss';
 
@@ -50,21 +52,25 @@ class Tour extends React.Component {
   };
 
   goToStepEditorHandler = (event) => {
-    this.props.dispatch({
-      type: 'GO_TO_STEP_EDITOR',
-      index: +event.target.getAttribute('data-tour-index')
-    });
+    this.props.goToStepEditor(+event.target.getAttribute('data-tour-index'));
   };
 
-  copyTourHandler = (event) => {
-    this.props.dispatch({
-      type: 'COPY_TOUR',
-      index: +event.target.getAttribute('data-tour-index')
-    });
+  cloneTourHandler = (event) => {
+    if (confirm(`Are you sure you want to clone tour "${this.props.tourName}"?`)) {
+      this.props.cloneTour(+event.target.getAttribute('data-tour-index'), documentMetaInfo.getTemplateId(), this.props.creator);
+    }
   };
 
+  deleteTourHandler = (event) => {
+    if (confirm(`Are you sure you want to delete tour "${this.props.tourName}"?`)) {
+      this.props.deleteTour(+event.target.getAttribute('data-tour-index'))
+    }
+  };
+
+  // TODO: unhide Creators
   render() {
     const { tourIndex, tourName, tourType, lastOpenDate, totalVisits, steps, creator, isHeader = false } = this.props;
+    const minTime = "1900-01-01T00:00:00";
     let { isEditable } = this.state;
     const isNewAddedTour = !!this.props.cancelAddNewTour;
     return (
@@ -80,13 +86,13 @@ class Tour extends React.Component {
             {lastOpenDate ? lastOpenDate : "Last Open"}
           </div>
           <div className="gtu__table-cell" styleName="header header-visitors">
-            {totalVisits ? totalVisits : "# Visitors"}
+            {totalVisits ? totalVisits : "# Visits"}
           </div>
           <div className="gtu__table-cell" styleName="header header-steps">
             {steps ? steps : "# Steps"}
           </div>
           <div className="gtu__table-cell" styleName="header header-creator">
-            {creator ? creator : "Creator"}
+            {/*{creator ? creator : "Creator"}*/}
           </div>
           <div className="gtu__table-cell" styleName="header header-actions">
             {null}
@@ -119,7 +125,7 @@ class Tour extends React.Component {
             {tourType}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            {new Date(lastOpenDate).toLocaleDateString()}
+            {lastOpenDate === minTime ? "Never" : new Date(lastOpenDate).toLocaleDateString()}
           </div>
           <div className="gtu__table-cell" styleName="data">
             {totalVisits}
@@ -128,18 +134,34 @@ class Tour extends React.Component {
             {steps}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            {creator}
+            {/*{creator}*/}
           </div>
-          <div className="gtu__table-cell" styleName="data">
-            <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.goToStepEditorHandler}>dashboard</i>
-            <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.copyTourHandler}>content_copy</i>
-            <i className="material-icons" styleName="action" onClick={this.editTour}>create</i>
-            <i className="material-icons" styleName="action">delete</i>
+          <div className="gtu__table-cell gtu__overflow-visible" styleName="data">
+            <span className="gtu__tooltip" data-tooltip="Step list">
+              <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.goToStepEditorHandler}>dashboard</i>
+            </span>
+            <span className="gtu__tooltip" data-tooltip="Clone tour">
+              <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.cloneTourHandler}>content_copy</i>
+            </span>
+            <span className="gtu__tooltip" data-tooltip="Edit tour">
+              <i className="material-icons" styleName="action" onClick={this.editTour}>create</i>
+            </span>
+            <span className="gtu__tooltip" data-tooltip="Delete tour">
+              <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.deleteTourHandler}>delete</i>
+            </span>
           </div>
         </div>
     )
   }
 }
 
-export default connect()(Tour);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    goToStepEditor: (...args) => dispatch(actions.goToStepEditor(...args)),
+    cloneTour: (...args) => dispatch(actions.cloneTour(...args)),
+    deleteTour: (...args) => dispatch(actions.deleteTour(...args)),
+  }
+};
+
+export default connect(null, mapDispatchToProps)(Tour);
 

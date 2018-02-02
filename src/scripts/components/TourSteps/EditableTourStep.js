@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import * as actions from '../../actions';
 
 import './EditableTourStep.pcss';
 
@@ -27,13 +28,11 @@ class EditableTourStep extends React.Component {
     });
   };
 
-  saveNewTourStepHandler = () => {
+  saveNewTourStepLocallyHandler = () => {
     const { tourStepName } = this.state;
-    if (tourStepName) {
-      this.props.dispatch({
-        type: 'SAVE_NEW_TOUR_STEP',
-        tourStepName
-      });
+    if (tourStepName && tourStepName.trim()) {
+      this.props.addNewTourStep(tourStepName.trim());
+      this.props.goToNextStepEditor();
     } else {
       this.setState({
         isWrongTourStepName: true
@@ -64,15 +63,20 @@ class EditableTourStep extends React.Component {
     const { /*saveTourStepChanges,*/ cancelAddNewTourStep } = this.props;
     //const saveHandler = tourIndex !== undefined ? this.saveChangedTourHandler : this.saveNewTourHandler;
     return (
-      <div styleName="editable">
+      <div className="gtu__overflow-visible" styleName="editable" >
         <span styleName="editable-action-panel">
-          <i className="material-icons" styleName="editable-action" onClick={this.saveNewTourStepHandler}>save</i>
-          <i className="material-icons" styleName="editable-action" onClick={cancelAddNewTourStep}>block</i>
+          <span className="gtu__tooltip" data-tooltip="Save step name">
+            <i className="material-icons" styleName="editable-action" onClick={this.saveNewTourStepLocallyHandler}>save</i>
+          </span>
+          <span className="gtu__tooltip" data-tooltip="Delete">
+            <i className="material-icons" styleName="editable-action" onClick={cancelAddNewTourStep}>block</i>
+          </span>
         </span>
-        <input type="text"
+        <input autoFocus type="text"
                styleName={classNames('editable-name', {'is-wrong-value': isWrongTourStepName})}
                value={tourStepName}
                placeholder="Enter step name"
+               maxLength="100"
                onChange={this.tourStepNameHandler}
         />
       </div>
@@ -80,5 +84,11 @@ class EditableTourStep extends React.Component {
   }
 }
 
-export default connect()(EditableTourStep);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewTourStep: (...args) => dispatch(actions.addNewTourStep(...args)),
+    goToNextStepEditor: () => dispatch(actions.goToNextStepEditor()),
+  }
+};
 
+export default connect(null, mapDispatchToProps)(EditableTourStep);

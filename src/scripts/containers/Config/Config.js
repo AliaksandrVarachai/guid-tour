@@ -36,6 +36,7 @@ class Config extends React.Component {
     }
   }
 
+  // TODO:settings button
   render() {
     const { tourList } = this.props;
     const { isNewEditableTourAdded } = this.state;
@@ -49,9 +50,9 @@ class Config extends React.Component {
           <Search className="gtu__float-right" />
         </div>
         <button name="addNew" styleName="action" onClick={this.addNewEditableTour} disabled={isNewEditableTourAdded}>
-          Add New
+          Add new tour
         </button>
-        <button name="settings" styleName="action">
+        <button name="settings" styleName="action" style={{visibility: 'hidden'}}>
           Settings
         </button>
         <Tours tourList={tourList}

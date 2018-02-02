@@ -1,53 +1,80 @@
-//http://ecsb00100b6f.epam.com/GuidedTourApiUnifyingAlex/
-//http://ecsb00100c96.epam.com:8085/
-const HOST = 'http://ecsb00100c96.epam.com:8085/';
-const HEADERS = new Headers({
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
-});
+import getJsonFromResponse from './getJsonFromResponse';
+import { loadConfig } from '../services/config-service';
 
-function fetchRequest(url, options){
-  return fetch(url, options)
-    .then(response => {
-      if (response.status === 200) {
-        return response.json();
-      }
-      else if (response.status === 204) {
-        // TODO: process empty data
-        console.warn('empty data received');
-        return;
-      }
-      else {
-        console.log("Status code: ", response.status);
-      }
-    })
-    .catch(error => console.log("Error : ", error))
-}
+const configuredHost = loadConfig()
+  .then(config => config.GUIDED_TOUR_API_HOST);
 
+/**
+ * Sends a get request to the server.
+ * @param {string} api - api url.
+ * @returns {Promise<object|null>}
+ * @throws {error} - status end description of an error.
+ */
 function get(api) {
-  return fetchRequest(`${HOST}${api}`, {headers: HEADERS});
+  const options = {
+    headers: new Headers({'Accept': 'application/json'})
+  };
+  return configuredHost
+    .then(host => fetch(`${host}${api}`, options))
+    .then(response => getJsonFromResponse(response));
 }
 
-function post(api, data){
+/**
+ * Sends a post request to the server.
+ * @param {string} api - api url.
+ * @param {object} data - object is to be sent in the body of a request.
+ * @returns {Promise<object|null>} - a js object formed from response body.
+ * @throws {error} - status and description of the error.
+ */
+function post(api, data) {
   const options = {
-    headers: HEADERS,
+    headers: new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }),
     method: 'POST',
     body: JSON.stringify(data)
   };
-  return fetchRequest(`${HOST}${api}`, options);
+  return configuredHost
+    .then(host => fetch(`${host}${api}`, options))
+    .then(response => getJsonFromResponse(response));
 }
 
-function put(api, data){
+/**
+ * Sends a put request to the server.
+ * @param {string} api - api url.
+ * @param {object} data - object is to be sent in the body of a request.
+ * @returns {Promise<object|null>} - a js object formed from response body.
+ * @throws {error} - status and description of the error.
+ */
+function put(api, data) {
   const options = {
-    headers: HEADERS,
+    headers: new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }),
     method: 'PUT',
     body: JSON.stringify(data)
   };
-  return this.fetchRequest(`${HOST}${api}`, options);
+  return configuredHost
+    .then(host => fetch(`${host}${api}`, options))
+    .then(response => getJsonFromResponse(response));
 }
 
+/**
+ * Sends a delete request to the server.
+ * @param {string} api - api url.
+ * @returns {Promise<object|null>} - a js object formed from response body.
+ * @throws {error} - status and description of the error.
+ */
 function delete1(api) {
-  return fetchRequest(`${this.host}${api}`, {method: 'DELETE'});
+  const options = {
+    headers: new Headers({'Accept': 'application/json'}),
+    method: 'DELETE'
+  };
+  return configuredHost
+    .then(host => fetch(`${host}${api}`, options))
+    .then(response => getJsonFromResponse(response));
 }
 
 export default {

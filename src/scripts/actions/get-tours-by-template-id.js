@@ -1,6 +1,6 @@
 import tourService from '../rest-api/services/tour-service';
 
-export default templateId => {
+export function getToursByTemplateId(templateId) {
   return dispatch => tourService.getToursByTemplateId(templateId).then(
     tours => {
       dispatch({

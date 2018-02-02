@@ -1,4 +1,6 @@
 import { getTargets, getParsedTargets } from './helpers';
+import documentMetaInfo from '../document-meta-info';
+import globals from '../globals';
 
 function parseTargets() {
   const visuals = {};
@@ -8,8 +10,8 @@ function parseTargets() {
     visuals[node.id] = {
       title: node.id,
       frameIndex: -1,  // TODO: remove frameIndex for root document
-      pageId: 'page-id-1',
-      pageTitle: 'Page #1'
+      pageId: documentMetaInfo.getPageId(),//'page-id-1',
+      pageTitle: globals.tableau.VizManager.getVizs()[0].getWorkbook().getActiveSheet().getName()//'Page #1'
     }
   }
 

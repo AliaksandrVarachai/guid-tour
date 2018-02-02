@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import EditableTourStep from './EditableTourStep';
+import * as actions from '../../actions';
 
 import './TourStep.pcss';
 
@@ -19,8 +21,10 @@ class TourStep extends React.Component {
     tourStepName: PropTypes.string,
     targetPage: PropTypes.string,
     targetControl: PropTypes.string,
-    content: PropTypes.string,
+    htmlContent: PropTypes.string,
     isHeader: PropTypes.bool,
+    isSynchronized: PropTypes.bool,
+    isNew: PropTypes.bool,
     cancelAddNewTourStep: PropTypes.func,
   };
 
@@ -52,22 +56,20 @@ class TourStep extends React.Component {
     });
   };
 
-  copyStepHandler = (event) => {
-    this.props.dispatch({
-      type: 'COPY_TOUR_STEP',
-      index: +event.target.getAttribute('data-step-index')
-    });
+  cloneStepHandler = (event) => {
+    if (confirm(`Are you sure you want to clone the step "${this.props.tourStepName}"?`)) {
+      this.props.cloneTourStep(+event.target.getAttribute('data-step-index'));
+    }
   };
 
   deleteStepHandler = (event) => {
-    this.props.dispatch({
-      type: 'DELETE_TOUR_STEP',
-      index: +event.target.getAttribute('data-step-index')
-    });
+    if (confirm(`Are you sure you want to delete the step "${this.props.tourStepName}"?`)) {
+      this.props.deleteTourStep(+event.target.getAttribute('data-step-index'));
+    }
   };
-
+  // TODO: add step ordering
   render() {
-    const { index, isChecked, tourStepName, targetPage, targetControl, content, isHeader = false } = this.props;
+    const { index, isChecked, tourStepName, targetPage, targetControl, htmlContent, isSynchronized = true, isNew = false, isHeader = false } = this.props;
     let { isEditable } = this.state;
     return (
       isHeader ?
@@ -85,7 +87,7 @@ class TourStep extends React.Component {
             {targetControl ? targetControl : "Target Control"}
           </div>
           <div className="gtu__table-cell" styleName="header header-content">
-            {content ? content : "Content"}
+            {htmlContent ? htmlContent : "Content"}
           </div>
           <div className="gtu__table-cell" styleName="header header-scroll">
             {null}
@@ -112,7 +114,7 @@ class TourStep extends React.Component {
           <div className="gtu__table-cell" styleName="data">
             <input type="radio" name="tour-item-radio" data-step-index={index} checked={isChecked} onChange={this.stepSelectHandler} />
           </div>
-          <div className="gtu__table-cell" styleName="data">
+          <div className="gtu__table-cell" styleName={classnames('data', {'not-synchronized': !isSynchronized || isNew})}>
             {tourStepName}
           </div>
           <div className="gtu__table-cell" styleName="data">
@@ -122,19 +124,32 @@ class TourStep extends React.Component {
             {targetControl}
           </div>
           <div className="gtu__table-cell" styleName="data">
-            {content}
+            {htmlContent}
           </div>
-          <div className="gtu__table-cell" styleName="data">
+          <div className="gtu__table-cell" styleName="data" style={{visibility : 'hidden'}}>
             <button className="material-icons gtu__unstyled-button" styleName="action" data-step-index={index} onClick={this.moveStepToPrevHandler}>keyboard_arrow_up</button>
             <button className="material-icons gtu__unstyled-button" styleName="action" data-step-index={index} onClick={this.moveStepToNextHandler}>keyboard_arrow_down</button>
           </div>
-          <div className="gtu__table-cell" styleName="data">
-            <button className="material-icons gtu__unstyled-button" styleName="action" data-step-index={index} onClick={this.copyStepHandler}>content_copy</button>
-            <button className="material-icons gtu__unstyled-button" styleName="action" data-step-index={index} onClick={this.deleteStepHandler}>delete</button>
+          <div className="gtu__table-cell gtu__overflow-visible" styleName="data">
+            <span className="gtu__tooltip" data-tooltip="Copy step">
+              <button className="material-icons gtu__unstyled-button" styleName="action" data-step-index={index} onClick={this.cloneStepHandler}>content_copy</button>
+            </span>
+            <span className="gtu__tooltip" data-tooltip="Delete step">
+              <button className="material-icons gtu__unstyled-button" styleName="action" data-step-index={index} onClick={this.deleteStepHandler}>delete</button>
+            </span>
           </div>
         </label>
     );
   }
 }
 
-export default connect()(TourStep);
+//TODO: REMOVE DISPATCH OR REFACTOR
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: dispatch,
+    deleteTourStep: (...args) => dispatch(actions.deleteTourStep(...args)),
+    cloneTourStep: (...args) => dispatch(actions.cloneTourStep(...args))
+  }
+};
+
+export default connect(null, mapDispatchToProps)(TourStep);

@@ -28,6 +28,14 @@
   float: right;
 }
 
+.gtu__overflow-hidden {
+  overflow: hidden;
+}
+
+.gtu__overflow-visible {
+  overflow: visible;
+}
+
 .gtu__unstyled-button {
   background: none;
   color: inherit;
@@ -36,4 +44,58 @@
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+/* TODO: move to mixin with $width param */
+.gtu__tooltip {
+  position: relative;
+  z-index: 1;
+  /* cursor: pointer; */
+
+  &:before, &:after {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:before {
+    position: absolute;
+    box-sizing: border-box;
+    bottom: 100%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -40px;
+    width: 80px;
+    max-height: 40px; /* 2 lines */
+    padding: 3px 3px 5px;
+    border-radius: 6px;
+    background: #000;
+    color: #fff;
+    content: attr(data-tooltip);
+    white-space: normal;
+    overflow: hidden;
+    text-align: center;
+    /* font-size: 14px;
+    line-height: 1.2; */
+  }
+
+  &:after {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    margin-bottom: -5px;
+    width: 0;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+    content: '';
+    font-size: 0;
+    line-height: 0;
+  }
+
+  &:hover:before,
+  &:hover:after {
+    opacity: 1;
+    transition: opacity 0s linear 1s;
+  }
 }

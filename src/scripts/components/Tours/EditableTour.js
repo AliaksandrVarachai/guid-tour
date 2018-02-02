@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { TOUR_TYPES } from '../../constants/tour-settings';
 import TourTypesSelector from '../TourTypesSelector/TourTypesSelector';
+import * as actions from '../../actions';
 
 import './EditableTour.pcss';
 
@@ -37,12 +38,15 @@ class EditableTour extends React.Component {
 
   saveNewTourHandler = () => {
     const { tourName, tourType } = this.state;
-    if (tourName) {
-      this.props.dispatch({
-        type: 'SAVE_NEW_TOUR',
-        tourName,
-        tourType
-      });
+    if (tourName && tourName.trim()) {
+      this.props.addAndSaveNewTour(tourName.trim(), tourType)
+        .then(isSuccess => {
+          if (isSuccess) {
+            this.props.goToStepEditor();
+          } else {
+            alert('A new tour is not saved');
+          }
+        })
     } else {
       this.setState({
         isWrongTourName: true
@@ -53,13 +57,8 @@ class EditableTour extends React.Component {
   saveChangedTourHandler = () => {
     const { tourName, tourType } = this.state;
     const { tourIndex, saveTourChanges } = this.props;
-    if (tourName) {
-      this.props.dispatch({
-        type: 'SAVE_TOUR_CHANGES',
-        tourIndex,
-        tourName,
-        tourType
-      });
+    if (tourName && tourName.trim()) {
+      this.props.changeAndSaveTour(tourIndex, tourName.trim(), tourType);
       saveTourChanges(); // change the parent state
     } else {
       this.setState({
@@ -73,14 +72,20 @@ class EditableTour extends React.Component {
     const { saveTourChanges, cancelTourChanges, tourIndex } = this.props;
     const saveHandler = tourIndex !== undefined ? this.saveChangedTourHandler : this.saveNewTourHandler;
     return (
-      <div styleName="editable">
+      <div className="gtu__overflow-visible" styleName="editable">
         <span styleName="editable-action-panel">
-          <i className="material-icons" styleName="editable-action" onClick={saveHandler}>save</i>
-          <i className="material-icons" styleName="editable-action" onClick={cancelTourChanges}>block</i>
+          <span className="gtu__tooltip" data-tooltip="Save tour name">
+            <i className="material-icons" styleName="editable-action" onClick={saveHandler}>save</i>
+          </span>
+          <span className="gtu__tooltip" data-tooltip="Delete">
+            <i className="material-icons" styleName="editable-action" onClick={cancelTourChanges}>block</i>
+          </span>
         </span>
-        <input type="text"
+        <input autoFocus type="text"
                styleName={classNames('editable-name', {'is-wrong-value': isWrongTourName})}
                value={tourName}
+               placeholder="Enter tour name"
+               maxLength="100"
                onChange={this.tourNameHandler}
         />
         <span styleName="editable-type">
@@ -91,4 +96,12 @@ class EditableTour extends React.Component {
   }
 }
 
-export default connect()(EditableTour);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addAndSaveNewTour: (...args) => dispatch(actions.addAndSaveNewTour(...args)),
+    changeAndSaveTour: (...args) => dispatch(actions.changeAndSaveTour(...args)),
+    goToStepEditor: (...args) => dispatch(actions.goToStepEditor(...args)),
+  }
+};
+
+export default connect(null, mapDispatchToProps)(EditableTour);

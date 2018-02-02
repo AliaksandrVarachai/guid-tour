@@ -1,28 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RadioList from '../../RadioList/RadioList';
+import * as actions from '../../../actions';
 
 import './PageList.pcss';
 
-function PageList({ pages, tours, tourIndex, tourStepIndex, dispatch }) {
+function PageList({ pages, tours, tourIndex, tourStepIndex, changeTourStep }) {
 
   function changeHandler(e) {
-    // TODO: make propNames = []
-    dispatch({
-      type: 'CHANGE_TOUR_STEP',
-      propName: 'pageId',
-      value: e.target.getAttribute('data-id')
-    });
-    dispatch({
-      type: 'CHANGE_TOUR_STEP',
-      propName: 'visualId', // clear visualId when a new page is chosen
-      value: ''
+    changeTourStep({
+      pageId: e.target.getAttribute('data-id')
     });
   }
 
+  // TODO: implement a real custom target id (now it is a substitute of visual id)  then remove {display : 'none'}
   return (
     <div>
-      <div styleName="action-container">
+      <div styleName="action-container" style={{display : 'none'}}>
         <input type="text" placeholder="Custom page id"/>
         <button>Add</button>
       </div>
@@ -46,4 +40,10 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(PageList)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeTourStep: (...args) => dispatch(actions.changeTourStep(...args)),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageList);
