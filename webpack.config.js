@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const fs = require('fs');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -122,9 +123,10 @@ function getPlugins() {
     }),
     new UglifyJSPlugin(),
   ];
-  if (process.env.NODE_ENV === 'development') {
+  const vendorsPath = path.resolve(resources, 'webpack/vendors');
+  if (process.env.NODE_ENV === 'development' && fs.existsSync(vendorsPath)) {
     plugins.push(new CopyWebpackPlugin([{
-      from: path.resolve(resources, 'webpack/vendors'),
+      from: vendorsPath,
       ignore: ['README.MD']
     }]));
   }

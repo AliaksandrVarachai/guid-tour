@@ -1,0 +1,52 @@
+@define-mixin switch $width: 60px, $height: 34px, $diameter: 26px {
+  position: relative;
+  display: inline-block;
+  width: $width;
+  height: $height;
+
+  input {
+    display: none;
+
+    &:checked + :global(.gtm__slider) {
+      background: #19c2d5;
+
+      &:before {
+        transform: translateX(calc($width - $height));
+      }
+    }
+
+    &:focus + :global(.gtm__slider) {
+      box-shadow: 0 0 1px #19c2d5;
+    }
+  }
+
+  :global(.gtm__slider) {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ccc;
+    transition: .4s;
+
+    &:before {
+      position: absolute;
+      content: '';
+      height: $diameter;
+      width: $diameter;
+      left: calc(($height - $diameter) / 2);
+      bottom: calc(($height - $diameter) / 2);
+      background: #fff;
+      transition: .4s;
+    }
+
+    &:global(.gtm__round) {
+      border-radius: $height;
+
+      &:before {
+        border-radius: 50%;
+      }
+    }
+  }
+}

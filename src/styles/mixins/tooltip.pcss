@@ -1,0 +1,54 @@
+@define-mixin tooltip $width:80px {
+  position: relative;
+  z-index: 1;
+
+  &:before, &:after {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:before {
+    position: absolute;
+    box-sizing: border-box;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 45px; /* 2 lines */
+    width: $width;    /* TODO: add boolean parameter for width: auto */
+    padding: 3px 3px 5px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background: #000;
+    color: #fff;
+    content: attr(data-tooltip);
+    white-space: normal;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+  }
+
+  &:after {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    margin-bottom: 0;
+    border: 5px solid;
+    border-color: #000 transparent transparent transparent;
+    content: '';
+    font-size: 0;
+    line-height: 0;
+  }
+
+  &:hover {
+    &:before, &:after {
+      opacity: 1;
+      transition: opacity 0s linear 1s;
+    }
+  }
+
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+}
