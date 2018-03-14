@@ -1,21 +1,26 @@
 .container {
-  display: inline-table;
   width: 100%;
-  margin: 20px 0;
+  margin: 20px 0 0;
   font-family: Arial, sans-serif;
   font-size: 12px;
   min-height: 350px;
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
 }
 
 .text-editor-container {
-  display: table-cell;
+  float: left;
   position: relative;
-  width: 55%;
+  width: 60%;
 }
 
 .settings-container {
-  display: table-cell;
-  padding-left: 20px;
+  float: right;
+  width: 35%;
 }
 
 .details {
@@ -24,65 +29,43 @@
 }
 
 .text-editor {
+  font-size: 16px;
   position: absolute;
-  top: 35px;
+  top: 65px;
   right: 0;
   bottom: 0;
   left: 0;
 }
 
-.param-name {
-  text-align: right;
-}
-
-.param-value > input {
-  box-sizing: border-box;
-  display: inline-block;
+.size-editor-row {
+  height: 30px;
   width: 80%;
 }
+
+.size-editor-row-name {
+  width: 30%;
+  display: inline-block;
+  float: left;
+}
+
+.size-editor-row-value {
+  width: 70%;
+  float: left;
+}
+
+.size-editor-row-value input {
+  width: 50%;
+}
+
 
 .action {
   width: 100%;
   line-height: 1.4em;
 }
 
-.row:first-of-type .param-value > input {
-  width: 100%;
-}
-
-.table {
-  display: table;
-}
-
-.row {
-  display: table-row;
-}
-
-.row:first-of-type .param-name {
-  width: 30%;
-}
-
-.row:first-of-type .param-value {
-  width: 40%;
-}
-
-.cell {
-  display: table-cell;
-  padding-bottom: 10px;
-  padding-right: 10px;
-}
-.cell:last-of-type {
-  padding-right: 0;
-}
-
-.units {
-  padding-top: 3px;
-  float: right;
-}
-
-
 .window-orientation {
-  min-height: 250px;
+  top: 65px;
+  min-height: 258px;
   padding: 5px 10px;
   border: 1px solid #d8d8d8;
   color: #7f7f7f;
@@ -96,4 +79,33 @@
   width: 200px;
   height: 160px;
   margin: 35px auto 0;
+}
+
+.toggle {
+  padding: 10px;
+  height: 30px;
+}
+
+.toggle label {
+    float:left;
+    width:100px;
+    border:1px solid #D0D0D0;
+    overflow:auto;
+}
+
+.toggle label span {
+    text-align:center;
+    padding: 6px 0px;
+    display:block;
+    color: #fff;
+    background-color:#96e1ea;
+}
+
+.toggle label input {
+    position:absolute;
+    visibility: hidden;
+}
+
+.toggle input:checked + span {
+    background-color:#19c2d5;
 }

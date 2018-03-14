@@ -3,6 +3,7 @@ import tourStepService from '../rest-api/services/tour-step-service';
 import { TOUR_EDITOR_STEPS, NOTIFICATION_TYPES } from '../constants/tour-settings';
 import { validateTourStep } from '../helpers/validators';
 import { isTourSynchronized } from '../helpers/synchronized-validators';
+import { takeSnapshot, applySnapshot } from './snapshot';
 
 export function goToConfig() {
   return dispatch => {
@@ -23,9 +24,7 @@ export function goToStepEditor(tourIndex = -1, tourStepIndex = 0) {
     if (tourIndex < 0)
       tourIndex = getState().tourIndex;
     if (isTourSynchronized(getState().tours[tourIndex])) {
-      dispatch({
-        type: 'TAKE_SNAPSHOT'
-      });
+      dispatch(takeSnapshot());
       // dispatch({
       //   type: 'CHANGE_NOTIFICATION',
       //   message: 'Snapshot is created',
@@ -92,9 +91,7 @@ export function closePopup() {
         if (!isTourSynchronized(tours[tourIndex])) {
           const step = tours[tourIndex].steps[tourStepIndex];
           if (confirm(`Your changes in steps are not saved. Do you really want to discard the changes?`)) {
-            dispatch({
-              type: 'APPLY_SNAPSHOT'
-            });
+            dispatch(applySnapshot());
             // dispatch({
             //   type: 'CHANGE_NOTIFICATION',
             //   message: 'State is restored from snapshot',
@@ -155,6 +152,7 @@ export function saveData() {
  */
 function saveNewTourStep(tourStep, dispatch, getState) {
   const { tourIndex, tourStepIndex } = getState();
+  // TODO: remove direct store manipulation
   tourStep.name = tourStep.name.trim();
   const validation = validateTourStep(tourStep);
   if (!validation.valid) {
@@ -170,9 +168,7 @@ function saveNewTourStep(tourStep, dispatch, getState) {
       dispatch({
         type: 'SAVE_TOUR_STEP'
       });
-      dispatch({
-        type: 'TAKE_SNAPSHOT'
-      });
+      dispatch(takeSnapshot());
       dispatch({
         type: 'GO_TO_STEP_EDITOR',
         tourIndex,
@@ -198,6 +194,7 @@ function saveNewTourStep(tourStep, dispatch, getState) {
 
 function updateTourStep(tourStep, dispatch, getState) {
   const { tourIndex, tourStepIndex } = getState();
+  // TODO: remove direct store manipulation
   tourStep.name = tourStep.name.trim();
   const validation = validateTourStep(tourStep);
   if (!validation.valid) {
@@ -213,9 +210,7 @@ function updateTourStep(tourStep, dispatch, getState) {
       dispatch({
         type: 'SAVE_TOUR_STEP'
       });
-      dispatch({
-        type: 'TAKE_SNAPSHOT'
-      });
+      dispatch(takeSnapshot());
       dispatch({
         type: 'GO_TO_STEP_EDITOR',
         tourIndex,

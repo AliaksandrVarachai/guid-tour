@@ -19,6 +19,7 @@ function VisualList({ visuals, tours, tourIndex, tourStepIndex, changeTourStep }
   }
 
   const step = tours[tourIndex].steps[tourStepIndex];
+
   // TODO: implement a real custom target id (now it is a substitute of visual id)  then remove {display : 'none'}
   return (
     <div>
@@ -31,7 +32,10 @@ function VisualList({ visuals, tours, tourIndex, tourStepIndex, changeTourStep }
         <RadioList listName="gt-visual-list"
                    selectedId={step.customTargetId}
                    changeHandler={changeHandler}>
-          {getVisualsByPageId(visuals, step.pageId)}
+          {Object.keys(visuals).map(id => ({
+            id,
+            label: visuals[id].title,
+          }))}
         </RadioList>
         :
         'Target page is not selected'

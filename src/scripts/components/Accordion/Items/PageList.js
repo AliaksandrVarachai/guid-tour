@@ -1,35 +1,42 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import RadioList from '../../RadioList/RadioList';
-import * as actions from '../../../actions';
+import productActions from '../../../tool-specific-helpers/actions';
 
 import './PageList.pcss';
 
-function PageList({ pages, tours, tourIndex, tourStepIndex, changeTourStep }) {
-
-  function changeHandler(e) {
-    changeTourStep({
-      pageId: e.target.getAttribute('data-id')
-    });
+class PageList extends React.Component {
+  constructor(props) {
+    const { tours, tourIndex, tourStepIndex, activateSheetAsync } = props;
+    super(props);
+    activateSheetAsync(tours[tourIndex].steps[tourStepIndex].pageId, false);
   }
 
+  changeHandler = (e) => {
+    const targetPageId = e.target.getAttribute('data-id');
+    this.props.activateSheetAsync(targetPageId, true);
+  };
+
   // TODO: implement a real custom target id (now it is a substitute of visual id)  then remove {display : 'none'}
-  return (
-    <div>
-      <div styleName="action-container" style={{display : 'none'}}>
-        <input type="text" placeholder="Custom page id"/>
-        <button>Add</button>
+  render() {
+    const { pages, tours, tourIndex, tourStepIndex } = this.props;
+    return (
+      <div>
+        <div styleName="action-container" style={{display : 'none'}}>
+          <input type="text" placeholder="Custom page id"/>
+          <button>Add</button>
+        </div>
+        <RadioList listName="gt-page-list"
+                   selectedId={tours[tourIndex].steps[tourStepIndex].pageId}
+                   changeHandler={this.changeHandler}>
+          {Object.keys(pages).map(id => ({
+            id,
+            label: pages[id].title,
+          }))}
+        </RadioList>
       </div>
-      <RadioList listName="gt-page-list"
-                 selectedId={tours[tourIndex].steps[tourStepIndex].pageId}
-                 changeHandler={changeHandler}>
-        {Object.keys(pages).map(id => ({
-          id,
-          label: pages[id].title,
-        }))}
-      </RadioList>
-    </div>
-  )
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
@@ -42,7 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeTourStep: (...args) => dispatch(actions.changeTourStep(...args)),
+    activateSheetAsync: (...args) => dispatch(productActions.activateSheetAsync(...args)),
   }
 };
 

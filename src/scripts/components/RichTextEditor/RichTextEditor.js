@@ -50,12 +50,20 @@ export default class RichTextEditor extends React.Component {
     onChange: PropTypes.func
   };
 
-  state = {
-    value: this.props.value ? ReactRTE.createValueFromString(this.props.value, 'html') : ReactRTE.createEmptyValue()
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+        value: this.props.value === '' ?
+            ReactRTE.createEmptyValue() :
+            ReactRTE.createValueFromString(this.props.value, 'html')
+    };
+  }
 
   onChange = (value) => {
-    this.setState({value});
+    const isTextChanged = this.state.value.toString('html') != value.toString('html');
+    this.setState({value}, e => isTextChanged && this.props.onChange(value.toString('html')));
+
+    /*this.setState({value});
     if (this.props.onChange) {
       // Send the changes up to the parent component as an HTML string.
       // This is here to demonstrate using `.toString()` but in a real app it
@@ -63,8 +71,18 @@ export default class RichTextEditor extends React.Component {
       this.props.onChange(
         value.toString('html')
       );
-    }
+    }*/
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.state.value.toString('html')) {
+      this.setState({
+        value: nextProps.value ?  
+          ReactRTE.createValueFromString(nextProps.value, 'html') :
+          ReactRTE.createEmptyValue()
+      });
+    }
+  }
 
   render () {
     return (

@@ -1,13 +1,15 @@
+'use strict';
+
 // Mocked data
 import { NOTIFICATION_TYPES } from '../constants/tour-settings';
-import { setStateValue, setStateValues } from '../helpers/state-operations';
+import { deepFreeze, setStateValue, setStateValues } from '../helpers/state-operations';
 import { deepCopy } from '../helpers/deep-operations';
 
 // TODO: replace pt with px
 const COMPONENTS = {
   Config: {
-    width: 500,
-    units: 'pt',
+    width: 680,
+    units: 'px',
     title: 'Guided Tour Configuration',
     componentProps: {
       // custom props are here
@@ -15,8 +17,8 @@ const COMPONENTS = {
     buttons: []
   },
   TourSettings: {
-    width: 350,
-    units: 'pt',
+    width: 480,
+    units: 'px',
     title: 'Tour Settings',
     componentName: 'TourSettings',
     componentProps: {
@@ -63,6 +65,16 @@ const COMPONENTS = {
         className: 'action'
       }
     ]
+  },
+  TourListLauncher: {
+    width: 300,
+    units: 'px',
+    title: 'Available Tour List',
+    componentName: 'TourListLauncher',
+    componentProps: {
+      // custom props are here
+    },
+    buttons: []
   }
 };
 
@@ -74,14 +86,31 @@ const initState = {
   tourStepIndex: 0,
   tourIndex: 0,
   stepEditorIndex: 0,
-  targets: {
-    pages: {},
-    visuals: {}
+  // needed for synchronization with dynamic product's document
+  product: {
+    expectedEvents: {},
+    // expectedEvents: {
+    //   {'TAB_SWITCH': ['cb-uuid-1', 'cb-uuid-2']},
+    //   {'ON_LOAD': ['cb-uuid-3']},
+    // }
+    // where uuid must be unique
+    activePageId: '',
+    pages: {}
+    // pages: {
+    //   [pageUuidId]: {
+    //     title: 'Title',
+    //     visuals: {
+    //       [visualNodeId]: {
+    //         title: 'Title'
+    //       }
+    //     }
+    //   }
+    // }
   },
-  // Synchronizes just locally added TourStep with DB (false between ADD_NEW_TOUR_STEP and SAVE_NEW_TOUR_STEP actions)
-  //isTourStepDifferFromDb: false,
   notificationMessage: '',
-  notificationType: NOTIFICATION_TYPES.empty
+  notificationType: NOTIFICATION_TYPES.empty,
+  isNewTourStepInProgress: false,
+  isTourStepDraggingInProgress: false, // TODO: remove after user actions permission implementation
 };
 
 initState.snapShot = {
@@ -89,6 +118,8 @@ initState.snapShot = {
   tourStepIndex: initState.tourStepIndex,
   tourIndex: initState.tourIndex,
 };
+
+deepFreeze(initState, true);
 
 
 function shallowCopyRequiredFields(requiredFields, source) {
@@ -158,15 +189,16 @@ export default (state = initState, action) => {
         'componentName', 'Config'
       ]);
 
-    case 'GO_TO_STEP_EDITOR':
+    case 'GO_TO_STEP_EDITOR': {
       const tourName = state.tours[action.tourIndex].name;
-      state.COMPONENTS['StepEditor'].title = `Guided Tour Steps (${tourName})`;
       return setStateValues(state, [
+        'COMPONENTS.StepEditor.title', `Guided Tour Steps (${tourName})`,
         'tourIndex', action.tourIndex,
         'tourStepIndex', action.tourStepIndex,
         'componentName', 'StepEditor',
         'stepEditorIndex', 0
       ]);
+    }
 
     case 'LOAD_TOURS':
       return setStateValues(state, [
@@ -215,6 +247,15 @@ export default (state = initState, action) => {
         'tourStepIndex', addedTourStepIndex,
       ]);
 
+    case 'CHANGE_IS_NEW_TOUR_STEP_IN_PROGRESS':
+      return setStateValue(state, 'isNewTourStepInProgress', action.value);
+
+    case 'START_TOUR_STEP_DRAGGING':
+      return setStateValue(state, 'isTourStepDraggingInProgress', true);
+
+    case 'STOP_TOUR_STEP_DRAGGING':
+      return setStateValue(state, 'isTourStepDraggingInProgress', false);
+
     // sets a flag that user saved a tourStep to DB (both for new step and for updated step)
     case 'SAVE_TOUR_STEP': {
       const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
@@ -224,8 +265,9 @@ export default (state = initState, action) => {
       ]);
     }
 
-    // set a flag that user made changes and tourStep differ from DB
-    case 'CHANGE_TOUR_STEP': // action.propName & action.value is required
+    // sets a flag that user made changes and tourStep differ from DB
+    // action.propName & action.value is required
+    case 'CHANGE_TOUR_STEP': {
       const stepPath = `tours[${state.tourIndex}].steps[${state.tourStepIndex}]`;
       const stepToPathMap = {
         tourStepName: stepPath + '.name',
@@ -248,36 +290,18 @@ export default (state = initState, action) => {
         stepToPathMap[action.propName], action.value,
         stepToPathMap.isSynchronized, false,
       ]);
+    }
 
-    // TODO: check for immutability with freeze
-    case 'REORDER_TOUR_STEPS': {
+    case 'ORDER_TOUR_STEPS': {
       const steps = state.tours[state.tourIndex].steps;
-      switch (action.order) {
-        case 'MOVE_PREV': {
-          const step = steps[action.index];
-          if (action.index === 0)
-            return state;
-          const prevStep = steps[action.index - 1];
-          return setStateValues(state, [
-            `tours[${state.tourIndex}].steps[${action.index - 1}]`, step,
-            `tours[${state.tourIndex}].steps[${action.index}]`, prevStep,
-            'tourStepIndex', action.index - 1
-          ]);
-        }
-        case 'MOVE_NEXT': {
-          const step = steps[action.index];
-          if (action.index === steps.length - 1)
-            return state;
-          const nextStep = steps[action.index + 1];
-          return setStateValues(state, [
-            `tours[${state.tourIndex}].steps[${action.index}]`, nextStep,
-            `tours[${state.tourIndex}].steps[${action.index + 1}]`, step,
-            'tourStepIndex', action.index + 1
-          ]);
-        }
-        default:
-          return state;
-      }
+      const orderedSteps = action.originalIndexes.map((originalIndex, inx) => (
+        { ...steps[originalIndex], index: inx}
+      ));
+      return setStateValue(
+        state,
+        `tours[${state.tourIndex}].steps`,
+        orderedSteps
+      );
     }
 
     case 'DELETE_TOUR_STEP': {
@@ -288,7 +312,7 @@ export default (state = initState, action) => {
       ]);
     }
 
-    case 'CLONE_TOUR_STEP': {;
+    case 'CLONE_TOUR_STEP': {
       return setStateValues(state, [
         `tours[${state.tourIndex}].steps`, [...state.tours[state.tourIndex].steps, action.tourStep]
       ]);
@@ -300,9 +324,33 @@ export default (state = initState, action) => {
         'notificationType', action.messageType
       ]);
 
-    case 'UPDATE_TARGETS':
-      return setStateValue(state, 'targets', action.targets);
+    case 'UPDATE_PRODUCT_ACTIVE_PAGE':
+      return setStateValue(state, 'product.activePageId', action.pageId);
 
+    case 'UPDATE_PRODUCT_PAGES':
+      return setStateValue(state, 'product.pages', action.pages);
+
+    case 'UPDATE_PRODUCT_ACTIVE_PAGE_VISUALS':
+      return setStateValue(state, `product.pages[${state.product.activePageId}].visuals`, action.visuals);
+
+    case 'ADD_PRODUCT_EXPECTED_EVENT': {
+      const callbacks = state.product.expectedEvents[action.eventName] || [];
+      return setStateValue(
+        state,
+        'product.expectedEvents',
+        { ...state.product.expectedEvents, [action.eventName]: [...callbacks, action.cbUuid] }
+      );
+    }
+
+    case 'REMOVE_PRODUCT_EXPECTED_EVENT': {
+      const { [action.eventName]: _, ...newExpectedEvents } = state.product.expectedEvents;
+      return setStateValue(
+        state,
+        'product.expectedEvents',
+        newExpectedEvents
+      );
+    }
+    
     default:
       return state;
   }

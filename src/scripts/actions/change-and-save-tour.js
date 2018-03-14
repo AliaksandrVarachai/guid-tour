@@ -10,6 +10,14 @@ import { deepCopy } from '../helpers/deep-operations';
  * @returns {function(*): Promise.<boolean>}
  */
 export function changeAndSaveTour(tourIndex, tourName, tourType) {
+  const MAX_TOUR_NAME_LENGTH = 30
+  let tourNameNotification;
+  if (tourName.length > MAX_TOUR_NAME_LENGTH ) {
+    tourNameNotification = tourName.substring(0, MAX_TOUR_NAME_LENGTH+1) + '...'
+  } else {
+    tourNameNotification = tourName;
+  }
+  
   return (dispatch, getState) => {
     dispatch({
       type: 'CHANGE_TOUR_INDEX',
@@ -28,7 +36,7 @@ export function changeAndSaveTour(tourIndex, tourName, tourType) {
         });
         dispatch({
           type: 'CHANGE_NOTIFICATION',
-          message: `Tour "${tourName}" is successfully updated`,
+          message: `Tour "${tourNameNotification}" is successfully updated`,
           messageType: NOTIFICATION_TYPES.success
         });
         return true;

@@ -1,29 +1,23 @@
-@import '../../../styles/settings.pcss';
-@global-import '../../../styles/utilities.pcss';
-
 .editable {
-  position: absolute;
-  right: 0;
-  left: 0;
   overflow: hidden;
   white-space: nowrap;
 }
 
 .editable-name {
   box-sizing: border-box;
-  width: 75%;
+  width: 100%;
   height: 20px;
-  margin-right: 10px;
+  margin-right: 40px;
 }
 
 .editable-action-panel {
-  float: right;
-  margin-right: 5%;
+  padding-left: 10px;
+  color: #606060;
 }
 
 .editable-action {
   &:global(.material-icons) {
-    font-size: 20px;
+    font-size: 1.4em;
   }
 
   &:hover {
@@ -33,4 +27,8 @@
 
 .is-wrong-value {
   border-color: red;
+}
+
+.tooltip {
+  @mixin tooltip;
 }

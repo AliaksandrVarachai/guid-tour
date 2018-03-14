@@ -2,10 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import WindowOrientation from '../../components/WindowOrientation/WindowOrientation';
 import RichTextEditor from '../../components/RichTextEditor/RichTextEditor';
-import { ORIENTATION_NAMES } from '../../constants/tour-settings';
+import { ORIENTATION_NAMES, TOUR_STEP_REQUIRED_FIELDS } from '../../constants/tour-settings';
 import * as actions from '../../actions';
 
 import './SE_StepDetail.pcss';
+
+function checkAutoSize(width, height) {
+  return width === 0 || height === 0;
+}
 
 class SE_StepDetail extends React.Component {
   constructor(props) {
@@ -18,8 +22,11 @@ class SE_StepDetail extends React.Component {
       width: step.width,
       height: step.height,
       orientation: step.orientation,
+      // private values to store previous state
+      prevWidth: step.width || TOUR_STEP_REQUIRED_FIELDS.width,
+      prevHeight: step.height || TOUR_STEP_REQUIRED_FIELDS.height,
     };
-  }
+  };
 
   changeStateAndDispatch = (propName, value) => {
     this.setState({
@@ -53,20 +60,60 @@ class SE_StepDetail extends React.Component {
   changeRichTextEditorHandler = (event) => {
     this.changeStateAndDispatch('htmlContent', event.toString('html'));
   };
+
+  changeHtmlTextEditorHandler = (event) => {
+    this.changeStateAndDispatch('htmlContent', event.target.value);
+  };
+
+  displayRichTextEditor = (event) => {
+    document.getElementById('html-text-editor-container').style.display = "none";
+    document.getElementById('rich-text-editor-container').style.display = "block";
+  };
+
+  displayHtmlTextEditor = (event) => {
+    document.getElementById('html-text-editor-container').style.display = "block";
+    document.getElementById('rich-text-editor-container').style.display = "none";
+  };
+
+  sizeHandler = (width = 0, height = 0) => {
+    this.setState({
+      prevWidth: this.state.width || TOUR_STEP_REQUIRED_FIELDS.width,
+      prevHeight: this.state.height || TOUR_STEP_REQUIRED_FIELDS.height
+    });
+    this.changeStateAndDispatch('width', width);
+    this.changeStateAndDispatch('height', height);
+  };
+
   // TODO:window style, styles editor button, preview button 
   render() {
-    const { tourStepName, htmlContent, styleId, width, height, orientation } = this.state;
+    const { tourStepName, htmlContent, styleId, width, height, orientation, prevWidth, prevHeight } = this.state;
+    const isAutoSize = checkAutoSize(width, height);
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
           <input type="text" maxLength="100" styleName="details" value={tourStepName} onChange={this.changeTourStepNameHandler} />
-          <div styleName="text-editor">
+          <div styleName="toggle">
+            <label>
+              <input type="radio" name="editorSelectGroup" onClick={this.displayRichTextEditor} defaultChecked={true}/>
+              <span>Rich Text Editor</span>
+            </label>
+            <label>
+              <input type="radio" name="editorSelectGroup" onClick={this.displayHtmlTextEditor}/>
+              <span>Html Editor</span>
+            </label>
+          </div>
+          <div id="rich-text-editor-container" styleName="text-editor">
             <RichTextEditor value={this.state.htmlContent} onChange={this.changeRichTextEditorHandler}/>
+          </div>
+          <div id="html-text-editor-container" styleName="text-editor" style={{display: 'none'}}>
+            <textarea rows="23" cols="64" value={this.state.htmlContent} onChange={this.changeHtmlTextEditorHandler} style={{resize: 'none'}}/>
           </div>
         </div>
         <div styleName="settings-container">
-          <div styleName="table">
-            <div styleName="row" style={{display: 'none'}}>
+        {/* TODO: uncomment when width & height will be defined */}
+        {/*
+          <div styleName="table"style={{display: 'none'}}>
+            <div styleName="row">
               <div styleName="cell param-name">Window Style</div>
               <div styleName="cell param-value">
                 <input type="text" value={styleId} onChange={this.changeStyleHandler} />
@@ -75,8 +122,6 @@ class SE_StepDetail extends React.Component {
                 <button styleName="action">Styles Editor</button>
               </div>
             </div>
-            {/* TODO: uncomment when width & height will be defined */}
-            {/*
             <div styleName="row">
               <div styleName="cell param-name">Width</div>
               <div styleName="cell param-value">
@@ -95,8 +140,32 @@ class SE_StepDetail extends React.Component {
               </div>
               <div styleName="cell"/>
             </div>
-             */}
           </div>
+          */}
+          <div styleName="toggle">
+            <label>
+              <input type="radio" name="sizeSelectGroup" onClick={e => this.sizeHandler(prevWidth, prevHeight)} defaultChecked={!isAutoSize}/>
+              <span>Custom size</span>
+            </label>
+            <label>
+              <input type="radio" name="sizeSelectGroup" onClick={e => this.sizeHandler()} defaultChecked={isAutoSize}/>
+              <span>Autosize</span>
+            </label>
+          </div>
+          <div id="size-editor" className={isAutoSize ? 'gtu__hidden' : null}>
+            <div styleName="size-editor-row">
+              <div styleName="size-editor-row-name">Width</div>
+              <div styleName="size-editor-row-value">
+                <input type="text" value={width} onChange={this.changeWidthHandler}/> px.
+              </div>
+            </div>
+            <div styleName="size-editor-row">
+              <div styleName="size-editor-row-name">Height</div>
+              <div styleName="size-editor-row-value">
+                <input type="text" value={height} onChange={this.changeHeightHandler}/> px.
+              </div>
+            </div>
+          </div>          
           <div styleName="window-orientation">
             <div styleName="orientation-title">Window orientation: {ORIENTATION_NAMES[orientation]}</div>
             <div styleName="window-orientation-component">
@@ -125,4 +194,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SE_StepDetail);
-

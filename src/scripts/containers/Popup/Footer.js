@@ -27,7 +27,7 @@ const Footer = (props) => {
           });
        }, 3000);
     }
-
+    
     switch(notificationType) {
       case NOTIFICATION_TYPES.success:
         return 'msg-success';
@@ -40,16 +40,17 @@ const Footer = (props) => {
       default:
         return '';
     }
-}
-
+  }
+  
   function getButtons() {
-    const { componentName, stepEditorIndex, tours, tourIndex } = props;
+    const { componentName, stepEditorIndex, tours, tourIndex, isNewTourStepInProgress, isTourStepDraggingInProgress } = props;
     switch (componentName) {
       case 'Config':
+      case 'TourListLauncher':
         return [];
       case 'StepEditor':
         if (stepEditorIndex === 0)
-          return tours[tourIndex].steps.length
+          return tours[tourIndex].steps.length && !isNewTourStepInProgress && !isTourStepDraggingInProgress
             ? [new Button('Next', (e) => props.goToNextStepEditor())]
             : [];
         if (stepEditorIndex === TOUR_EDITOR_STEPS.length - 1)
@@ -81,7 +82,7 @@ const Footer = (props) => {
 
 
 const mapStateToProps = (state) => {
-  const { componentName, stepEditorIndex, notificationMessage, notificationType, tours, tourIndex } = state;
+  const { componentName, stepEditorIndex, notificationMessage, notificationType, tours, tourIndex, isNewTourStepInProgress, isTourStepDraggingInProgress } = state;
   return {
     tours,
     tourIndex,
@@ -89,6 +90,8 @@ const mapStateToProps = (state) => {
     stepEditorIndex,
     notificationMessage,
     notificationType,
+    isNewTourStepInProgress,
+    isTourStepDraggingInProgress,
   }
 };
 

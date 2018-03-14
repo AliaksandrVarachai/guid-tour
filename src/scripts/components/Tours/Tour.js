@@ -136,17 +136,17 @@ class Tour extends React.Component {
           <div className="gtu__table-cell" styleName="data">
             {/*{creator}*/}
           </div>
-          <div className="gtu__table-cell gtu__overflow-visible" styleName="data">
-            <span className="gtu__tooltip" data-tooltip="Step list">
+          <div className="gtu__table-cell" styleName="data__overflow-visible">
+            <span styleName="tooltip" data-tooltip="Step list">
               <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.goToStepEditorHandler}>dashboard</i>
             </span>
-            <span className="gtu__tooltip" data-tooltip="Clone tour">
+            <span styleName="tooltip" data-tooltip="Clone tour">
               <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.cloneTourHandler}>content_copy</i>
             </span>
-            <span className="gtu__tooltip" data-tooltip="Edit tour">
+            <span styleName="tooltip" data-tooltip="Edit tour">
               <i className="material-icons" styleName="action" onClick={this.editTour}>create</i>
             </span>
-            <span className="gtu__tooltip" data-tooltip="Delete tour">
+            <span styleName="tooltip" data-tooltip="Delete tour">
               <i className="material-icons" styleName="action" data-tour-index={tourIndex} onClick={this.deleteTourHandler}>delete</i>
             </span>
           </div>
@@ -164,4 +164,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(null, mapDispatchToProps)(Tour);
-

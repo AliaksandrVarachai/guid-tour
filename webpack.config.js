@@ -11,16 +11,20 @@ const images = path.resolve(src, 'images');
 const config = path.resolve(src, 'config');
 const dist = path.resolve(__dirname, 'dist-' + process.env.NODE_TOOL);
 
+const polyfills = [
+  'whatwg-fetch',
+  'babel-polyfill',
+];
 
 module.exports = {
   entry: isProduction
     ? {
-      'guided-tour': './src/scripts/index'
+      'guided-tour': [...polyfills, './src/scripts/index']
     }
     : {
       'local-test-preparation-common': './resources/webpack/dev-server-local-test-tools',
       'local-test-preparation': './resources/webpack/dev-server-local-test-tools/' + process.env.NODE_TOOL,
-      'guided-tour': './src/scripts/index',
+      'guided-tour': [...polyfills, './src/scripts/index'],
       'local-test-redux-store': './resources/webpack/dev-server-local-test-tools/react-redux/redux-store',
     },
   output: {

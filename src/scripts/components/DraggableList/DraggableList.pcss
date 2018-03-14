@@ -1,0 +1,108 @@
+:root {
+  --draggable-list-divider-height: 6px;
+}
+
+.container {
+  border: solid #5fd4e2;
+  border-width: 2px 0 0;
+}
+
+.dnd-mode {
+  background: #fafafa;
+}
+
+.header {
+  position: relative;
+  margin: var(--draggable-list-divider-height);
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.footer {
+  position: relative;
+  margin: var(--draggable-list-divider-height);
+}
+
+.content {
+  position: relative;
+  margin: var(--draggable-list-divider-height);
+}
+
+.dashboard {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+.dashboard-left {
+  float: left;
+}
+
+.dashboard-right {
+  float: right;
+}
+
+.dnd-mode-switcher {
+  @mixin switch 40px, 26px, 22px;
+  vertical-align: middle;
+}
+
+.dnd-mode-title {
+  padding-right: 10px;
+  vertical-align: middle;
+  font-size: 16px;
+  color: #606060;
+}
+
+.order-action {
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.item {}
+
+.dragged-mask * {
+  pointer-events: none;
+}
+
+.dragged {}
+
+/* TODO: create extension */
+.dropzone-before, .dropzone-after {
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: var(--draggable-list-divider-height);
+  pointer-events: none;
+  background: gray;
+}
+
+.dropzone-before {
+  top: calc(-1 * var(--draggable-list-divider-height));
+}
+.dropzone-after {
+  bottom: calc(-1 * var(--draggable-list-divider-height));
+}
+
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.order-action {
+  @mixin tooltip;
+  color: #19c2d5;
+  font-size: 12px;
+
+  :global(.material-icons) {
+    font-size: 26px;
+  }
+}

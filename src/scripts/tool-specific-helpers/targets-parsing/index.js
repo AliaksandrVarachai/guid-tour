@@ -11,4 +11,4 @@ switch (process.env.NODE_TOOL) {
     documentHelpers = require('./default');
 }
 
-export default { ...documentHelpers.default };
+export default documentHelpers;

@@ -1,45 +1,91 @@
-import { getTargets, getParsedTargets } from './helpers';
-import documentMetaInfo from '../document-meta-info';
-import globals from '../globals';
+import { uuidFromString } from '../../helpers/uuid-generator';
+import globals from '../globals/index';
 
-function parseTargets() {
+/**
+ * Generates ID for the active target page.
+ * @returns {string} - page ID in format '00000000-0000-0000-0000-000000000000'.
+ */
+export function getActiveTargetPageId() {
+  const uniquePageName = globals.tableau.VizManager.getVizs()[0].getWorkbook().getActiveSheet().getName();
+  return uuidFromString(uniquePageName);
+}
+
+/**
+ * Parses the document to find target pages.
+ * @returns {Object} - object with structure {[pageId]: {title: 'Page Title'}} or {} if no pages found.
+ * pageId has format '00000000-0000-0000-0000-000000000000'.
+ */
+export function getTargetPages() {
+  const sheets = globals.tableau.VizManager.getVizs()[0].getWorkbook().getPublishedSheetsInfo();
+  const pages = {};
+  for(let i = 0; i < sheets.length; i++) {
+    pages[uuidFromString(sheets[i].getName())] = {
+      title: sheets[i].getName(),
+      visuals: {}
+    }
+  }
+  return pages;
+}
+
+/**
+ * Parses the document to find all visuals belong to the given target page.
+ * @returns {Object} - object with structure {[visualNodeId]: {title: 'Visual Title'}} or {} if no visuals found.
+ * visualNodeId is document.HTMLElement.id.
+ */
+export function getActivePageTargetVisuals() {
+  function getName(node) {
+    if (!node)
+      return '';
+    while (node.children.length) {
+      node = node.children[0];
+    }
+    return node.textContent;
+  }
+
   const visuals = {};
   const nodes = document.querySelectorAll('.tab-zone.tabSuppressVizTooltipsAndOverlays:not(.tabZone-empty), .tabZone-viz:not(.tabZone-empty)');
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
+    let name = getName(node);
+    if (name === '') {
+      name = getName(node.previousElementSibling);
+    }
     visuals[node.id] = {
-      title: node.id,
-      frameIndex: -1,  // TODO: remove frameIndex for root document
-      pageId: documentMetaInfo.getPageId(),//'page-id-1',
-      pageTitle: globals.tableau.VizManager.getVizs()[0].getWorkbook().getActiveSheet().getName()//'Page #1'
+      title: name ? name : node.id,
     }
   }
-
-  // TODO: not to remove (it will be useful for the frames parsing)
-  /*
-  const frames = window.frames;
-  for (let frameIndex = 0; frameIndex < frames.length; frameIndex++) {
-    try {
-      const frameVisualNodes = frames[frameIndex].document.querySelectorAll('.tab-zone.tabSuppressVizTooltipsAndOverlays:not(.tabZone-empty), .tabZone-viz:not(.tabZone-empty)');
-      for (let i = 0; i < frameVisualNodes.length; i++) {
-        const node = frameVisualNodes[i];
-        visuals[node.id] = {
-          title: node.id,
-          frameIndex,
-          pageId: 'page-id-1',
-          pageTitle: 'Page #1'
-        }
-      }
-    } catch (errorMsg) {
-      console.warn('No access to the content of iframe #' + frameIndex);
-    }
-  }
-  */
-
   return visuals;
 }
 
-export default {
-  getTargets: () => getTargets(parseTargets),
-  getParsedTargets: () => getParsedTargets(parseTargets),
+/**
+ * Parses the document to find all pages and all visuals in every page.
+ * It is NOT USED in Tableau and demonstrates an example of possible usage.
+ *
+ * @returns {{
+ *  [pageId]: {
+ *    title: 'Page Title',
+ *    visuals: {
+ *      [visualId]: {
+ *        title: 'Visual Title',
+ *      }
+ *    }
+ *  }
+ * }} - pages object with visuals embedded.
+ */
+export function getTargetPagesWithVisuals() {
+  const pages = {};
+  document.querySelectorAll('.some-target-page').forEach(pageNode => {
+    const pageId = uuidFromString(pageNode.id);
+    pages[pageId] = {
+      title: pageNode.getAttribute('data-title'),
+      visuals: {}
+    };
+    const visuals = pages[pageId].visuals;
+    pageNode.querySelectorAll('.some-target-visual').forEach(visualNode => {
+      visuals[uuidFromString(visualNode.id)] = {
+        title: visualNode.getAttribute('data-title'),
+      }
+    });
+  });
+  return pages;
 }

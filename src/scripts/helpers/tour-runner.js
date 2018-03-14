@@ -1,34 +1,72 @@
 import tourService from '../rest-api/services/tour-service'; 
 import { sortStepsByIndex } from './tour-step-helper';
+import { getTargetPages } from '../tool-specific-helpers/targets-parsing/tableau';
+import globals from '../tool-specific-helpers/globals';
 
- function startTour(loadedTour) {  
+function startTour(loadedTour) {  
+  if (!loadedTour.steps || loadedTour.steps.length === 0){
+    return alert('No steps found in selected tour!\nPlease add steps or select another tour.');
+  }
+  
   //const loadedSteps = [
    // {id: 1, name: "First step", customTargetId: "tabZoneId32", htmlContent : "This is <b>first step</b>", orientation: 2},
    // {id: 2, name: "Second step", customTargetId: "tabZoneId28", htmlContent : "This is second step", orientation: 4}];
   // Crate bootstap tour steps
+  let currentPage = "";
   const orderedSteps = sortStepsByIndex(loadedTour.steps);
-  var steps = [];
-  for (var index = 0; index < orderedSteps.length; index ++) {
-    var step = {
+  // TODO: change to gettting pages from store
+  const pages = getTargetPages();
+  let steps = [];
+  for (let index = 0; index < orderedSteps.length; index ++) {
+    const templateStr = orderedSteps[index].width === 0 ? `<div class='popover tour' role='tooltip'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content' style='overflow: auto;'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Prev</button><span data-role='separator'>|</span><button class='btn btn-default' data-role='next'>Next »</button><button class='btn btn-default' data-role='end'>End tour</button></div></div>`
+                                                        : `<div class='popover tour' role='tooltip' style='max-width: ${orderedSteps[index].width + 28}px;'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content' style='overflow: auto; height: ${orderedSteps[index].height}px; width: ${orderedSteps[index].width}px;'></div><div class='popover-navigation'><button class='btn btn-default' data-role='prev'>« Prev</button><span data-role='separator'>|</span><button class='btn btn-default' data-role='next'>Next »</button><button class='btn btn-default' data-role='end'>End tour</button></div></div>`;
+    const sheetName = pages[orderedSteps[index].pageId].title;
+    let step = {
       element: `#${orderedSteps[index].customTargetId}`,
       title: orderedSteps[index].name,
       content: orderedSteps[index].htmlContent,
       placement: getStepPlacement(orderedSteps[index].orientation),
       smartPlacement: true,
+      template: templateStr,
+      sheetName,
+      onShown: (tour) => { 
+        changeTourBackgroundColor('#000', 0.8);
+        currentPage = globals.tableau.VizManager.getVizs()[0].getWorkbook().getActiveSheet().getName();
+        let currentStep = tour.getStep(tour.getCurrentStep());
+        if(currentStep.placement === 'auto') {
+          placeStepPopupOnCenter();
+        }
+      },
+      onNext: (tour) =>  {
+        const stepSheet = tour.getStep(tour.getCurrentStep() + 1).sheetName;
+        if (currentPage !== stepSheet) {
+          changeTourBackgroundColor('#FFF', 0.2);
+          return globals.tableau.VizManager.getVizs()[0].getWorkbook().activateSheetAsync(stepSheet);
+        }
+      },
+      onPrev: (tour) => {
+        const stepSheet = tour.getStep(tour.getCurrentStep() - 1).sheetName;
+        if (currentPage !== stepSheet) {
+          changeTourBackgroundColor('#FFF', 0.2);
+          return globals.tableau.VizManager.getVizs()[0].getWorkbook().activateSheetAsync(stepSheet);
+        }
+      }
     };
-
     steps.push(step);
   }
 
-  var tour = new Tour({
-      storage: false,
-      backdrop: true,
-      steps: steps,
-      onShown: function (tour) {
-        var currentStep = tour.getStep(tour.getCurrentStep());
-        if(currentStep.placement == 'auto') {
-          placeStepPopupOnCenter();
-        }
+
+
+  let tour = new Tour({
+    storage: false,
+    backdrop: true,
+    steps: steps,
+    onStart: (tour) => {
+      currentPage = globals.tableau.VizManager.getVizs()[0].getWorkbook().getActiveSheet().getName();
+      const stepSheet = tour.getStep(0).sheetName;
+      if (currentPage !== stepSheet) {
+        return globals.tableau.VizManager.getVizs()[0].getWorkbook().activateSheetAsync(stepSheet);
+      }
     }
   });
 
@@ -46,8 +84,16 @@ import { sortStepsByIndex } from './tour-step-helper';
     });
 }
 
+function changeTourBackgroundColor(color, opacity) {
+  let nodes = document.querySelectorAll(".tour-backdrop");
+  for (let i = 0; i < nodes.length; i++) {
+    nodes[i].style.backgroundColor = color;
+    nodes[i].style.opacity = opacity;
+  }
+}
+
 function highlightVisual(visualId) {
-  var tour = new Tour({
+  let tour = new Tour({
     storage: false,
     backdrop: true,
     steps: [
@@ -92,7 +138,6 @@ function placeStepPopupOnCenter() {
 
   containterDiv.querySelector('.arrow').style.visibility = 'hidden';
 }
-
 
 export {
   startTour,

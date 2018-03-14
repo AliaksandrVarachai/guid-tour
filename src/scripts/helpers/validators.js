@@ -20,8 +20,15 @@ function validateTourStep(tourStep) {
     return {
       valid: false,
       message: 'Tour step\'s name cannot be empty'
-    }
-  if(!tourStep.htmlContent)
+    };
+  // TODO: remove direct change of store
+  if (!tourStep.htmlContent.replace(/<((?!img|iframe)[^">]*(?:"[^"]+")*[^>]*)>|&nbsp;|\s/g, ''))
+  /* 
+  delete all html tags except 'img' and 'iframe' (text between tags is left), 
+  delete &nbsp; (all spaced in RTE converted to '&nbsp;') ; 
+  and any spaces that could be inserted in textarea in htmlEditor
+  this comparison returns true if after deletion nothing is left.
+  */  
     return {
       valid: false,
       message: 'Tour step\'s content is required'

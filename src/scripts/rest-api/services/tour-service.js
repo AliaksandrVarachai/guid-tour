@@ -106,6 +106,19 @@ function deleteTour(tourId, templateId) {
   return communication.delete(`api/Tours/delete/${tourId}?templateid=${templateId}`);
 }
 
+/**
+ * Order tour steps in DB.
+ * @param {string} tourId - tour identifier.
+ * @param {Array<string>} tourStepIds - array of ordered step ids.
+ * @returns {Promise<boolean>} - true if success.
+ */
+function orderTourSteps(tourId, tourStepIds) {
+  return communication.post('api/Tours/updatetourstepsorder', objectKeyConverter.objectToDto({
+    tourId : tourId,
+    stepOrder : tourStepIds
+  }))
+    .then(isSuccess => isSuccess);
+}
 
 
 export default {
@@ -116,5 +129,6 @@ export default {
   updateTour,
   updateTourOpenDate,
   cloneTour,
-  deleteTour
+  deleteTour,
+  orderTourSteps,
 }

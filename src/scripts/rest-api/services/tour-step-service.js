@@ -61,6 +61,11 @@ function updateStep(tourStep) {
     });
 }
 
+/**
+ * Clone existing step in DB.
+ * @param {object} tourStep - tour step.
+ * @returns {Promise<Object>} - tour step cloned in DB.
+ */
 function cloneStep(tourStep) {
   return communication.post('api/Steps/clone', objectKeyConverter.objectToDto(tourStep))
     .then(dtoTourStep => {
@@ -68,6 +73,10 @@ function cloneStep(tourStep) {
     });
 }
 
+/**
+ * Delete step from DB.
+ * @param {string} stepId - step identifier.
+ */
 function deleteStep(stepId) {
   return communication.delete(`api/Steps/delete/${stepId}`);
 }
@@ -79,5 +88,5 @@ export default {
   addStep,
   updateStep,
   cloneStep,
-  deleteStep
+  deleteStep,
 }

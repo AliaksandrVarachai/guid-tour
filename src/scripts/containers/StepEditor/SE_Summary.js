@@ -43,11 +43,10 @@ class SE_StepSummary extends React.Component {
   // TODO:window style
   render() {
     const { tourStepName } = this.state;
-    const { tours, tourIndex, tourStepIndex } = this.props;
+    const { tours, tourIndex, tourStepIndex, product} = this.props;
     const step = tours[tourIndex].steps[tourStepIndex];
-    const { visuals, pages } = documentHelpers.getTargets();
-    const visual = visuals[step.customTargetId] || '';
-    const page =  pages[visual.pageId] || '';
+    const page = product.pages[step.pageId];
+    const visual = page.visuals[step.customTargetId];
 
     return (
       <div styleName="container">
@@ -98,7 +97,8 @@ const mapStateToProps = (state) => {
   return {
     tours: state.tours,
     tourIndex: state.tourIndex,
-    tourStepIndex: state.tourStepIndex
+    tourStepIndex: state.tourStepIndex,
+    product: state.product,
   }
 };
 

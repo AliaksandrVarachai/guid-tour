@@ -74,10 +74,10 @@ class EditableTour extends React.Component {
     return (
       <div className="gtu__overflow-visible" styleName="editable">
         <span styleName="editable-action-panel">
-          <span className="gtu__tooltip" data-tooltip="Save tour name">
+          <span styleName="tooltip" data-tooltip="Save tour name">
             <i className="material-icons" styleName="editable-action" onClick={saveHandler}>save</i>
           </span>
-          <span className="gtu__tooltip" data-tooltip="Delete">
+          <span styleName="tooltip" data-tooltip="Delete">
             <i className="material-icons" styleName="editable-action" onClick={cancelTourChanges}>block</i>
           </span>
         </span>

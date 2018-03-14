@@ -8,10 +8,14 @@ import ReactEventOutside from 'react-event-outside';
 import Popup from './containers/Popup/Popup';
 import { GT_ROOT_ID, GT_EVENTS } from './constants/dom-elements';
 import { startTour } from './helpers/tour-runner';
+import { runTourOrShowPopup } from './helpers/tour-runner-prevalidation';
 import verifyApi from './helpers/verify-api';
 import verifyTool from './tool-specific-helpers/verify-tool';
 import initGtDomElements from './tool-specific-helpers/init-gt-dom-elements';
 import { ApiValidationError } from './errors';
+
+import * as actions from './actions';
+import documentMetaInfo from './tool-specific-helpers/document-meta-info';
 
 import './index.pcss';
 import '../styles/sync-styles.pcss';
@@ -20,10 +24,10 @@ import '../styles/sync-styles.pcss';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
-
 verifyTool()
   .then(() => verifyApi())
   .then(apiVersion => {
+    store.dispatch(actions.getToursByTemplateId(documentMetaInfo.getTemplateId()));
     initGtDomElements(store);
     renderGtElements();
   })
@@ -35,19 +39,7 @@ verifyTool()
     }
   });
 
-
 // General functions
-function getDefaultTour() {
-  const loadedTours = store.getState().tours;
-  if (loadedTours.length === 0)
-    return null;
-  for (let i = 0; i < loadedTours.length; i++) {
-    if (loadedTours[i].steps !== null && loadedTours[i].steps.length > 0)
-      return loadedTours[i];
-  }
-  return null;
-}
-
 
 function renderGtElements() {
   class GuidedTour extends React.Component {
@@ -126,12 +118,7 @@ function renderGtElements() {
               break;
             case 'startTour': {
               // TODO: loaded async with getToursByTemplateId, so it is potentially wrong!!!
-              let defaultTour = getDefaultTour(); // TODO: move out of mapDispatchToProps as a not
-              if (defaultTour === null) {
-                alert('No tour found to run!')
-              } else {
-                startTour(defaultTour);
-              }
+              runTourOrShowPopup(dispatch, store);
               break;
             }
 

@@ -1,5 +1,3 @@
-@global-import '../../../styles/settings.pcss';
-
 :global .gt__popup-container {
   display: none;  /* popup is inactive when loaded */
   position: fixed;
@@ -11,7 +9,7 @@
   /* background: rgba(0, 0, 0, 0.5);*/
   overflow: auto;
   text-align: center;
-  min-width: 505pt; /* width of .gt__popup + a few pt */
+  min-width: 685px; /* width of .gt__popup + a few px */
 
   &:after {
     content: '';
@@ -23,7 +21,7 @@
 
 :global .gt__popup {
   position: relative;
-  width: 500pt;  /* TODO: set default values via JS */
+  width: 680px;  /* TODO: set default values via JS */
   display: inline-block;
   vertical-align: middle;
   text-align: left;
@@ -31,14 +29,14 @@
 
 .wrapper {
   background: #a6a6a6;
-  padding: 6pt 4pt;
+  padding: 8px 6px;
 }
 
 
 /* Header */
 
 .header {
-  padding-bottom: 4pt;
+  padding-bottom: 6px;
 }
 
 .close {
@@ -52,18 +50,18 @@
 }
 
 .title {
-  padding-bottom: 4pt;
-  font-size: 12pt;
+  padding-bottom: 6px;
+  font-size: 16px;
   font-family: var(--font-family-Source-Sans-Pro);
   color: #fff;
 
   &:before {
     content: '';
     display: inline-block;
-    width: 12pt;
-    height: 12pt;
+    width: 16px;
+    height: 16px;
     padding: 0;
-    margin-right: 4pt;
+    margin-right: 5px;
     border: 1px solid gray;
     border-radius: 50%;
     vertical-align: bottom;
@@ -71,10 +69,13 @@
   }
 }
 
-
 /* Content */
 
 .content {
   padding: 10px 25px;
   background: #fff;
+}
+
+.tooltip {
+  @mixin tooltip 800px;
 }

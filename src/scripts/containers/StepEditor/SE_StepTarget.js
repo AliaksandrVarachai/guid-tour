@@ -8,6 +8,7 @@ import * as actions from '../../actions';
 
 import './SE_StepTarget.pcss';
 
+
 class SE_StepTarget extends React.Component {
   constructor(props) {
     super(props);
@@ -37,8 +38,7 @@ class SE_StepTarget extends React.Component {
 
   render() {
     const { tourStepName, htmlContent } = this.state;
-    const { targets } = this.props;
-
+    const { targetPages, targetVisuals } = this.props;
     return (
       <div styleName="container">
         <div styleName="text-editor-container">
@@ -51,10 +51,10 @@ class SE_StepTarget extends React.Component {
           <Accordion>
             {[
               {
-                content: <PageList pages={targets.pages} />,
+                content: <PageList pages={targetPages} />,
                 label: 'Select page'
               }, {
-                content: <VisualList visuals={targets.visuals} />,
+                content: <VisualList visuals={targetVisuals} />,
                 label: 'Select visual'
               }
             ]}
@@ -73,7 +73,8 @@ const mapStateToProps = (state) => {
     stepEditorIndex: state.stepEditorIndex,
     pageId: state.pageId,
     customTargetId: state.customTargetId,
-    targets: state.targets,
+    targetPages: state.product.pages,
+    targetVisuals: state.product.pages[state.product.activePageId].visuals,
   }
 };
 

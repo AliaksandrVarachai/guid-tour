@@ -66,8 +66,8 @@ const SAVE_TOUR_REQUIRED_FIELDS = {
 const TOUR_STEP_REQUIRED_FIELDS = {
   id: '',
   name: '',
-  height: 300,
-  width: 300,
+  height: 150,
+  width: 250,
   htmlContent: '',
   pageId: '',
   orientation: ORIENTATION.CENTER,
@@ -81,7 +81,6 @@ const TOUR_STEP_REQUIRED_FIELDS = {
   // TODO: remove extra field from request to DB
   isSynchronized: true, // sync changes with DB
   isNew: false,       // check new added but not yet saved in DB (to border 'add' or 'update' API methods)
-
 
   // id: "",
   // name: "Updated name",

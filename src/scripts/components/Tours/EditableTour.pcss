@@ -1,11 +1,8 @@
-@import '../../../styles/settings.pcss';
-@global-import '../../../styles/utilities.pcss';
-
 .editable {
   position: absolute;
   right: 0;
   left: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
 }
 
@@ -40,4 +37,8 @@
 
 .is-wrong-value {
   border-color: red;
+}
+
+.tooltip {
+  @mixin tooltip;
 }

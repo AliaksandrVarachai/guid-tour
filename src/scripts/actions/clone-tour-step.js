@@ -1,5 +1,6 @@
 import tourStepService from '../rest-api/services/tour-step-service';
 import { NOTIFICATION_TYPES } from '../constants/tour-settings';
+import { takeSnapshot } from './snapshot';
 
 export function cloneTourStep(tourStepIndex) {
   return (dispatch, getState) => { 
@@ -14,9 +15,7 @@ export function cloneTourStep(tourStepIndex) {
             type: 'CLONE_TOUR_STEP',
             tourStep: clonedTourStep
           });
-          dispatch({
-            type: 'TAKE_SNAPSHOT'
-          });
+          dispatch(takeSnapshot());
           dispatch({
             type: 'CHANGE_NOTIFICATION',
             message: `Step "${clonedTourStep.name}" is cloned`,

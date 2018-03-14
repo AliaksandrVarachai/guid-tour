@@ -32,6 +32,36 @@ Tree.prototype.addNode = function(parentNode, nodeName) {
 };
 
 /**
+ * Freezes state recursively.
+ * @param {object} obj - object to be frozen. Only array, simple object and primitives are allowed.
+ * @param {boolean} traverseFrozen - flag to traverse found frozen object recursively. If false then found frozen objects
+ * will be ignored (for performance optimization).
+ * @returns {object} - frozen object.
+ */
+function deepFreeze(obj, traverseFrozen = false) {
+  (function freeze(obj) {
+    let props = null;
+    if (obj instanceof Array) {
+      props = obj;
+    } else if (obj instanceof Object && obj !== null) {
+      props = Object.keys(obj).map(key => obj[key]);
+    }
+    if (props) {
+      Object.freeze(obj);
+      props.forEach(prop => {
+        if (prop instanceof Object && prop !== null) {
+          if (Object.isFrozen(prop) && traverseFrozen)
+            return; //throw Error('Object is already frozen: ', prop);
+          freeze(prop);
+        }
+      });
+    }
+  })(obj);
+
+  return obj;
+}
+
+/**
  * Creates a new state with inserted value into path. State is immutable.
  * @param {Object} state - state object.
  * @param {string} propPath - path to props need to be changed.
@@ -59,6 +89,7 @@ Tree.prototype.addNode = function(parentNode, nodeName) {
  * setStateValue(state, 'prop1.prop2[prop-3][2]', 2222);
  */
 function setStateValue(state, propPath, value, savedPropsTree = null) {
+  'strict mode';
   const props = propPath.split(/\.|\[|\]/).filter(prop => prop !== '');
   const depth = props.length;
   let node = savedPropsTree ? savedPropsTree.getRoot() : null;
@@ -81,7 +112,7 @@ function setStateValue(state, propPath, value, savedPropsTree = null) {
     } else {
       newParentProp = shallowCopy(parentProp);
     }
-    newParentProp[propName] = inx === depth - 1 ? value : createStateTree(prop, inx + 1);
+    newParentProp[propName] = inx === depth - 1 ? deepFreeze(value) : createStateTree(prop, inx + 1);
     return newParentProp;
   }
 
@@ -131,6 +162,7 @@ function setStateValues(state, args) {
 }
 
 export {
+  deepFreeze,
   setStateValue,
   setStateValues
 }

@@ -1,5 +1,6 @@
 import tourStepService from '../rest-api/services/tour-step-service';
 import { NOTIFICATION_TYPES } from '../constants/tour-settings';
+import { takeSnapshot } from './snapshot';
 
 export function deleteTourStep(removedTourStepIndex) {
   return (dispatch, getState) => {
@@ -39,9 +40,7 @@ export function deleteTourStep(removedTourStepIndex) {
           removedTourStepIndex,
           nextTourStepIndex
         });
-        dispatch({
-          type: 'TAKE_SNAPSHOT'
-        });
+        dispatch(takeSnapshot());
         dispatch({
           type: 'CHANGE_NOTIFICATION',
           message: `Step "${tourStep.name}" is removed`,

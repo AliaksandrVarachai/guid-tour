@@ -2,9 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import FlexTableRow from '../FlexTableRow/FlexTableRow';
 import * as actions from '../../actions';
 
 import './EditableTourStep.pcss';
+
+const sizes = [
+  {fixed: false, width: '100%'},
+  {fixed: true, width: 'initial'},
+];
 
 class EditableTourStep extends React.Component {
   constructor(props) {
@@ -16,9 +22,6 @@ class EditableTourStep extends React.Component {
 
   static propTypes = {
     tourStepName: PropTypes.string.isRequired,
-    //tourStepIndex: PropTypes.number,    // only for changed tour (tourIndex !== undefined only for changed tour)
-    //saveTourStepChanges: PropTypes.func,  // TODO: add handler both for an edited & added TourStep
-    cancelAddNewTourStep: PropTypes.func.isRequired,
   };
 
   tourStepNameHandler = (event) => {
@@ -40,38 +43,14 @@ class EditableTourStep extends React.Component {
     }
   };
 
-  // saveChangedTourHandler = () => {
-  //   const { tourStepName } = this.state;
-  //   const { tourIndex, saveTourChanges } = this.props;
-  //   if (name) {
-  //     this.props.dispatch({
-  //       type: 'SAVE_TOUR_CHANGES',
-  //       tourIndex,
-  //       name,
-  //       type
-  //     });
-  //     saveTourChanges(); // change the parent state
-  //   } else {
-  //     this.setState({
-  //       isWrongTourName: true
-  //     });
-  //   }
-  // };
+  cancelAddNewTourStep = (event) => {
+    this.props.setTourStepInProgress(false)
+  };
 
   render() {
     const { tourStepName, isWrongTourStepName } = this.state;
-    const { /*saveTourStepChanges,*/ cancelAddNewTourStep } = this.props;
-    //const saveHandler = tourIndex !== undefined ? this.saveChangedTourHandler : this.saveNewTourHandler;
     return (
-      <div className="gtu__overflow-visible" styleName="editable" >
-        <span styleName="editable-action-panel">
-          <span className="gtu__tooltip" data-tooltip="Save step name">
-            <i className="material-icons" styleName="editable-action" onClick={this.saveNewTourStepLocallyHandler}>save</i>
-          </span>
-          <span className="gtu__tooltip" data-tooltip="Delete">
-            <i className="material-icons" styleName="editable-action" onClick={cancelAddNewTourStep}>block</i>
-          </span>
-        </span>
+      <FlexTableRow isLabel={false} sizes={sizes}>
         <input autoFocus type="text"
                styleName={classNames('editable-name', {'is-wrong-value': isWrongTourStepName})}
                value={tourStepName}
@@ -79,7 +58,15 @@ class EditableTourStep extends React.Component {
                maxLength="100"
                onChange={this.tourStepNameHandler}
         />
-      </div>
+        <div styleName="editable-action-panel">
+          <span styleName="tooltip" data-tooltip="Save step name">
+            <i className="material-icons" styleName="editable-action" onClick={this.saveNewTourStepLocallyHandler}>save</i>
+          </span>
+          <span styleName="tooltip" data-tooltip="Delete">
+            <i className="material-icons" styleName="editable-action" onClick={this.cancelAddNewTourStep}>block</i>
+          </span>
+        </div>
+      </FlexTableRow>
     );
   }
 }
@@ -88,6 +75,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addNewTourStep: (...args) => dispatch(actions.addNewTourStep(...args)),
     goToNextStepEditor: () => dispatch(actions.goToNextStepEditor()),
+    setTourStepInProgress: (...args) => dispatch(actions.setTourStepInProgress(...args)),
   }
 };
 

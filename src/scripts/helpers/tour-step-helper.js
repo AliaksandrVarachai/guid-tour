@@ -12,7 +12,7 @@ function sortStepsByIndex(steps) {
     return steps;
   }
 
-  return steps.sort(function (a, b) {return a.index - b.index;});
+  return steps/*.sort((a, b) => a.index - b.index)*/;
 }
 
 export {
